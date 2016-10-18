@@ -1,0 +1,124 @@
+[[eureka-registry]]
+= Eureka Registry and Discovery Service
+:sectnums:
+:icons: font
+
+Henge includes the built-in capability to run Eureka server and register itself as a Eureka client via Spring Boot. This provides an easy way to implement load balancing and integrate with other services that use Eureka. This section outlines what Eureka does, how to run Henge with Eureka, and the steps we took to implement Henge with Eureka.   
+
+== What is Eureka?
+    	  	
+Eureka is an AWS discovery service that allows middle-tier services to register and connect with one another. Its primary purpose is load balancing by ensuring service requests are always routed to an available instance. Eureka includes a server and a client. The server acts as a REST-based registry for clients that runs in a Java servlet container. The Eureka client is a Java library for interfacing with the Eureka server. When a client launches, it sends instance metadata to the Eureka service and notifies the server when it's ready to receive traffic. The client has a built-in round-robin load balancer and periodically sends information to the Eureka server indicating which instances are still functioning. 
+
+More information on Eureka is available at the https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance[AWS Eureka wiki]. 
+
+== Running Henge With Eureka
+
+. To start the Eureka server using Spring Boot, run the following in the Henge root project folder:
++
+[source]
+----
+mvn -pl eureka-server spring-boot:run
+----
+This command will start the Eureka server already configured. You don't need to download Eureka separately.
+
+. In order for Henge to register itself as a client to the Eureka server, run 
+the project using the *eureka* profile: 
++
+[source]
+----
+mvn -pl henge-service spring-boot:run -Dspring.profiles.active=dev,flatfile_local,eureka
+----
+
+. By accessing the Spring Boot Eureka server page at http://localhost:8761/, you can see information about the client instances currently registered to the Eureka server. 
+
+.Eureka Server Web Page
+image::Eureka_server_locally.jpg[Eureka Server Web Page]
+
+== About Our Eureka Implementation
+This section explains how we implemented the Eureka server and client using Spring Boot. The steps we took are here for the sake of clarity; there is no need to recreate any of them. 
+
+=== Eureka Server Implementation 
+In order to implement a Eureka Server on Spring Boot, we took the following steps.  
+
+. Add dependencies:
++
+[source]
+----
+org.springframework.boot:spring-cloud-starter-eureka-server
+----
+
+. Create a Spring Boot `Application` class that acts as the Eureka server implementation:
++
+[source,java]
+----
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+
+@SpringBootApplication // <1>
+@EnableEurekaServer // <2>
+public class Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
+	
+}
+----
+<1> Sets this project as a Spring Boot `Application`.  
+<2> Loads the Eureka server. 
+
+. Configure the Eureka server in the *application.yml* file: 
++
+[source,yaml]
+----
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false // <1>
+    fetchRegistry: false // <1>
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ // <2> 
+----
+<1> Simply tells this instance to not register itself with Eureka
+<2> Property to set the URL and port of Eureka Server
+
+. Create the *bootstrap.yml* file:
++
+[source,yaml]
+----
+spring:
+  application:
+    name: henge
+----
++
+Spring Cloud uses the information in *bootstrap.yml* at service startup to discover the Eureka service 
+registry and register the service and its *spring.application.name*, *host*, *port*, etc. 
+
+=== Eureka Client Implementation
+The following steps were taken to implement Henge as a Eureka client via Spring Boot. 
+
+. Create the Eureka Client configuration class:
++
+[source,java]
+----
+@Configuration
+@EnableEurekaClient // <1>
+@Profile("eureka")
+public class EurekaClientConfig {
+
+}
+----
+<1> Enable this project to connect to a Eureka server.
+
+. Configure the Eureka client in *application.yml*. 
++
+[source,yaml]
+----
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+----
+This property is required in *application.yml* (or *application.properties*) to set the Eureka Server URL. It is used by the client, in this case Henge, to register itself with Eureka.

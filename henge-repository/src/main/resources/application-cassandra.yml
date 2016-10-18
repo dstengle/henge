@@ -1,0 +1,7 @@
+
+spring.profiles: cassandra
+
+# Cassandra database configuration
+# keyspace name is set here and is the same for all environments
+cassandra:
+   keyspace: henge

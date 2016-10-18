@@ -1,0 +1,11 @@
+# S3 storage configuration
+spring.profiles: flatfile_s3
+
+# For automatic creation of the repository directory, the same value must be set in 
+# this modules pom.xml
+repository.bucket.name: henge-repository
+
+# The name of the profile entry for the AWS credentials
+amazon.profile.name: henge
+   
+versionset.mapping.file.name: version_set_mapping

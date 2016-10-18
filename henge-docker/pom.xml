@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.kenzan.henge</groupId>
+		<artifactId>henge-parent</artifactId>
+		<version>0.9.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>henge-docker</artifactId>
+	<name>henge-docker</name>
+	<packaging>jar</packaging>
+
+	<properties>
+		<docker.imagesdir>${project.basedir}/src/main/resources</docker.imagesdir>
+	</properties>
+
+	<build>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<build>
+				<finalName>henge-docker</finalName>
+				<plugins>
+					<plugin>
+						<groupId>io.fabric8</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<images>
+								<image>
+									<name>cassandra:3.0</name>
+									<alias>cassandra_server</alias>
+									<run>
+										<ports>
+											<port>9042:9042</port>
+										</ports>
+										<wait>
+											<tcp>
+												<ports>
+													<port>9042</port>
+												</ports>
+											</tcp>
+											<time>500000</time>
+										</wait>
+									</run>
+								</image>
+								<!-- <image> <name>kenzan/henge</name> <alias>henge-cassandra</alias> 
+									<build> <dockerFileDir>${docker.imagesdir}/henge-cassandra</dockerFileDir> 
+									</build> <run> <env> <cassandra_ip>${docker.host.address}</cassandra_ip> 
+									</env> <ports> <port>8080:8080</port> </ports> <links> <link>cassandra_server</link> 
+									</links> </run> </image> -->
+								<image>
+									<name>kenzan/influxdb</name>
+									<alias>influxdb</alias>
+									<build>
+										<dockerFileDir>${docker.imagesdir}/influxdb</dockerFileDir>
+									</build>
+									<run>
+										<ports>
+											<port>8083:8083</port>
+											<port>8086:8086</port>
+										</ports>
+										<volumes>
+											<bind>
+												<volume>${docker.imagesdir}/influxdb_grafana/influxdb_data/:/data</volume>
+											</bind>
+										</volumes>
+									</run>
+								</image>
+								<image>
+									<name>kenzan/grafana</name>
+									<alias>grafana</alias>
+									<build>
+										<dockerFileDir>${docker.imagesdir}/grafana</dockerFileDir>
+									</build>
+									<run>
+										<ports>
+											<port>3000:3000</port>
+										</ports>
+										<links>
+											<link>influxdb</link>
+										</links>
+									</run>
+								</image>
+							</images>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>build</goal>
+									<goal>start</goal>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>metrics</id>
+			<build>
+				<defaultGoal>docker:build docker:start</defaultGoal>
+				<plugins>
+					<plugin>
+						<groupId>io.fabric8</groupId>
+						<artifactId>docker-maven-plugin</artifactId>
+						<extensions>true</extensions>
+						<configuration>
+							<images>
+								<image>
+									<name>kenzan/influxdb</name>
+									<alias>influxdb</alias>
+									<build>
+										<dockerFileDir>${docker.imagesdir}/influxdb</dockerFileDir>
+									</build>
+									<run>
+										<ports>
+											<port>8083:8083</port>
+											<port>8086:8086</port>
+										</ports>
+										<!-- Try to figure out a way to externalize the data volume without 
+											overwriting the initial influxdb database setup configured in the Dockerfile -->
+										<!-- <volumes> <bind> <volume>${docker.imagesdir}/influxdb_grafana/influxdb_data/:/data</volume> 
+											</bind> </volumes> -->
+									</run>
+								</image>
+								<image>
+									<name>kenzan/grafana</name>
+									<alias>grafana</alias>
+									<build>
+										<dockerFileDir>${docker.imagesdir}/grafana</dockerFileDir>
+									</build>
+									<run>
+										<ports>
+											<port>3000:3000</port>
+										</ports>
+										<links>
+											<link>influxdb</link>
+										</links>
+									</run>
+								</image>
+							</images>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

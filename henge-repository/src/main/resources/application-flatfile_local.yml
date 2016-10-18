@@ -1,0 +1,8 @@
+# Local storage configuration
+spring.profiles: flatfile_local
+
+# For automatic creation of the repository directory, the same value must be set in 
+# this modules pom.xml
+repository.location: /henge/repository/
+   
+versionset.mapping.file.name: version_set_mapping

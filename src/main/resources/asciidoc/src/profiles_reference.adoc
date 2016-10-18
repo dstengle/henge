@@ -1,0 +1,191 @@
+[[profiles]]
+= Profiles
+:sectnums:
+:icons: font
+
+Sometimes an application needs to behave differently depending on its context. For example, the application might need to use a different IP address or port number when running in a development environment compared to a production environment.
+
+Spring Profiles offer a mechanism for switching configurations or altering how functionality is implemented at runtime. With profiles, you can indicate that parts of your application are available only in a particular context. When a profile is active, the parts of the application that are associated with the profile are available, while parts associated with non-active profiles are not available.
+
+To associate classes with a particular profile, use the `@Profile` annotation. You can use `@Profile` with any class that uses the `@Component` or `@Configuration` annotation. In the following example, the *ProductionConfiguration* class is associated with the *dev* profile:
+
+[source,java]
+----
+@Configuration
+@Profile("dev")
+public class ProductionConfiguration {
+
+    // ...
+
+}
+----
+
+By assigning different implementations of a common interface to different profiles, it's possible to choose which implementation you want to use at runtime. For example, Henge supports storing properties in a local flat file, an S3 flat file, or a Cassandra database. With profiles, you can choose which storage option to use based on the environment the application is running in.
+
+NOTE: To learn more about Spring Profiles, see the https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html#boot-features-profiles[Spring Boot documentation^].
+
+== Activating Profiles
+
+Configurations or implementations associated with a profile are only available when the profile is active. There are two ways to activate profiles: specify an application property or use a command line argument.
+
+=== Specify an Application Property
+
+You can activate profiles using the `spring.profiles.active` property. Specify the active profiles with this property in the *application.yml* file. For example:
+
+[source]
+----
+spring.profiles.active=dev,cassandra
+----
+
+=== Use a Command Line Argument
+
+You can activate profiles when starting the application using a command line argument. Use the switch `&#8209;&#8209;spring.profiles.active=profile` or the switch `&#8209;Dspring.profiles.active=profile`. This will override the value of the `spring.profiles.active` variable. For example:
+	
+[source]
+----
+mvn -pl property-service spring-boot:run -Dspring.profiles.active=dev,flatfile_local
+----
+
+== Henge Profiles
+
+Henge uses a number of pre-defined profiles. See the sections below for information about each profile and its configuration variables.
+
+=== Default Profile
+
+The *default* profile is different from other profiles in that you don't have to activate it. Instead, it represents the default configuration contained in the *application.yml* file. Use the *default* profile to set values for running the application in a production environment on AWS.
+
+[cols="1,3", options="header"]
+.Default Profile Variables: /henge-domain/src/main/resources/application.yml
+|===
+| Variable | Definition
+| spring.application.name | The application name. Eureka uses this as the name of the client service.
+| spring.profiles.active | The list of active profiles.
+| spring.jersey.type | Specifies whether to use Jersey as a Filter or a Servlet. Default value: `filter`
+| multipart.max-file-size | The upper bound on the size of `FileVersion` objects that can be stored in Henge.
+| server.contextPath | The context root of the web application.
+| swagger.api.version | The version of the Swagger API.
+| swagger.schemes | Comma separated list of accepted protocols. Example: `http,https`
+| swagger.base.path | Base path for the Swagger APIs.
+| swagger.resource.package | Package from which Swagger must scan for endpoints.
+| swagger.scan | Specifies whether Swagger should scan for endpoints. Recommended value: `true`
+| swagger.domain | The domain where the Swagger UI resides in the production environment.
+| swagger.port | The port where the Swagger UI resides in the production environment.
+| cache.expiration.minutes | The time the cache lives after each write to it.  
+| text.encoding | The encoding used to convert bytes to text (and vice versa) throughout all repository implementations.
+| scope.precedence.configuration | Defines an order, from most generic to most specific, of scope keys. This changes the way the search behaves when the key given does not have an exact match.
+| scope.application.name.key | String that represents the application name in the scope keys.
+| eureka.client.serviceUrl.defaultZone | The URL used by the discovery client (this application) to register on the Eureka server.
+| cassandra.host | The host for the Cassandra database server (production environment).
+| cassandra.port | The port for the Cassandra database server (production environment).
+| security.user | User name for authentication when executing REST requests that are not GET.
+| security.password | Password for authentication when executing REST requests that are not GET.
+|===
+
+=== Dev Profile
+
+Use the *dev* profile to set configuration variables for running Henge in a local environment.
+
+[cols="1,3", options="header"]
+.Dev Profile Variables: /henge-domain/src/main/resources/application-dev.yml
+|===
+| Variable | Definition
+| swagger.domain | The domain where the Swagger UI resides in the production environment.
+| swagger.port | The port where the Swagger UI resides in the production environment.
+| eureka.client.serviceUrl.defaultZone | The URL used by the discovery client (this application) to register on the Eureka server.
+| cassandra.host | The host for the Cassandra database server (production environment).
+| cassandra.port | The port for the Cassandra database server (production environment).
+|===
+
+=== Eureka Profile
+
+Use the *eureka* profile to enable Eureka as the discovery service. Enabling Eureka provides support for running clustered instances of Henge. See <<service_reference#eureka-registry,Eureka Registry and Discovery Service>> for more information.
+
+NOTE: The *eureka* profile does not use any configuration variables. It is used in the *EurekaClientConfig* class located in: */henge&#8209;service/src/main/java/com/kenzan/henge/config/EurekaClientConfig.java*
+
+=== Flatfile_local Profile
+
+Use the *flatfile_local* profile to enable local storage of the flatfile implementation of the repositories.
+
+[cols="1,3", options="header"]
+.Flatfile_local Profile Variables: /henge-repository/src/main/resources/application-flatfile_local.yml
+|===
+| Variable | Definition
+| repository.location | The folder, relative to the user home, where the application data is stored.
+| versionset.mapping.file.name | The name of the file where the mapping from `Scope` objects to `VersionSet` objects is stored.
+|===
+
+=== Flatfile_s3 Profile
+
+Use the  *flatfile_s3* profile to enable Amazon S3 storage of the flatfile implementation of the repositories.
+
+[cols="1,3", options="header"]
+.Flatfile_s3 Profile Variables: /henge-repository/src/main/resources/application-flatfile_s3.yml
+|===
+| Variable | Definition
+| repository.bucket.name | The name of the Amazon S3 bucket where the application data is stored. 
+| amazon.profile.name | The name of the Amazon AWS profile, inside the credentials file, associated with Henge.
+| versionset.mapping.file.name | The name of the file where the mapping from `Scope` objects to `VersionSet` objects will be stored.
+|===
+
+=== Cassandra Profile
+
+Use the *cassandra* profile to enable Cassandra database implementation of the repositories.
+
+[cols="1,3", options="header"]
+.Cassandra Profile Variables: /henge-repository/src/main/resources/application-cassandra.yml
+|===
+| Variable | Definition
+| cassandra.keyspace | The name for the Cassandra keyspace. The name is defined here and is used by all environments.
+|===
+
+=== Metrics Profile
+
+Use the *metrics* profile to enable the publishing of Henge metrics. When the *metrics* profile is active, Henge publishes metrics data to the InfluxDB database. You can then display the metrics on a Grafana dashboard, with real-time charts that update every five seconds by default. The charts include information about load and latency, as well as the application endpoints. See <<metrics_reference#metrics,Metrics>> for more information.
+
+[cols="1,3", options="header"]
+.Metrics Profile Variables: /henge-service/src/main/resources/application-metrics.yml
+|===
+| Variable | Definition
+| metrics.influx.host | IP address of the InfluxDB database where metrics are stored.
+| metrics.influx.port | Port number of the InfluxDB database.
+| metrics.influx.user | User name for connecting to the InfluxDB database.
+| metrics.influx.password | Password for connecting to the InfluxDB database.
+| metrics.influx.database | Name of the InfluxDB database.
+| metrics.influx.periodInSeconds | The period for publishing  metrics. For example, a value of *5* means that metrics are sent to InfluxDB every 5 seconds.
+|===
+
+
+== Profile-Specific Configurations
+
+For each profile, there are specific configuration variables you can set, as described in the section above. Edit the values for these variables in the  *src/main/resources/application-{profile}.yml* configuration file in each module.
+
+Most (but not all) modules in the project include a configuration file. We attempted to place each configuration file where it made the most sense. For example, the *application-flatfile_local.yml* configuration file is located in the *henge-repository* module.
+
+NOTE: See the tables in the section above for the location of each profile-specific configuration file.
+
+=== Noteworthy Configurations
+
+Below are some configuration variables worthy of special attention.
+
+==== Flatfile_local Profile
+
+*repository.location*:: The folder where the application data is stored. 
++
+WARNING: The `repository.location` folder is relative to the user home folder. 
++
+NOTE: The Maven build process automatically creates the folder defined for `repository.location`. 
+
+==== Flatfile_s3 Profile
+
+*amazon.profile.name*:: The name of the Amazon AWS profile associated with Henge. The default value is *henge*. The specified profile must be present inside your *~/.aws/credentials* file. For example:
++
+[source]
+----
+[henge]
+aws_access_key_id={key}
+aws_secret_access_key={secret_key}
+----
++
+WARNING: Make sure the credentials given have read and write access to the S3 bucket where the data is stored.
+
+*repository.bucket.name*:: The name of the Amazon S3 bucket where the application data is stored.

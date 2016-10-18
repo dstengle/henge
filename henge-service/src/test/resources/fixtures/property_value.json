@@ -1,0 +1,21 @@
+{
+	"name" : "",
+	"description" : "",
+	"defaultValue" : "",
+	"scopeValues" : [
+		{
+			"key":"key-1",
+			"value":"value-1"
+		},
+		{
+			"key":"key-2",
+			"value":"value-2"
+		},
+		{
+			"key":"key-3",
+			"value":"value-3"
+		}
+	]
+	"propertyGroup" :  
+
+}

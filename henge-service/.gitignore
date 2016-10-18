@@ -1,0 +1,6 @@
+/target/
+
+.gradle/*
+
+build/*
+src/main/resources/henge-cassandra/

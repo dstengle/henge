@@ -1,0 +1,15 @@
+# Project Language
+language: java
+
+# Acceptable JDK versions
+jdk:
+  - oraclejdk8
+
+# Branch Safelist
+branches:
+  only:
+  - master
+
+script: 
+  # Build Command
+  - mvn clean install

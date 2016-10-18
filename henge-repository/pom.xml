@@ -1,0 +1,221 @@
+<!-- Copyright (C) ${project.inceptionYear} Kenzan - Kyle S. Bober (kbober@kenzan.com) 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.kenzan.henge</groupId>
+		<artifactId>henge-parent</artifactId>
+		<version>0.9.1-SNAPSHOT</version>
+	</parent>
+
+
+	<artifactId>henge-repository</artifactId>
+	<packaging>jar</packaging>
+	<name>henge-repository</name>
+
+	<properties>
+		<cassandra.listenAddress>127.0.0.1</cassandra.listenAddress>
+	</properties>
+
+	<dependencies>
+		<!-- Project dependencies -->
+		<dependency>
+			<groupId>com.kenzan.henge</groupId>
+			<artifactId>henge-domain</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- Apache Commons -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
+
+		<!-- Amazon AWS SDK -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+		</dependency>
+
+
+		<!-- Cassandra -->
+		<dependency>
+			<groupId>com.datastax.cassandra</groupId>
+			<artifactId>cassandra-driver-core</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>henge-repository</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.10</version>
+				<executions>
+					<execution>
+						<id>reserve-network-port</id>
+						<goals>
+							<goal>reserve-network-port</goal>
+						</goals>
+						<phase>pre-integration-test</phase>
+						<configuration>
+							<portNames>
+								<portName>cassandra.jmx.port</portName>
+								<portName>cassandra.storage.port</portName>
+								<portName>cassandra.rcp.port</portName>
+								<portName>cassandra.stop.port</portName>
+								<portName>native.transport.port</portName>
+							</portNames>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cassandra-maven-plugin</artifactId>
+				<version>2.1.7-1</version>
+				<configuration>
+					<script>${project.basedir}/src/cassandra/cql/load.cql</script>
+					<cqlVersion>3.2.0</cqlVersion>
+					<startNativeTransport>true</startNativeTransport>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-cassandra</id>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<listenAddress>${cassandra.listenAddress}</listenAddress>
+							<jmxPort>${cassandra.jmx.port}</jmxPort>
+							<rcpPort>${cassandra.rcp.port</rcpPort>
+							<storagePort>${cassandra.storage.port}</storagePort>
+							<stopPort>${cassandra.stop.port}</stopPort>
+							<nativeTransportPort>${native.transport.port}</nativeTransportPort>
+						</configuration>
+					</execution>
+					<execution>
+						<id>execute-cql</id>
+						<goals>
+							<goal>cql-exec</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop-cassandra</id>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+						<configuration>
+							<listenAddress>${cassandra.listenAddress}</listenAddress>
+							<stopPort>${cassandra.stop.port}</stopPort>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.19.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+						<configuration>
+							<systemPropertyVariables>
+								<cassandra.port>${native.transport.port}</cassandra.port>
+							</systemPropertyVariables>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>%regex[.*S3.*]</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<configuration>
+							<forkMode>always</forkMode>
+							<argLine>${argLine} -Xmx4096m -XX:MaxPermSize=2048m</argLine>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>S3-tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<includes>
+								<include>**/*</include>
+							</includes>
+							<excludes>
+								<exclude>%regex[.*Cassandra.*IT.*.class]</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<id>default-test</id>
+								<configuration>
+									<forkMode>always</forkMode>
+									<argLine>${argLine} -Xmx4096m -XX:MaxPermSize=2048m</argLine>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

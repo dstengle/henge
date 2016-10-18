@@ -1,0 +1,363 @@
+
+<!-- Copyright (C) ${project.inceptionYear} Kenzan - Kyle S. Bober (kbober@kenzan.com) 
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not 
+	use this file except in compliance with the License. You may obtain a copy 
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required 
+	by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS 
+	OF ANY KIND, either express or implied. See the License for the specific 
+	language governing permissions and limitations under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.kenzan.henge</groupId>
+		<artifactId>henge-parent</artifactId>
+		<version>0.9.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>henge-service</artifactId>
+	<packaging>jar</packaging>
+	<name>henge-service</name>
+
+	<properties>
+		<docker.imagesdir>${project.basedir}/../henge-docker/src/main/resources</docker.imagesdir>
+	</properties>
+
+
+	<dependencies>
+		<!-- Project dependencies -->
+		<dependency>
+			<groupId>com.kenzan.henge</groupId>
+			<artifactId>henge-repository</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.kenzan.henge</groupId>
+			<artifactId>henge-domain</artifactId>
+		</dependency>
+
+		<!-- Spring Boot Dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+			<!-- <exclusions> -->
+			<!-- <exclusion> -->
+			<!-- <artifactId>jersey-server</artifactId> -->
+			<!-- <groupId>com.sun.jersey</groupId> -->
+			<!-- </exclusion> -->
+			<!-- <exclusion> -->
+			<!-- <artifactId>jsr311-api</artifactId> -->
+			<!-- <groupId>javax.ws.rs</groupId> -->
+			<!-- </exclusion> -->
+			<!-- </exclusions> -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsr311-api</artifactId>
+					<groupId>javax.ws.rs</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+
+		<!-- needed to resolve issue with eureka-client pulling in Jersey 1.x dependencies 
+			and sprint-boot-jersey bringing in 2.x Jersey dependencies -->
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.mimepull</groupId>
+			<artifactId>mimepull</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		<!-- Hibernate Validator dependencies -->
+		<!-- look into removing these as they come from spring-boot as well -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>javax.el</artifactId>
+		</dependency>
+
+		<!-- BoneCP Datasource -->
+		<!-- <dependency> <groupId>com.jolbox</groupId> <artifactId>bonecp</artifactId> 
+			</dependency> -->
+
+		<!-- Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+
+		<!-- Apache Commons -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<!-- Swagger -->
+		<!-- Swagger 1.5.0 depends on Jackson 2.4.2 -->
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jersey2-jaxrs</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+		</dependency>
+
+		<!-- Dropwizard Metrics -->
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-annotation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-healthchecks</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ryantenney.metrics</groupId>
+			<artifactId>metrics-spring</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.davidb</groupId>
+			<artifactId>metrics-influxdb</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>henge-service</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- <configuration> <requiresUnpack> <dependency> <groupId>com.netflix.eureka</groupId> 
+					<artifactId>eureka-core</artifactId> </dependency> <dependency> <groupId>com.netflix.eureka</groupId> 
+					<artifactId>eureka-client</artifactId> </dependency> </requiresUnpack> </configuration> -->
+			</plugin>
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<springmvc>false</springmvc>
+							<locations>com.kenzan.henge.resource</locations>
+							<schemes>${swagger.plugin.schemes}</schemes>
+							<host>${swagger.plugin.host}</host>
+							<basePath>${swagger.plugin.basePath}</basePath>
+							<info>
+								<title>Henge</title>
+								<version>${project.version}</version>
+								<description>Henge - REST Endpoints</description>
+							</info>
+							<swaggerDirectory>${project.build.outputDirectory}/META-INF/documentation/swagger</swaggerDirectory>
+							<!-- HTML generation -->
+							<templatePath>classpath:/swagger-templates/markdown.hbs</templatePath>
+							<outputPath>${project.build.outputDirectory}/META-INF/documentation/swagger/swagger.md</outputPath>
+						</apiSource>
+					</apiSources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${docker.imagesdir}/henge-cassandra</outputDirectory>
+							<resources>
+								<resource>
+									<directory>/${project.build.directory}/</directory>
+									<include>*.jar</include>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.15.2</version>
+				<extensions>true</extensions>
+				<configuration>
+					<images>
+						<image>
+							<name>cassandra:3.0</name>
+							<alias>cassandra_server</alias>
+							<run>
+								<ports>
+									<port>9042:9042</port>
+								</ports>
+								<wait>
+									<tcp>
+										<ports>
+											<port>9042</port>
+										</ports>
+									</tcp>
+									<time>500000</time>
+								</wait>
+							</run>
+						</image>
+						<image>
+							<name>kenzan/henge</name>
+							<alias>henge</alias>
+							<build>
+								<dockerFileDir>${docker.imagesdir}/henge-cassandra</dockerFileDir>
+
+							</build>
+							<run>
+								<env>
+									<cassandra_ip>${docker.host.address}</cassandra_ip>
+								</env>
+								<ports>
+									<port>8080:8080</port>
+								</ports>
+
+								<links>
+									<link>cassandra_server</link>
+								</links>
+							</run>
+						</image>
+					</images>
+				</configuration>
+				<!-- <executions> <execution> <id>start</id> <goals> <goal>build</goal> 
+					<goal>start</goal> </goals> </execution> </executions> -->
+			</plugin>
+
+
+
+			<!-- For integration tests (matches on /IT.java, **/IT.java and */*ITCase.java -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${failsafe.version}</version>
+				<configuration>
+					<argLine>${argLine} -Xmx2048m -XX:MaxPermSize=1024m</argLine>
+				</configuration>
+				<executions>
+					<execution>
+						<id>Local profile tests</id>
+						<configuration>
+							<systemPropertyVariables>
+								<spring.active.profiles>dev,flatfile_local,setmapping</spring.active.profiles>
+							</systemPropertyVariables>
+							<summaryFile>target/failsafe-reports/failsafe-summary-local.xml</summaryFile>
+						</configuration>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>S3 profile tests</id>
+						<configuration>
+							<systemPropertyVariables>
+								<spring.active.profiles>dev,flatfile_s3,setmapping</spring.active.profiles>
+							</systemPropertyVariables>
+							<summaryFile>target/failsafe-reports/failsafe-summary-s3.xml</summaryFile>
+						</configuration>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>Cassandra profile tests</id>
+						<configuration>
+							<systemPropertyVariables>
+								<spring.active.profiles>dev,cassandra,setmapping</spring.active.profiles>
+							</systemPropertyVariables>
+							<summaryFile>target/failsafe-reports/failsafe-summary-cassandra.xml</summaryFile>
+						</configuration>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

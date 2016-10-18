@@ -1,0 +1,158 @@
+//===============================
+
+
+
+
+//===============================
+
+
+apply plugin: 'maven'
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: "com.github.hierynomus.license"
+apply plugin: 'nebula.ospackage-base'
+apply plugin: 'docker'
+
+sourceCompatibility = 1.8
+
+
+assert project.hasProperty('snapshot_repo') : "snapshot_repo is not defined.  Try defining it with cmd line"
+
+//todo: remove reliance on repo?
+repositories {
+    mavenCentral()
+    maven {url snapshot_repo}
+}
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
+
+
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
+        classpath 'com.netflix.nebula:gradle-ospackage-plugin:3.1.0'
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+    }
+}
+
+
+
+dependencies {
+    compile "org.jbundle.util:org.jbundle.util.jbackup:2.0.0"
+    compile "net.sf.webtestfixtures:webtestfixtures:2.0.1.3"
+    compile "org.shoal:shoal-gms-api:1.5.8"
+    compile "org.ow2.util:util-i18n:1.0.22"
+    compile "com.sun.grizzly:grizzly-lzma:1.9.19-beta5"
+    compile group: 'com.kenzan.henge', name: 'property-service', version:"0.0.1-SNAPSHOT", changing: true
+
+
+    // Karyon core dependencies
+    compile (group: 'com.netflix.karyon', name: 'karyon2-core', version: '2.7.0')
+    compile (group: 'com.netflix.karyon', name: 'karyon2-archaius', version: '2.7.0')
+
+    // Karyon admin dependencies
+    compile (group: 'com.netflix.karyon', name: 'karyon2-admin', version: '2.7.0')
+    compile (group: 'com.netflix.karyon', name: 'karyon2-admin-web', version: '2.7.0')
+
+    // Karyon eureka dependency
+    compile (group: 'com.netflix.karyon', name: 'karyon2-eureka', version: '2.7.0')
+
+    // logback dependencies
+    compile (group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.3')
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '1.10.19'
+}
+
+license {
+    header rootProject.file('codequality/HEADER')
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
+    include "**/*.java"
+    
+}
+
+
+ospackage {
+    version '1'
+    packageName = 'henge'
+    os = LINUX // only applied to RPM
+    prefix '/opt/local' // also only applied to RPM
+    arch = "all"
+}
+
+task run(dependsOn: [classes], type: JavaExec) {
+    main = "com.kenzan.karyon.rxnetty.KaryonRxNettyExample"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+//debian package related vars and tasks go here
+
+def jar_filename = 'property-service.jar'
+def opt_dir = 'opt/add/'
+def jar_filepath = opt_dir + jar_filename
+
+
+def init_dir = 'etc/init/'
+def upstart_conf_filename = 'henge.conf'
+def upstart_conf_filepath = init_dir + upstart_conf_filename
+
+
+
+//todo: copy files right
+
+
+task load_files(type: Copy) {
+    from configurations.compile
+    into 'install/' + opt_dir
+    include ('property-service-0.0.1-SNAPSHOT.jar')
+    rename ('property-service-0.0.1-SNAPSHOT.jar', jar_filename)
+}
+
+task exp(){
+    println 'this is a test task for experiementing with'
+}
+
+task packDeb(type: Deb, dependsOn: 'load_files') {
+
+
+  preInstall = file('pkg_scripts/preInstall.sh')
+
+  from(file('install/' + upstart_conf_filepath)) {
+    into('/' + init_dir)
+    user = 'root'
+    permissionGroup = 'root'
+    fileType = CONFIG | NOREPLACE
+  }
+
+  from(file('install/' + jar_filepath)) {
+    into('/' + opt_dir)
+    user = 'root'
+    permissionGroup = 'root'
+    fileType = CONFIG | NOREPLACE
+  }
+
+}
+group = "foo"
+
+docker {
+    baseImage "ubuntu"
+    maintainer 'Guillaume J. Charmes "guillaume@dotcloud.com"'
+}
+
+task nginxDocker(type: Docker) {
+    applicationName = "nginx"
+    runCommand 'echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list'
+    runCommand "apt-get update"
+    runCommand "apt-get install -y inotify-tools nginx apache2 openssh-server"
+}

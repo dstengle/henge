@@ -1,0 +1,4 @@
+target/
+src/main/resources/henge-cassandra/*.jar
+src/main/resources/influxdb_grafana/influxdb_data
+/bin/

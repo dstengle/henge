@@ -1,0 +1,16 @@
+.apt_generated/
+.factorypath
+.classpath
+.settings
+.project
+.DS_Store
+
+**/target/
+**/bin/
+META-INF/
+
+# Intellij Specific
+.idea/
+*.iml
+
+**/influxdb_data/*

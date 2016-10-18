@@ -1,0 +1,86 @@
+{
+	"variables": [],
+	"info": {
+		"name": "HengeSearch",
+		"_postman_id": "248232e1-5a66-e166-85a6-afbfb1b5cb0b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/search/PropertyGroup-App?version=1.0.0&scopes=env=dev",
+			"request": {
+				"url": "http://localhost:8080/henge/search/PropertyGroup-App?version=1.0.0&scopes=env=dev",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
+			},
+			"response": []
+		},
+		{
+			"name": "/search/PropertyGroup-App?version=1.0.0&scopes=env=dev&region=region-1",
+			"request": {
+				"url": "http://localhost:8080/henge/search/PropertyGroup-App?version=1.0.0&scopes=env=dev%26region=region-1&libs=PropertyGroup-Lib-1, PropertyGroup-Lib-2",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: PropertyGroup-Lib-1, PropertyGroup-Lib-2\nScopes: env=dev&region=region-1\n\nReturn: VersionSet1, PropertyGroup-Lib-1, PropertyGroup-Lib-2"
+			},
+			"response": []
+		},
+		{
+			"name": "/search/PropertyGroup-App?version=1.0.0&scopes=env=prod&region=region-3&stack=stack-1",
+			"request": {
+				"url": "http://localhost:8080/henge/search/PropertyGroup-App?version=1.0.0&scopes=env=prod%26region=region-3%26stack=stack-1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: PropertyGroup-Lib-1\nScopes: env=prod&region=region-3&stack=stack-1\n\nReturn: VersionSet3, PropertyGroup-Lib-1"
+			},
+			"response": []
+		}
+	]
+}

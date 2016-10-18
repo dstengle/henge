@@ -1,0 +1,177 @@
+[[repositories]]
+= Repositories
+:sectnums:
+:icons: font
+
+In addition to running Henge using local flatfiles, it can be configured to store properties in an AWS S3 repository or Cassandra database. The following outlines how to build and run Henge using either repository. The instructions apply to both Linux and macOS. 
+
+== S3 Setup
+
+The following AWS setup is required to build and run Henge using an S3 repository. 
+
+=== Create AWS Access Keys 
+
+If you haven't already done so, generate AWS root access keys to allow Henge to authenticate with AWS.
+
+. In your EC2 Management Console, click your user name, and then click *Security Credentials*.
+. Expand *Access Keys*, then click *Create New Access Key*.
+. Click *Download Key File* to download the access key file.
+
+NOTE: The access key file is a CSV file that contains values for two keys: *AWSAccessKeyId* and *AWSSecretKey*. You will need these two key values in a later step.
+
+For more information, see the http://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html[AWS documentation on Security Credentials]. 
+
+=== Create an S3 Bucket
+
+. Within the S3 Dashboard, click *Create Bucket* to create a new S3 Bucket as a repository for Henge flat files. 
+. Give the bucket a unique name, such as *henge-repository-[OrganizationName]*, then click *Create*.  
+
+For more information, see the http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html[AWS documentation on creating an S3 Bucket]. 
+
+=== Set Up AWS Credentials Locally
+
+You'll want to add the AWS access keys you previously downloaded to the *credentials* file in the *~/.aws* directory. This will allow Henge access to the S3 bucket.
+
+. Install the AWS CLI. See the http://docs.aws.amazon.com/cli/latest/userguide/installing.html[documentation on installing the AWS CLI]. 
+. The access keys should be added to a *henge* profile within the *credentials* file. Using the AWS CLI, the keys can be added to the file with the following command: 
++
+[source]
+----
+ aws configure --profile henge
+----
++
+At the prompts, enter the following: 
++
+[source]
+----
+ AWS Access Key ID [None]: {Your Access Key Here} 
+ AWS Secret Access Key [None]: {Your Secret Access Key Here} 
+ Default region name [None]: {Appropriate region here}
+ Default output format [None]: <press ENTER>
+----
+
+. You should now have an *~/.aws/credentials* file that looks similar to the following: 
++
+[source]
+----
+[henge]
+aws_access_key_id = {Your Access Key Here} 
+aws_secret_access_key = {Your Secret Access Key Here}
+----
+
+=== Build and Run Henge
+
+. Clone the Git repository:
++
+[source]
+----
+git clone https://github.com/kenzanlabs/henge.git
+----
++
+. Open up */henge/henge-repository/src/main/resources/application-flatfile_s3.yml* in a text editor. Change the property *repository.bucket.name* to the S3 bucket you created, similar to: 
++
+[source]
+----
+repository.bucket.name: henge-repository-[OrganizationName]
+----
+
+. Build the application by running the following in the root project folder:
++
+[source]
+----
+mvn clean install -P S3-tests
+----
++
+[NOTE]
+====
+With the *-P S3-Tests* option, the build process will run all tests including S3 tests on the modules, so it may take some time to complete the operation. To build without any tests, you can use the *-DskipTests* option instead. 
+====
+
+. Run Henge with S3:  
++
+[source]
+----
+mvn -pl henge-service spring-boot:run -Dspring.profiles.active=dev,flatfile_s3
+----
+
+As shown in the run command, Henge uses Spring Profiles for runtime configuration. For more information on the different profiles available and how to configure them, see <<profiles_reference#profiles,Profiles>>. 
+
+
+== Cassandra Setup
+
+=== Run Cassandra and Load the Schema
+. Download Cassandra from http://cassandra.apache.org/download/
+. Install Cassandra by extracting it to a folder of your choice.
++ 
+NOTE: Cassandra's *cqlsh* needs to have Python 2 installed and accessible in your system's path. It is **only compatible with version 2 of Python** and will not work with the version 3. Python can be downloaded from https://www.python.org/downloads/.  
+
+. Start Cassandra by running:
++
+[source]
+----
+{cassandra_install_folder}/bin/cassandra 
+----
+
+. You will need to use *cqlsh* to run the Henge schema creation script located in *henge-repository/src/cassandra/cql/load.cql*. Do the following:
+
+.. Change your directory to the Henge project root folder. 
+.. Run *cqlsh* to execute schema creation:
++
+[source]
+----
+{cassandra_install_folder}/bin/cqlsh -f henge-repository/src/cassandra/cql/load.cql 
+----
+
+More information on *cqlsh* is available at the http://docs.datastax.com/en//cql/3.1/cql/cql_reference/cqlsh.html[datastax cqlsh reference]. 
+
+=== Build and Run Henge
+
+. Clone the Git repository:
++
+[source]
+----
+git clone https://github.com/kenzanlabs/henge.git
+----
++
+. Build the application by running the following in the root project folder:
++
+[source]
+----
+mvn clean install
+----
++
+[NOTE]
+====
+The build process will run several tests in the modules, so it may take some time to complete the operation. To build without the tests, you can add *-DskipTests* to the command. 
+==== 
+
+. Start Henge using the Cassandra repository: 
++ 
+[source]
+----
+mvn -pl henge-service spring-boot:run -Dspring.profiles.active=dev,cassandra
+----
++
+NOTE: Henge defaults to using port 9042 to send Cassandra data (the default port setup in Cassandra). If Cassandra is not a new install, make sure that within the *conf/cassandra.yaml* file the  *native_transport_port* is set to 9042, and *start_native_transport* is set to true.   
+
+=== Stopping Cassandra
+When you are through testing, you can stop Henge by pressing *Control+C*. 
+
+To stop Cassandra, do the following: 
+
+.  Enter the following command:
++
+[source]
+----
+ps auwx | grep cassandra
+----
++
+Look at the output from the command and note the first 3–5 digit number that appears in the
+output. This is the process ID for Cassandra. 
+. Enter the following command where pid is the process ID you found (you’ll be prompted for
+your administrator password):
++
+[source]
+----
+sudo kill pid
+----

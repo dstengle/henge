@@ -1,0 +1,283 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Henge-Sprint1Demo",
+		"_postman_id": "08e81220-3205-35d7-6717-6b15c38712c7",
+		"description": "Contains the CRUD operations on PropertyGroups",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.1\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.1\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.2\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/1.0.1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/1.0.1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/1.0.2",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/1.0.2",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"username": "user",
+						"password": "user",
+						"saveHelperData": false,
+						"showPassword": false
+					}
+				},
+				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic dXNlcjp1c2Vy",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
