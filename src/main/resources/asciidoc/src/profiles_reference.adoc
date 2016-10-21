@@ -9,7 +9,7 @@ Spring Profiles offer a mechanism for switching configurations or altering how f
 
 To associate classes with a particular profile, use the `@Profile` annotation. You can use `@Profile` with any class that uses the `@Component` or `@Configuration` annotation. In the following example, the *ProductionConfiguration* class is associated with the *dev* profile:
 
-[source,java]
+[source]
 ----
 @Configuration
 @Profile("dev")

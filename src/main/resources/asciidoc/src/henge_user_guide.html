@@ -426,104 +426,184 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span id="author" class="author">Kenzan</span><br>
 <span id="email" class="email"><a href="mailto:support_henge@kenzan.com">support_henge@kenzan.com</a></span><br>
 <span id="revnumber">version 0.9.0,</span>
-<span id="revdate">September 2, 2016</span>
+<span id="revdate">October 7, 2016</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Henge User's Guide</div>
 <ul class="sectlevel1">
-<li><a href="#getting-started">1. Getting Started</a>
+<li><a href="#henge-overview">1. Henge Overview</a>
 <ul class="sectlevel2">
-<li><a href="#_setting_up_henge">1.1. Setting Up Henge</a>
+<li><a href="#_enter_henge">1.1. Enter Henge</a></li>
+<li><a href="#_the_henge_properties_model">1.2. The Henge Properties Model</a></li>
+<li><a href="#_versions_and_mappings">1.3. Versions and Mappings</a></li>
+<li><a href="#_henge_in_architecture_and_app_lifecycle">1.4. Henge in Architecture and App Lifecycle</a>
 <ul class="sectlevel3">
-<li><a href="#_dependencies">1.1.1. Dependencies</a></li>
-<li><a href="#_build_and_run_henge">1.1.2. Build and Run Henge</a></li>
-<li><a href="#_test_henge">1.1.3. Test Henge</a></li>
+<li><a href="#_storing_running_and_getting">1.4.1. Storing, Running and Getting</a></li>
+<li><a href="#_a_typical_lifecycle_issues_included">1.4.2. A Typical Lifecycle (Issues Included)</a></li>
 </ul>
 </li>
-<li><a href="#_rest_api_reference">1.2. REST API Reference</a></li>
+<li><a href="#_back_to_the_neolithic">1.5. Back to the Neolithic</a>
+<ul class="sectlevel3">
+<li><a href="#_feature_summary">1.5.1. Feature Summary</a></li>
+<li><a href="#_henge_architecture">1.5.2. Henge Architecture</a></li>
 </ul>
 </li>
-<li><a href="#domain-objects">2. Domain Objects</a>
+</ul>
+</li>
+<li><a href="#getting-started">2. Getting Started</a>
 <ul class="sectlevel2">
-<li><a href="#_property">2.1. Property</a></li>
-<li><a href="#_scope">2.2. Scope</a></li>
-<li><a href="#_propertygroup">2.3. PropertyGroup</a></li>
-<li><a href="#_fileversion">2.4. FileVersion</a></li>
-<li><a href="#_versionset">2.5. VersionSet</a></li>
-<li><a href="#_mapping">2.6. Mapping</a></li>
+<li><a href="#_setting_up_henge">2.1. Setting Up Henge</a>
+<ul class="sectlevel3">
+<li><a href="#_dependencies">2.1.1. Dependencies</a></li>
+<li><a href="#_build_and_run_henge">2.1.2. Build and Run Henge</a></li>
+<li><a href="#_test_henge">2.1.3. Test Henge</a></li>
 </ul>
 </li>
-<li><a href="#profiles">3. Profiles</a>
+<li><a href="#_rest_api_reference">2.2. REST API Reference</a></li>
+<li><a href="#_use_cases_and_the_hello_properties_app">2.3. Use Cases and the Hello Properties App</a></li>
+</ul>
+</li>
+<li><a href="#deploy">3. Alternate Methods of Deploying Henge</a>
 <ul class="sectlevel2">
-<li><a href="#_activating_profiles">3.1. Activating Profiles</a>
-<ul class="sectlevel3">
-<li><a href="#_specify_an_application_property">3.1.1. Specify an Application Property</a></li>
-<li><a href="#_use_a_command_line_argument">3.1.2. Use a Command Line Argument</a></li>
+<li><a href="#_deploying_the_jar_on_tomcat">3.1. Deploying the JAR on Tomcat</a></li>
+<li><a href="#_deploying_the_henge_war_on_tomcat">3.2. Deploying the Henge WAR on Tomcat</a></li>
 </ul>
 </li>
-<li><a href="#_henge_profiles">3.2. Henge Profiles</a>
-<ul class="sectlevel3">
-<li><a href="#_default_profile">3.2.1. Default Profile</a></li>
-<li><a href="#_dev_profile">3.2.2. Dev Profile</a></li>
-<li><a href="#_eureka_profile">3.2.3. Eureka Profile</a></li>
-<li><a href="#_flatfile_local_profile">3.2.4. Flatfile_local Profile</a></li>
-<li><a href="#_flatfile_s3_profile">3.2.5. Flatfile_s3 Profile</a></li>
-<li><a href="#_cassandra_profile">3.2.6. Cassandra Profile</a></li>
-<li><a href="#_metrics_profile">3.2.7. Metrics Profile</a></li>
-</ul>
-</li>
-<li><a href="#_profile_specific_configurations">3.3. Profile-Specific Configurations</a>
-<ul class="sectlevel3">
-<li><a href="#_noteworthy_configurations">3.3.1. Noteworthy Configurations</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#metrics">4. Metrics</a>
+<li><a href="#hello-properties">4. Hello Properties Application</a>
 <ul class="sectlevel2">
-<li><a href="#_required_services">4.1. Required Services</a></li>
-<li><a href="#_configuring_docker">4.2. Configuring Docker</a>
-<ul class="sectlevel3">
-<li><a href="#_macos">4.2.1. macOS</a></li>
-<li><a href="#_linux">4.2.2. Linux</a></li>
+<li><a href="#_loading_properties">4.1. Loading Properties</a></li>
+<li><a href="#_building_and_running_hello_properties">4.2. Building and Running Hello Properties</a></li>
+<li><a href="#_changing_to_the_dev_environment">4.3. Changing to the Dev Environment</a></li>
+<li><a href="#_versioning_properties">4.4. Versioning Properties</a></li>
 </ul>
 </li>
-<li><a href="#_starting_influxdb_and_grafana">4.3. Starting InfluxDB and Grafana</a></li>
-<li><a href="#_starting_henge_with_metrics_enabled">4.4. Starting Henge With Metrics Enabled</a>
-<ul class="sectlevel3">
-<li><a href="#_accessing_influxdb">4.4.1. Accessing InfluxDB</a></li>
-<li><a href="#_accessing_grafana">4.4.2. Accessing Grafana</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#repositories">5. Repositories</a>
+<li><a href="#use-case-simple-app">5. Use Case: Simple Application</a>
 <ul class="sectlevel2">
-<li><a href="#_s3_setup">5.1. S3 Setup</a>
+<li><a href="#_overview">5.1. Overview</a></li>
+<li><a href="#_creating_properties">5.2. Creating Properties</a>
 <ul class="sectlevel3">
-<li><a href="#_create_aws_access_keys">5.1.1. Create AWS Access Keys</a></li>
-<li><a href="#_create_an_s3_bucket">5.1.2. Create an S3 Bucket</a></li>
-<li><a href="#_set_up_aws_credentials_locally">5.1.3. Set Up AWS Credentials Locally</a></li>
-<li><a href="#_build_and_run_henge_2">5.1.4. Build and Run Henge</a></li>
+<li><a href="#_create_a_propertygroup">5.2.1. Create a PropertyGroup</a></li>
+<li><a href="#_create_a_versionset">5.2.2. Create a VersionSet</a></li>
+<li><a href="#_create_a_mapping">5.2.3. Create a Mapping</a></li>
 </ul>
 </li>
-<li><a href="#_cassandra_setup">5.2. Cassandra Setup</a>
+<li><a href="#_retrieving_properties">5.3. Retrieving Properties</a>
 <ul class="sectlevel3">
-<li><a href="#_run_cassandra_and_load_the_schema">5.2.1. Run Cassandra and Load the Schema</a></li>
-<li><a href="#_build_and_run_henge_3">5.2.2. Build and Run Henge</a></li>
-<li><a href="#_stopping_cassandra">5.2.3. Stopping Cassandra</a></li>
+<li><a href="#_java_properties_api">5.3.1. Java Properties API</a></li>
+<li><a href="#_commons_configuration">5.3.2. Commons Configuration</a></li>
+<li><a href="#_archaius">5.3.3. Archaius</a></li>
 </ul>
 </li>
+<li><a href="#_updating_properties">5.4. Updating Properties</a></li>
+<li><a href="#_try_it_out">5.5. Try it Out</a></li>
 </ul>
 </li>
-<li><a href="#eureka-registry">6. Eureka Registry and Discovery Service</a>
+<li><a href="#use-case-complex-app">6. Use Case: Complex Application</a>
 <ul class="sectlevel2">
-<li><a href="#_what_is_eureka">6.1. What is Eureka?</a></li>
-<li><a href="#_running_henge_with_eureka">6.2. Running Henge With Eureka</a></li>
-<li><a href="#_about_our_eureka_implementation">6.3. About Our Eureka Implementation</a>
+<li><a href="#_overview_2">6.1. Overview</a></li>
+<li><a href="#_creating_properties_2">6.2. Creating Properties</a>
 <ul class="sectlevel3">
-<li><a href="#_eureka_server_implementation">6.3.1. Eureka Server Implementation</a></li>
-<li><a href="#_eureka_client_implementation">6.3.2. Eureka Client Implementation</a></li>
+<li><a href="#_create_a_propertygroup_2">6.2.1. Create a PropertyGroup</a></li>
+<li><a href="#_create_a_versionset_2">6.2.2. Create a VersionSet</a></li>
+<li><a href="#_create_a_mapping_2">6.2.3. Create a Mapping</a></li>
+</ul>
+</li>
+<li><a href="#_retrieving_properties_2">6.3. Retrieving Properties</a>
+<ul class="sectlevel3">
+<li><a href="#_java_properties_api_2">6.3.1. Java Properties API</a></li>
+<li><a href="#_commons_configuration_2">6.3.2. Commons Configuration</a></li>
+<li><a href="#_archaius_2">6.3.3. Archaius</a></li>
+</ul>
+</li>
+<li><a href="#_updating_properties_2">6.4. Updating Properties</a></li>
+<li><a href="#_try_it_out_2">6.5. Try it Out</a></li>
+</ul>
+</li>
+<li><a href="#domain-objects">7. Domain Objects</a>
+<ul class="sectlevel2">
+<li><a href="#_property">7.1. Property</a></li>
+<li><a href="#Scope">7.2. Scope</a></li>
+<li><a href="#PropertyGroup">7.3. PropertyGroup</a>
+<ul class="sectlevel3">
+<li><a href="#ScopeHierarchy">7.3.1. Scope Sets and Precedence Hierarchy</a></li>
+</ul>
+</li>
+<li><a href="#_fileversion">7.4. FileVersion</a></li>
+<li><a href="#_versionset">7.5. VersionSet</a></li>
+<li><a href="#Mapping">7.6. Mapping</a></li>
+</ul>
+</li>
+<li><a href="#profiles">8. Profiles</a>
+<ul class="sectlevel2">
+<li><a href="#_activating_profiles">8.1. Activating Profiles</a>
+<ul class="sectlevel3">
+<li><a href="#_specify_an_application_property">8.1.1. Specify an Application Property</a></li>
+<li><a href="#_use_a_command_line_argument">8.1.2. Use a Command Line Argument</a></li>
+</ul>
+</li>
+<li><a href="#_henge_profiles">8.2. Henge Profiles</a>
+<ul class="sectlevel3">
+<li><a href="#_default_profile">8.2.1. Default Profile</a></li>
+<li><a href="#_dev_profile">8.2.2. Dev Profile</a></li>
+<li><a href="#_eureka_profile">8.2.3. Eureka Profile</a></li>
+<li><a href="#_flatfile_local_profile">8.2.4. Flatfile_local Profile</a></li>
+<li><a href="#_flatfile_s3_profile">8.2.5. Flatfile_s3 Profile</a></li>
+<li><a href="#_cassandra_profile">8.2.6. Cassandra Profile</a></li>
+<li><a href="#_metrics_profile">8.2.7. Metrics Profile</a></li>
+</ul>
+</li>
+<li><a href="#_profile_specific_configurations">8.3. Profile-Specific Configurations</a>
+<ul class="sectlevel3">
+<li><a href="#_noteworthy_configurations">8.3.1. Noteworthy Configurations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#metrics">9. Metrics</a>
+<ul class="sectlevel2">
+<li><a href="#_required_services">9.1. Required Services</a></li>
+<li><a href="#_configuring_docker">9.2. Configuring Docker</a>
+<ul class="sectlevel3">
+<li><a href="#_macos">9.2.1. macOS</a></li>
+<li><a href="#_linux">9.2.2. Linux</a></li>
+</ul>
+</li>
+<li><a href="#_starting_influxdb_and_grafana">9.3. Starting InfluxDB and Grafana</a></li>
+<li><a href="#_starting_henge_with_metrics_enabled">9.4. Starting Henge With Metrics Enabled</a>
+<ul class="sectlevel3">
+<li><a href="#_accessing_influxdb">9.4.1. Accessing InfluxDB</a></li>
+<li><a href="#_accessing_grafana">9.4.2. Accessing Grafana</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#repositories">10. Repositories</a>
+<ul class="sectlevel2">
+<li><a href="#_s3_setup">10.1. S3 Setup</a>
+<ul class="sectlevel3">
+<li><a href="#_create_aws_access_keys">10.1.1. Create AWS Access Keys</a></li>
+<li><a href="#_create_an_s3_bucket">10.1.2. Create an S3 Bucket</a></li>
+<li><a href="#_set_up_aws_credentials_locally">10.1.3. Set Up AWS Credentials Locally</a></li>
+<li><a href="#_build_and_run_henge_2">10.1.4. Build and Run Henge</a></li>
+</ul>
+</li>
+<li><a href="#_cassandra_setup">10.2. Cassandra Setup</a>
+<ul class="sectlevel3">
+<li><a href="#_run_cassandra_and_load_the_schema">10.2.1. Run Cassandra and Load the Schema</a></li>
+<li><a href="#_build_and_run_henge_3">10.2.2. Build and Run Henge</a></li>
+<li><a href="#_stopping_cassandra">10.2.3. Stopping Cassandra</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#eureka-registry">11. Eureka Registry and Discovery Service</a>
+<ul class="sectlevel2">
+<li><a href="#_what_is_eureka">11.1. What is Eureka?</a></li>
+<li><a href="#_running_henge_with_eureka">11.2. Running Henge With Eureka</a></li>
+<li><a href="#_about_our_eureka_implementation">11.3. About Our Eureka Implementation</a>
+<ul class="sectlevel3">
+<li><a href="#_eureka_server_implementation">11.3.1. Eureka Server Implementation</a></li>
+<li><a href="#_eureka_client_implementation">11.3.2. Eureka Client Implementation</a></li>
 </ul>
 </li>
 </ul>
@@ -538,7 +618,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>A henge is a Neolithic structure consisting of an earthen bank and ditch encircling a flat area. Like the famous example of Stonehenge, henges might contain a ritual structure such as a circle of timbers or standing stones, and they could be accessed by walking along a processional avenue.</p>
 </div>
 <div class="paragraph">
-<p>Henges were important places where people from the surrounding area gathered to share ideas and beliefs. Similarly, the Henge project provides an avenue to a central place where applications can go at runtime to receive values for properties, or to set values which can be used by other applications. In this way, Henge acts as a service for properties, and it provides a mechanism for the dynamic exchange of values&#8212;&#8203;much like henges did long ago.</p>
+<p>Henges were important places where people from the surrounding area gathered to share ideas and beliefs. Similarly, the Henge project provides an avenue to a central place where applications can go at runtime to receive values for properties, or to set values which can be used by other applications. In this way, Henge acts as a service for properties, and it provides a mechanism for the dynamic exchange of values—much like henges did long ago.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -555,30 +635,432 @@ If you have questions about Henge, or how to integrate a dynamic properties serv
 </div>
 </div>
 <div class="sect1">
-<h2 id="getting-started">1. Getting Started</h2>
+<h2 id="henge-overview">1. Henge Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Henge is a flexible key/value store for dynamic configuration properties. The goal of the project is to produce a performant, reliable implementation of everything a production-ready property server application should provide. Because this functionality is composed of a modular architecture, you can customize the setup that works best for your organization.</p>
+<p>From the dawn of time, developers have been storing configurations for their application in Java properties files. Whenever they pushed their application from one environment to the next (during deployment), they would request that the properties files be edited to reflect the unique values needed for each environment. After a while, even if the software could be produced as an artifact, the configs were hopelessly jumbled across the enterprise. Any exercise in resolving config values within the environment or across environments would lead to premature gray hair.</p>
 </div>
 <div class="paragraph">
-<p>The idea of creating Henge came from the Netflix Archiaus project, in particular the <a href="https://github.com/Netflix/archaius/issues/132">open issue #132</a> which calls for creating a standard properties service. As described, the service would allow a PolledConfigurationSource on the client side to get all properties, which could then be changed dynamically on the server.</p>
-</div>
-<div class="paragraph">
-<p>Henge supports pluggable persistence, life cycle management, validation, and querying capabilities of properties. A set of REST APIs are provided to interface with Henge and its properties.</p>
+<p>Although many enterprises are now moving to key-value stores to retrieve properties and alleviate the file chaos, most of these key-value stores lack a complete hierarchical properties model that supports the application lifecycle.</p>
 </div>
 <div class="sect2">
-<h3 id="_setting_up_henge">1.1. Setting Up Henge</h3>
+<h3 id="_enter_henge">1.1. Enter Henge</h3>
 <div class="paragraph">
-<p>The following sequence shows how to build and run Henge using a local flatfile repository on both Linux and macOS. For how to run Henge using S3 flatfile or Cassandra repositories, see <a href="#repositories">Repositories</a>.</p>
+<p>At Kenzan, we grew interested in this apparent property service gap through our own experience in developing a properties store using Netflix Archaius. In particular, we noted Archaius’ <a href="https://github.com/Netflix/archaius/issues/132" target="_blank">open issue #132</a>, which calls for creating a central properties service that separates the persistence of properties from Archaius. The question then became, how could we build something that fills this gap, is feature rich and marries well with modular application design?</p>
+</div>
+<div class="paragraph">
+<p>Enter Henge, a REST-based property server that aims to bring order to configuration properties in a number of ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Make configs first class, versioned and immutable artifacts, just like software.</p>
+</li>
+<li>
+<p>Group all possible environment values for a property in one place, preventing confusion and dismay.</p>
+</li>
+<li>
+<p>Define property groups for each of the libraries composing an application, and aggregate them into a single application config.</p>
+</li>
+<li>
+<p>Put the configs on the network where they can be updated centrally for all applications.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_henge_properties_model">1.2. The Henge Properties Model</h3>
+<div class="paragraph">
+<p>How does Henge accomplish all this? Its primary value lies in how it models properties using JSON objects. The two most basic building blocks are Property Groups and Scopes.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Property Groups</strong> contain a set of properties related to your application. Property Groups can be of type APP, representing the application itself, or of type LIB, representing a dependent library with its own set of properties. Each Property Group is immutable and has a version.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Scopes</strong> define cases where a property will have different values depending on the environment it is running in. Scopes, along with the different property values, can be defined within each Property in the Property Group.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As an example, you might have a Property Group for a SendEmail library that supports your application. It has a <strong>supportEmail</strong> property, which has different values for dev, staging and prod environments. In Henge, you would define it as:</p>
+</div>
+<div class="paragraph">
+<p><strong>Property Group:</strong> SendEmail (type=LIB, v1.0)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Property:</strong> supportEmail</p>
+<div class="ulist">
+<ul>
+<li>
+<p>defaultValue = <a href="mailto:test@awesome.com">test@awesome.com</a></p>
+</li>
+<li>
+<p>Scopes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>env=dev</p>
+<div class="ulist">
+<ul>
+<li>
+<p>value = <a href="mailto:testSupport@awesome.com">testSupport@awesome.com</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>env=stage</p>
+<div class="ulist">
+<ul>
+<li>
+<p>value = <a href="mailto:stageSupport@awesome.com">stageSupport@awesome.com</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>env=prod</p>
+<div class="ulist">
+<ul>
+<li>
+<p>value = <a href="mailto:techsupport@awesome.com">techsupport@awesome.com</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>Property:</strong> anotherProperty…</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For supportEmail there are three scopes — <strong>env=dev</strong>, <strong>env=stage</strong>, <strong>env=prod</strong> — each of which have different values. The scope key is env, defining a new type of scoping. During runtime, a search is performed on Henge using one of these environment scopes to determine what property value it should retrieve for the application in that environment. Note that there is also a <strong>defaultValue</strong>: if none of the three environments are referenced when searching, it will use the default value.</p>
+</div>
+<div class="paragraph">
+<p>For more complex environments, you can also define sets of scopes. Some examples of scope sets that define an environment might include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>env</strong>=staging</p>
+</li>
+<li>
+<p><strong>env</strong>=dev, <strong>region</strong>=us-west-2</p>
+</li>
+<li>
+<p><strong>env</strong>=prod, <strong>region</strong>=us-west-2, <strong>stack</strong>=coolwebsiteA</p>
+</li>
+<li>
+<p><strong>env</strong>=qa, <strong>region</strong>=us-west-2, <strong>stack</strong>=financePages, <strong>hostname</strong>=localhost</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Within each property you can specify one or more scope sets and give a property value for each scope set. If a property has multiple different values based on a complex environment, a hierarchy is used to determine precedence for the various values a property could take on. For more information, see <a href="#domain-objects">Domain Objects</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_versions_and_mappings">1.3. Versions and Mappings</h3>
+<div class="paragraph">
+<p>There are two other important pieces to the model that bring it all together. Once you’ve set up Property Groups or File Versions for an application, you group them in a Version Set representing the application as a whole, and create a Mapping used to search for a complete set of properties.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A <strong>Version Set</strong> references multiple Property Groups of type APP or LIB, and defines a complete set of properties for an application. A Version Set is immutable, and has its own version separate from the various Property Groups. Note that it can reference a Property Group with “latest” as the symbolic version, to always include the most recent version of the Property Group.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mappings</strong> link a specific version of a Version Set to an application running in a specific environment (defined by the Scopes). When a search request is sent to Henge, it uses this Mapping to get all properties for the application on its environment. The Mapping itself is mutable, and can also reference the “latest” symbolic version of a Version Set.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Expanding on our previous example, let’s assume that we are building a brand new EventLogger application that logs events to a logging database. Some things to know about our application:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The EventLogger application itself has its own set of properties.</p>
+</li>
+<li>
+<p>EventLogger uses two other libraries that have their own properties: an EventDB library for storing events, and the previously mentioned SendEmail library for sending emails.</p>
+</li>
+<li>
+<p>EventLogger relies on searching through a very long EventHierarchy for categorizing Events into logging actions. This is contained in a JSON text file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Based on this we create Property Groups, a File Version and a Version Set for the application like so:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="VersionSet1.png" alt="Version Set 1.0">
+</div>
+</div>
+<div class="paragraph">
+<p>Within the Version Set we are referencing the “latest” versions of the Property Groups and File Version, in this case 1.0.</p>
+</div>
+<div class="paragraph">
+<p>EventLogger runs on dev, stage and prod environments. Many properties in the three Property Groups can have different values in these environments. As we did in the previous SendEmail example, we use dev, stage and prod scopes to assign different property values for those properties that differ in the environments.</p>
+</div>
+<div class="paragraph">
+<p>We also create three Mappings that link the application and its environments to the “latest” EventLogger Version Set (in this case 1.0):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>EventLogger app running on env=dev  	&#8594; 	EventLogger Version Set (latest)</p>
+</li>
+<li>
+<p>EventLogger app running on env=stage 	&#8594; 	EventLogger Version Set (latest)</p>
+</li>
+<li>
+<p>EventLogger app running on env=prod 	&#8594; 	EventLogger Version Set (latest)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of the above Mappings represent a complete set of properties that we can search for and retrieve from Henge, depending on the environment the application is running in.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_henge_in_architecture_and_app_lifecycle">1.4. Henge in Architecture and App Lifecycle</h3>
+<div class="paragraph">
+<p>Now that we have defined a good properties model for our EventLogger application, how does the application get those properties from Henge in our architecture, and how are properties versioned as an artifact alongside our application through its lifecycle?</p>
 </div>
 <div class="sect3">
-<h4 id="_dependencies">1.1.1. Dependencies</h4>
+<h4 id="_storing_running_and_getting">1.4.1. Storing, Running and Getting</h4>
 <div class="paragraph">
+<p>Henge currently supports pluggable persistence on three repository types — flatfile local, flatfile on S3, and Cassandra (though Henge could easily be extended to use any data store such as RDBMS, Hibernate, etc.). Because our fictional engineering shop has ample S3 space that is backed up, we opt to run Henge using an S3 flatfile repository.</p>
+</div>
+<div class="paragraph">
+<p>We intend to have many applications use Henge for accessing properties going forward, not just EventLogger. All of our current applications use Netflix Eureka for discovery and request load balancing, so we’d like to do the same with Henge. We make the obvious decision of running Henge with its built-in Eureka client. This is swiftly accomplished by referencing a Spring Profile on the Henge run command.</p>
+</div>
+<div class="paragraph">
+<p>Netflix Archaius is also commonly used in many of our applications as a library to retrieve properties. We determine to use a simple integration between Archaius and Henge. On startup, EventLogger loads properties to Archaius. This is accomplished with the Archaius configuration source URL setting, which we set to the Henge search REST endpoint whose function is to retrieve property sets. Archaius polls the Henge search endpoint occasionally for updates. At runtime, EventLogger grabs individual properties as needed using Archaius libraries, and receives dynamic changes to properties as they occur. It is worth noting that any property library could be used to get individual properties, such as Java Properties classes or Apache Commons Configuration.</p>
+</div>
+<div class="paragraph">
+<p>How Henge fits in our architecture now looks as follows:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="HengeArc.png" alt="EventLogger Architecture">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_a_typical_lifecycle_issues_included">1.4.2. A Typical Lifecycle (Issues Included)</h4>
+<div class="paragraph">
+<p>During development, the EventLogger application goes through several iterative versions where property values change. Property Groups are versioned as needed. Nothing needs to change in the Version Set, as it already references the “latest” version of Property Groups. All the same, we create a new version of the Version Set to parallel the new application version - this will make it easier to perform a rollback should it ever be required (more on this later). The Mappings do not change, as they reference the latest Version Set.</p>
+</div>
+<div class="paragraph">
+<p>When EventLogger v2.0 is ready for staging, the properties model is:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="VersionSet2.png" alt="VersionSet 2.0">
+</div>
+</div>
+<div class="paragraph">
+<p>In <strong>staging</strong>, we’d like to test out the performance of how Henge is loading properties via Archaius’ polling, as the properties and file that are loaded are quite large. Using Henge’s built in Codahale metrics, as well as Henge’s pre-built Docker container that runs a metrics environment with InfluxDB and Grafana, Henge is started in staging and run through several test scenarios. With the captured data, it’s determined that the REST call loading properties from Henge is quite fast, but that it is best to tweak the polling in Archaius to be less frequent so that resources are more efficiently used elsewhere.</p>
+</div>
+<div class="paragraph">
+<p>After EventLogger has gone to <strong>production</strong>, it’s found that the number of thread pools assigned to DB calls is too low and is causing the application to slow down. This thread pool count can be increased in EventDB properties. A single REST call is made to update the EventDB Property Group with the increased thread pool count. Because it is immutable, a new version 1.6 is created, and the Version Set automatically references this latest Property Group. Archaius picks up the change in Henge via polling, and the application automatically starts using the new thread pool count. Happily, we didn’t have to rebuild and redeploy the application to accomplish this feat.</p>
+</div>
+<div class="paragraph">
+<p>EventLogger later goes through a <strong>release cycle</strong> with several enhancements for version 3.0. During the overhaul, the 3rd party SendEmail library has had a fresh update, and so its property configuration has changed. There is also a new MetricsClient library used by EventLogger to interface with a MetricDB server. The MetricsDB server is a homegrown application that has its own set of properties that will managed by Henge in a separate Version Set, and the MetricsClient will require its own set of properties. For EventLogger, we create a new Property Group for the MetricsClient library, version the SendEmail properties, and version the Version Set to reference to the new MetricsClient properties. Going to production with EventLogger v3.0, our new properties model looks as follows:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="VersionSet3.png" alt="VersionSet 3.0">
+</div>
+</div>
+<div class="paragraph">
+<p>Initially everything goes smoothly when moving back into production, but then, disaster strikes. <strong>Something goes horribly amiss</strong> with the new Metrics server, and EventLogger comes to a staggering halt. It’s going to take some time to figure out the root cause and fix it, so it’s decided the best path is to roll back to EventLogger 2.0 in the meantime. The older version of the application is redeployed, and alongside it, we take care of properties by simply referring back to the older Version Set 2.0. To do so we make a single REST call to update the production Mapping&#8201;&#8212;&#8201;instead of referencing “latest” for the Version Set, we set it to 2.0. Later when we can find the monkey in our wrench and fix the problem, we can go back into production by re-updating the production Mapping to reference “latest.”</p>
+</div>
+<div class="paragraph">
+<p>You might ask yourself, how would my own engineering shop have handled such a rollback with its current properties architecture?</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_back_to_the_neolithic">1.5. Back to the Neolithic</h3>
+<div class="paragraph">
+<p>Having seen how Henge allows properties to be centrally versioned across the bumps in an application lifecycle, going back to using .properties files or a simple key-value store seems contrary to the immutable nature of the application itself. Just as Henges were once needed as community gathering places for sharing core ideas carved in stone, your microservice apps need a gathering place for their foundational key values. In this case, going back to the Neolithic Age is not such a bad idea after all.</p>
+</div>
+<div class="paragraph">
+<p>To quickly download, run and test Henge, see our <a href="https://github.com/kenzanlabs/henge/wiki" target="_blank">Getting Started page on Github</a>. Or read on for some more specifics.</p>
+</div>
+<div class="sect3">
+<h4 id="_feature_summary">1.5.1. Feature Summary</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>Henge is a central dynamic property store with a REST-based interface for easy integration.</p>
+</li>
+<li>
+<p>It offers pluggable persistence — currently flatfile, flatfile on S3, and Cassandra are included as repository options, though Henge could easily be extended to use any data store (RDBMS, Hibernate, etc.).</p>
+</li>
+<li>
+<p>Henge has smart modeling of properties that accounts for different property values across deployment environments.</p>
+</li>
+<li>
+<p>The property model lets you define property groups for each of the libraries composing an application, and aggregate them into a single application config.</p>
+</li>
+<li>
+<p>Everything is immutable and includes a version. The result is a complete view of how properties have changed as your application has grown, with an application config that moves as an artifact alongside your application.</p>
+</li>
+<li>
+<p>In addition to properties, Henge stores and retrieves any related files an application might parse.</p>
+</li>
+<li>
+<p>Before properties are put into Henge, they are validated with JSR 303 bean validation.</p>
+</li>
+<li>
+<p>A Docker container is included for running Henge in a container environment.</p>
+</li>
+<li>
+<p>Henge is built with high performance in mind to support properties dynamically changing.</p>
+</li>
+<li>
+<p>The REST calls to Henge have Codahale metrics built in. We also include a pre-built Docker metrics environment that uses InfluxDB and Grafana to record and visualize those metrics.</p>
+</li>
+<li>
+<p>Henge is built with integration to Eureka, so that it can be deployed as a Eureka client that is discoverable and load balanced.</p>
+</li>
+<li>
+<p>It is easily integrated with Archaius for dynamic property retrieval, but property retrieval works with any language or library that can make a REST call to a URL.</p>
+</li>
+<li>
+<p>Spring Security is enabled to allow authorization to be set up for the various Henge REST calls.
+Henge uses Spring Profiles at runtime to select and modify its various features.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_henge_architecture">1.5.2. Henge Architecture</h4>
+<div class="paragraph">
+<p>We built Henge using a suite of modern, flexible open source frameworks and libraries. The architecture below also highlights several future enhancements we are looking at — though by all means fork freely on the <a href="https://github.com/kenzanlabs/henge" target="_blank">Henge Github page</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="henge_architecture.png" alt="Henge Architecture">
+</div>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Henge Component</th>
+<th class="tableblock halign-left valign-top">Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">Core</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Objects (discussed above)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html#boot-features-profiles" target="_blank">Spring Profiles</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://beanvalidation.org/1.0/spec/" target="_blank">JSR 303 bean validation</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Persistence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flatfile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://aws.amazon.com/s3/" target="_blank">Amazon S3</a> (flatfile)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cassandra.apache.org/" target="_blank">Cassandra</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RDBMS / <a href="http://hibernate.org/" target="_blank">Hibernate</a> (future)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">HTTP Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://tomcat.apache.org/" target="_blank">Tomcat</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://www.eclipse.org/jetty/" target="_blank">Jetty</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REST / <a href="https://jersey.java.net/" target="_blank">Jersey</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://projects.spring.io/spring-security/" target="_blank">Spring Security</a>&#8201;&#8212;&#8201;Authentication, Authorization, and Session (future)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LDAP / <a href="https://www.atlassian.com/software/crowd" target="_blank">Atlassian Crowd</a> (future)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Web Application (future)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://www.w3schools.com/html/html5_intro.asp" target="_blank">HTML5</a> / <a href="http://www.w3schools.com/css/css3_intro.asp" target="_blank">CSS3</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://angularjs.org/" target="_blank">AngularJS</a> / <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WebSockets (future)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/Atmosphere/atmosphere" target="_blank">Atmosphere</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="getting-started">2. Getting Started</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Getting Started outlines setting up Henge, the API, and some Henge use cases.</p>
+</div>
+<div class="sect2">
+<h3 id="_setting_up_henge">2.1. Setting Up Henge</h3>
+<div class="paragraph">
+<p>The following sequence shows how to build, run and test Henge using a local flatfile repository on both Linux and macOS.</p>
+</div>
+<div class="sect3">
+<h4 id="_dependencies">2.1.1. Dependencies</h4>
+<div class="ulist">
+<ul>
+<li>
 <p>Java 1.8.x</p>
+</li>
+<li>
+<p>Maven</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build_and_run_henge">1.1.2. Build and Run Henge</h4>
+<h4 id="_build_and_run_henge">2.1.2. Build and Run Henge</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -612,7 +1094,7 @@ If you have questions about Henge, or how to integrate a dynamic properties serv
 </div>
 </li>
 <li>
-<p>Run the application with the local flatfile repository:</p>
+<p>Run the application with a local flatfile repository:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code>mvn -pl henge-service spring-boot:run</code></pre>
@@ -633,11 +1115,14 @@ Though not given as an argument, here Henge is using a default Spring Profile fo
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>For how to run Henge using S3 flatfile or Cassandra repositories, see <a href="#repositories">Repositories</a>. For instructions on how to deploy directly to a Tomcat instance as a JAR or WAR, see <a href="#deploy">Alternate Methods of Deploying Henge</a>.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_test_henge">1.1.3. Test Henge</h4>
+<h4 id="_test_henge">2.1.3. Test Henge</h4>
 <div class="paragraph">
-<p>Adding and searching for Henge properties can be tested by running REST calls in the Postman collection files that are available within the <strong>/documentation/demo</strong> project folder. If you do not have it installed, <a href="https://www.getpostman.com/apps">Postman can be downloaded here</a>. In Postman, click <strong>Import</strong> and simply drag all of the collection files into the Postman Window.</p>
+<p>Adding and searching for Henge properties can be tested by running REST calls in the Postman collection files that are available within the <strong>/documentation/demo</strong> project folder. If you do not have it installed, <a href="https://www.getpostman.com/apps" target="_blank">Postman can be downloaded here</a>. In Postman, click <strong>Import</strong> and simply drag all of the collection files into the Postman Window.</p>
 </div>
 <div class="paragraph">
 <p>To test a request in Postman, select it in the <strong>Collections</strong> pane, then click <strong>Send</strong>. You can test creating a set of properties in Henge and retrieving them by running the <strong>HengeCollection</strong> REST calls in the following order:</p>
@@ -669,32 +1154,1515 @@ Though not given as an argument, here Henge is using a default Spring Profile fo
 </ol>
 </div>
 <div class="paragraph">
+<p>If you are using local flatfiles as a repository, you can see the files created with the above REST calls under <strong>henge/repository</strong>.</p>
+</div>
+<div class="paragraph">
 <p>For more information on what the different <strong>PropertyGroup</strong>, <strong>FileVersion</strong>, <strong>VersionSet</strong>, and <strong>Mapping</strong> domain objects do, see <a href="#domain-objects">Domain Objects</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rest_api_reference">1.2. REST API Reference</h3>
+<h3 id="_rest_api_reference">2.2. REST API Reference</h3>
 <div class="paragraph">
 <p>To reference the complete REST API, visit the Swagger documentation at:</p>
 </div>
 <div class="paragraph">
-<p><a href="http://localhost:8080/henge/swagger/index.html">http://localhost:8080/henge/swagger/index.html</a></p>
+<p><a href="http://localhost:8080/henge/swagger/index.html" target="_blank">http://localhost:8080/henge/swagger/index.html</a></p>
 </div>
 <div class="paragraph">
 <p>To run REST commands within the Swagger UI, a username and password is required. The default is <strong>user/user</strong>. These credentials can be modified in <strong>/henge/henge-domain/src/main/resources/application.yml</strong>.</p>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_use_cases_and_the_hello_properties_app">2.3. Use Cases and the Hello Properties App</h3>
+<div class="paragraph">
+<p>How does one use practically implement Henge in an application, and use it throughout its lifecycle? We&#8217;re glad you asked. The following links give example use cases of how Henge might be utilized in an application.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#henge-overview">Henge Overview</a></p>
+</li>
+<li>
+<p><a href="#use-case-simple-app">Simple Application Use Case</a></p>
+</li>
+<li>
+<p><a href="#use-case-complex-app">Complex Application Use Case</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We&#8217;ve additionally built <a href="#hello-properties">Hello Properties</a>, a simple application that demonstrates using Henge properties dynamically via Archaius.</p>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="domain-objects">2. Domain Objects</h2>
+<h2 id="deploy">3. Alternate Methods of Deploying Henge</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Henge can alternately be deployed directly onto Apache Tomcat using a JAR or WAR file. Before following the instructions, make sure you have <a href="#getting-started">Henge cloned and built</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_deploying_the_jar_on_tomcat">3.1. Deploying the JAR on Tomcat</h3>
+<div class="paragraph">
+<p>The Henge service application uses Spring boot when it builds, and a "fat" jar is generated that contains dependencies inside the archive, including the Tomcat web server. A Tomcat instance will startup with Henge just by running the following in the root project folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>java -jar henge-service/target/henge-service.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The application will now be running on <a href="http://localhost:8080/henge" target="_blank">http://localhost:8080/henge</a> with the default Spring profile, which uses a local flatfile repository. You can change the Tomcat port by adding the option <strong>-Dserver.port=8081</strong> to the command line. For more information regarding configuration see <a href="https://spring.io/blog/2014/03/07/deploying-spring-boot-applications" target="_blank">Deploying Spring Boot Applications</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can also specify the various <a href="#profiles">Spring Profiles</a> for running Henge with other options. For instance, to run with flatfiles on S3 as a repository, you would use the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>java -jar -Dspring.profiles.active=dev,flatfile_s3 henge-service/target/henge-service.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that to run flatfiles on S3, you would need to make sure your configuration is setup and Henge is built as indicated in the <a href="#repositories">Repositories</a> section.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploying_the_henge_war_on_tomcat">3.2. Deploying the Henge WAR on Tomcat</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Download Tomcat at <a href="http://tomcat.apache.org" target="_blank">http://tomcat.apache.org</a>. Extract the archive file into a directory.</p>
+</li>
+<li>
+<p>In a terminal, change your directory to the Tomcat directory you extracted to. Start Tomcat with:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>bin/startup.sh</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Copy the <strong>henge/henge-war/target/henge.war</strong> to the <strong>&lt;tomcat-dir&gt;/webapps</strong> directory.</p>
+</li>
+<li>
+<p>Within the Tomcat root directory, restart Tomcat by executing:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>bin/shutdown.sh
+bin/startup.sh</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The Henge application should now be running at <a href="http://localhost:8080/henge" target="_blank">http://localhost:8080/henge</a>, where it displays a simple web page. The application is running with the default Spring profile which uses a local flatfile repository.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can also specify the various <a href="#profiles">Henge Spring Profiles</a> by setting these up in JAVA_OPTS. For instance, to run with flatfiles on S3 as a repository, before starting up Tomcat you would use the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>export JAVA_OPTS=-Dspring.profiles.active=dev,flatfile_s3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that to run flatfiles on S3, you would need to make sure your configuration is setup and Henge is built as indicated in the <a href="#repositories">Repositories</a> section.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="hello-properties">4. Hello Properties Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Hello Properties is a REST-based Java application that displays messages using Henge properties. It dynamically grabs Henge properties via a simple integration with Archaius:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Properties are stored in the Henge repository.</p>
+</li>
+<li>
+<p>Henge properties are loaded to Archaius on start up with the <code>&lt;archaius.configurationSource.additionalUrls&gt;</code> URL setting in the .pom file. This setting is used to give Archaius a URL to load properties from; here we specify the <code>search</code> endpoint in Henge which finds and retrieves property groups for an application.</p>
+</li>
+<li>
+<p>Hello Properties uses Archaius libraries to retrieve individual properties during runtime and display them in two REST-based method calls.</p>
+</li>
+<li>
+<p>As properties are versioned within Henge, Archaius dynamically picks up changes by polling the Henge <code>search</code> endpoint URL every few seconds.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The demo below walks through how to start up Hello Properties, how different property values are referenced for the dev and prod environments, and how properties can be dynamically versioned.</p>
+</div>
+<div class="sect2">
+<h3 id="_loading_properties">4.1. Loading Properties</h3>
+<div class="paragraph">
+<p>Before starting Hello Properties, you will need to load properties related to the application into Henge. Make sure you have <a href="#getting-started">Henge cloned and built</a> and  <a href="https://www.getpostman.com/apps" target="_blank">Postman installed</a> before walking through the steps.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Within the project root directory, start Henge using a local flatfile repository:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>mvn -pl henge-service spring-boot:run</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Start Postman. Click <strong>Import</strong>. Drag <strong>/henge/hello-properties/Hello%20Properties.postman_collection.json</strong> into the Postman window.</p>
+</li>
+<li>
+<p>Within the Hello Properties collection, click <strong>Henge - Convenience</strong> and click <strong>Send</strong>. This is a convenience method that will load properties for the application using <code>PropertyGroup</code>, <code>VersionSet</code> and <code>Mapping</code> domain objects with a JSON request.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For more information on what the domain objects do, see <a href="#domain-objects">Domain Objects</a>.</p>
+</div>
+<div class="paragraph">
+<p>Here we are using Postman to send REST calls, though this could also be done using curl. To view the complete REST API, see the <a href="http://localhost:8080/henge/swagger/index.html" target="_blank">Henge Swagger API documentation</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_and_running_hello_properties">4.2. Building and Running Hello Properties</h3>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open a separate Terminal window. Within the <strong>/henge/hello-properties</strong> folder, build the application:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>mvn clean install</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Within the same folder, run the application using the Maven Tomcat plugin:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>mvn tomcat7:run</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>You can now test the two REST endpoints of the application with Postman. Within the Hello Properties collection, run the following REST calls:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Hello Property Name</strong> - displays a message using the property <strong>helloproperties.name</strong>.</p>
+</li>
+<li>
+<p><strong>Hello Properties Message</strong> - displays a message that uses both <strong>helloproperties.name</strong> and <strong>helloproperties.message</strong> properties.</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changing_to_the_dev_environment">4.3. Changing to the Dev Environment</h3>
+<div class="paragraph">
+<p>The previous REST calls reference the <strong>default</strong> values for the properties as defined in the <code>PropertyGroup</code>. Different property values are also defined for both <strong>dev</strong> and <strong>prod</strong> environment scopes in the <code>PropertyGroup</code>. The scopes exist to demonstrate running the application in different environments where property values vary.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>See the <strong>Henge - Convenience</strong> REST call for details on what scoped values are loaded into the PropertyGroup. For more information on scopes, see the  <a href="#Scope">Scope section of Domain Objects</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Continuing from the steps above, you can re-run the application with the <strong>dev</strong> environment scoping using a different Maven profile:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop Hello Properties by pressing <strong>Control-C</strong>.</p>
+</li>
+<li>
+<p>In <strong>/henge/hello-properties</strong> folder, restart Hello Properties using the <strong>dev</strong> Maven profile.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>mvn tomcat7:run -Denv=dev</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Rerun the following Postman calls in the Hello Properties collection. Note that the calls now display different messages based on the <strong>dev</strong> scoping.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Hello Property Name</strong></p>
+</li>
+<li>
+<p><strong>Hello Properties Message</strong></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Within the <strong>henge/hello-properties/pom.xml</strong>, there are Maven profiles set up to run the application using <strong>default</strong>, <strong>dev</strong> and <strong>prod</strong> environments. Each profile sets the Archaius system property <code>&lt;archaius.configurationSource.additionalUrls&gt;</code> to one of three Henge <code>search</code> endpoints with different environment scopes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>http://localhost:8080/henge/v1/search/helloproperties
+
+http://localhost:8080/henge/v1/search/helloproperties?scopes=env=dev
+
+http://localhost:8080/henge/v1/search/helloproperties?scopes=env=prod</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Outside of Maven profiles, <code>&lt;archaius.configurationSource.additionalUrls&gt;</code> could alternately be set at the command line with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>mvn tomcat7:run -Darchaius.configurationSource.additionalUrls=Dhttp://localhost:8080/henge/v1/search/helloproperties?scopes=env=dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For more information on this Archaius system property, see the <a href="https://github.com/Netflix/archaius/wiki/Getting-Started" target="_blank">Archaius wiki</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_versioning_properties">4.4. Versioning Properties</h3>
+<div class="paragraph">
+<p>As mentioned, versioned changes to properties are picked up in the application dynamically via Archaius, so the application does not require a restart. Continuing from the steps above, you can test versioning the application&#8217;s properties in Henge with the following steps.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Within the Postman Hello Properties collection, run the following REST calls that update the <code>PropertyGroup</code>, <code>VersionSet</code> and <code>Mapping</code>.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Update Property Group</strong> - creates a new 1.0.1 PropertyGroup with changed property values</p>
+</li>
+<li>
+<p><strong>Update VersionSet</strong> - creates a new 1.0.1 VersionSet that references the new PropertyGroup</p>
+</li>
+<li>
+<p><strong>Update Mapping</strong> - creates a new Mapping that assigns the <strong>default</strong> scope to the new VersionSet</p>
+</li>
+<li>
+<p><strong>Update Mapping Dev Scope</strong> - creates a new Mapping that assigns the <strong>dev</strong> scope to the new VersionSet</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+See the <strong>/henge/repository</strong> folder to view the new flatfile objects that are created.
+</td>
+</tr>
+</table>
+</div>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Wait 10 seconds, as this is the polling interval configured for Archaius. Rerun the following Postman calls in the Hello Properties collection. Note that the calls now display different messages based on the versioned property values.</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><strong>Hello Property Name</strong></p>
+</li>
+<li>
+<p><strong>Hello Properties Message</strong></p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Within the VersionSet, you can also have it reference the PropertyGroup as "latest" instead of a hard-coded version such as "1.0.1". If the VersionSet had been set up as such, step 1 would only require versioning the <code>PropertyGroup</code>, as the <code>VersionSet</code> would then pick up the latest version of the <code>PropertyGroup</code>. The <code>Mapping</code> can also use "latest" to reference the latest <code>VersionSet</code>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="use-case-simple-app">5. Use Case: Simple Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As a developer building cloud-native applications, you need a service to host your application configurations so that you can deploy config changes on the fly without needing to rebuild your apps. Files would be nice, too! Your environment isn&#8217;t too complex, just a single application consisting of about a dozen microservices with separate environments for Dev, QA, and Prod. Good news&#8212;&#8203;Henge can definitely help you out.</p>
+</div>
+<div class="sect2">
+<h3 id="_overview">5.1. Overview</h3>
+<div class="paragraph">
+<p>In this use case, we have a simple application that is made up of several microservices, each of which can include shared libraries as dependencies. The microservices can be deployed in multiple environments, such as development and production. Microservices require different property values depending on the environment they are deployed in.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Properties are loaded into the repository using Henge:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Properties for each microservice are stored in a PropertyGroup of type <code>APP</code> (one for each microservice).</p>
+</li>
+<li>
+<p>Properties for each library are stored in a PropertyGroup of type <code>LIB</code> (one for each library).</p>
+</li>
+<li>
+<p>The PropertyGroups are added to a VersionSet (one for each microservice). The VersionSet references all properties used by the microservice as well as any included libraries. (The VersionSet can also reference FileVersions&#8212;&#8203;files with parsable data.)</p>
+</li>
+<li>
+<p>The VersionSet is mapped to application (microservice) and scope (environment). For each application, a mapping is created for each relevant environment scope (such as <strong>dev</strong> and <strong>prod</strong>).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>At runtime, each microservice requests properties from the Henge service using a URL. The URL includes the application name and (optionally) the environment as query parameters.</p>
+</li>
+<li>
+<p>Henge retrieves the appropriate properties for the microservice and environment from the repository, including properties for any shared libraries or referenced files, and returns them to the application.</p>
+</li>
+<li>
+<p>Properties can be updated with new values in Henge at any time by making a REST call. The application will receive the new properties the next time it polls Henge.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="use_case_simple_app.png" alt="Simple Application">
+</div>
+<div class="title">Figure 1. Use Case Overview: Simple Application</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_properties">5.2. Creating Properties</h3>
+<div class="paragraph">
+<p>Use the following requests to load application properties in the Henge repository.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Alternately, you can use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_convenience/batchInsert" target="_blank"><code>http://localhost:8080/henge/v1/convenience/batch</code></a> endpoint to load a PropertyGroup, VersionSet, and Mapping in a single step.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_create_a_propertygroup">5.2.1. Create a PropertyGroup</h4>
+<div class="paragraph">
+<p>A PropertyGroup contains properties that belong to the same context, such as a single application. To create a PropertyGroup, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/create" target="_blank"><code>http://localhost:8080/henge/v1/property-groups/</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the PropertyGroup name and version, as well as key value pairs for each property and environment (see <a href="#domain-objects">Domain Objects</a>). Define one PropertyGroup of type <code>APP</code> for each microservice. In addition, define one PropertyGroup of type <code>LIB</code> for each shared library. All microservices that include the shared library will use the same library properties.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To use a file (such as a list of IP addresses) as part of the configuration, create a FileVersion using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_files/upload" target="_blank"><code>http://localhost:8080/henge/v1/files/upload/</code></a> endpoint.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+  "name" : "SimpleAppServiceA",
+  "version" : "1.0.0",
+  "description" : "Simple App Microservice A",
+  "type" : "APP",
+  "active" : true,
+  "properties" : [ {
+    "name" : "simpleapp.appmessage",
+    "description" : "Message property",
+    "defaultValue" : "Some message",
+    "propertyScopedValues": [
+        {
+          "value": "Hello in Development Environment (APP)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            }
+          ]
+        },
+        {
+          "value": "Hello in Production Environment (APP)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            }
+          ]
+        }
+      ]
+    }, {
+        "name" : "simpleapp.appname",
+        "description" : "An APP Property",
+        "defaultValue" : "Some value",
+        "propertyScopedValues" : [
+            {
+          "value": "APP Property for Microservice A (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            }
+          ]
+        },
+        {
+          "value": "APP Property for Microservice A (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            }
+          ]
+        }
+        ]
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_versionset">5.2.2. Create a VersionSet</h4>
+<div class="paragraph">
+<p>A VersionSet groups together specific versions of PropertyGroups. (A VersionSet can include FileVersions as well.) To create a VersionSet, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/create" target="_blank"><code>http://localhost:8080/henge/v1/version-sets</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the VersionSet name and version, as well as the PropertyGroup name and version (see <a href="#domain-objects">Domain Objects</a>). Define one VersionSet for each microservice. The VersionSet should include the <code>APP</code> PropertyGroup for the microservice, as well as the <code>LIB</code> PropertyGroup for each shared library included in the microservice.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Instead of specifying a specific version of a PropertyGroup, you can instead specify <code>"version": "latest"</code> for version. In this case, the VersionSet will always include the most recent version of the PropertyGroup.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+  "name": "SimpleAppVersionSetServiceA",
+  "version": "1.0.0",
+  "description": null,
+  "propertyGroupReferences": [
+    {
+      "name": "SimpleAppServiceA",
+      "version": "1.0.0"
+    },
+    {
+      "name": "SimpleAppLibrary1",
+      "version": "1.0.0"
+    }
+  ],
+  "createdDate": null,
+  "scopedPropertyValueKeys": null,
+  "typeHierarchyEnabled": true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_mapping">5.2.3. Create a Mapping</h4>
+<div class="paragraph">
+<p>A Mapping entry associates a set of Scopes with a specific version of a VersionSet. To create a Mapping, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping" target="_blank"><code>http://localhost:8080/henge/v1/mapping</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Create a mapping for each microservice. You must include the <code>application</code> parameter with the URL to associate the VersionSet with the correct microservice. Optionally, you can include the <code>scopeString</code> parameter to associate the VersionSet with a particular scope (environment):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>http://localhost:8080/henge/v1/mapping?application=microservicea&amp;scopeString=env=dev</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the VersionSet name and version (see <a href="#domain-objects">Domain Objects</a>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+    "name": "SimpleAppVersionSetServiceA",
+    "version": "1.0.0"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_retrieving_properties">5.3. Retrieving Properties</h3>
+<div class="paragraph">
+<p>Properties can be retrieved at microservice runtime using a URL to access the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_search/findMatches" target="_blank">Henge search API</a>. The URL must include the application (microservice) as a query parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>http://localhost:8080/henge/v1/search/microservicea</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the default property values are retrieved. To retrieve property values for a specific scope, the URL must also include the scope (such as the environment) as a query parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>http://localhost:8080/henge/v1/search/microservicea?scopes=env=dev</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To retrieve environment-specific properties, the microservice must be able to send the correct query parameter for the environment that it&#8217;s running in. This can be handled in several ways, for example, by creating a Maven profile for each environment. For an example of profiles in action, see <a href="#hello-properties">the Hello Properties demo application</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_java_properties_api">5.3.1. Java Properties API</h4>
+<div class="paragraph">
+<p>To retrieve properties using Java:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>URL url = new URL("http://localhost:8080/henge/v1/search/microservicea");
+InputStream in = url.openStream();
+Reader reader = new InputStreamReader(in, "UTF-8"); // for example
+
+Properties prop = new Properties();
+try {
+    prop.load(reader);
+} finally {
+    reader.close();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_commons_configuration">5.3.2. Commons Configuration</h4>
+<div class="paragraph">
+<p>To retrieve properties using <a href="http://commons.apache.org/proper/commons-configuration/" target="_blank">Apache Commons Configuration</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>Parameters params = new Parameters();
+// Read data from this URL
+URL propertiesURL = new URL("http://localhost:8080/henge/v1/search/microservicea");
+
+FileBasedConfigurationBuilder&lt;FileBasedConfiguration&gt; builder =
+    new FileBasedConfigurationBuilder&lt;FileBasedConfiguration&gt;(PropertiesConfiguration.class)
+    .configure(params.fileBased()
+        .setURL(propertiesURL));
+try
+{
+    Configuration config = builder.getConfiguration();
+    // config contains all properties read from the URL
+}
+catch(ConfigurationException cex)
+{
+    // loading of the configuration file failed
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure to add the following dependency to the Maven <strong>pom.xml</strong> file for your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+  &lt;artifactId&gt;commons-configuration2&lt;/artifactId&gt;
+  &lt;version&gt;2.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;commons-beanutils&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;
+    &lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_archaius">5.3.3. Archaius</h4>
+<div class="paragraph">
+<p>To retrieve properties using <a href="https://github.com/Netflix/archaius" target="_blank">Netflix Archaius</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a dependency for Archaius to the Maven <strong>pom.xml</strong> file for your project:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.netflix.archaius&lt;/groupId&gt;
+    &lt;artifactId&gt;archaius-core&lt;/artifactId&gt;
+    &lt;version&gt;0.7.4&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Also in the <strong>pom.xml</strong> file, add a dependency for the Tomcat Maven plug-in and specify the following Archaius properties:</p>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.configurationSource.defaultFileName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default configuration file name (use <code>config.properties</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.configurationSource.additionalUrls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Henge search URL with query parameters</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.fixedDelayPollingScheduler.initialDelayMills</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial delay (in milliseconds) before reading from Henge</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.fixedDelayPollingScheduler.delayMills</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delay (in milliseconds) between reads from Henge</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+    &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;2.2&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;path&gt;/microservicea&lt;/path&gt;
+        &lt;port&gt;${tomcat.port}&lt;/port&gt;
+        &lt;useTestClasspath&gt;false&lt;/useTestClasspath&gt;
+        &lt;systemProperties&gt;
+            &lt;application.home&gt;${basedir}${file.separator}src${file.separator}test${file.separator}resources${file.separator}&lt;/application.home&gt;
+            &lt;http.port&gt;${tomcat.port}&lt;/http.port&gt;
+            &lt;archaius.configurationSource.defaultFileName&gt;config.properties&lt;/archaius.configurationSource.defaultFileName&gt;
+            &lt;archaius.configurationSource.additionalUrls&gt;http://localhost:8080/henge/v1/search/microservicea&lt;/archaius.configurationSource.additionalUrls&gt;
+            &lt;archaius.fixedDelayPollingScheduler.initialDelayMills&gt;1000&lt;/archaius.fixedDelayPollingScheduler.initialDelayMills&gt;
+            &lt;archaius.fixedDelayPollingScheduler.delayMills&gt;10000&lt;/archaius.fixedDelayPollingScheduler.delayMills&gt;
+        &lt;/systemProperties&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For an example of using Archaius, see the <strong>pom.xml</strong> file for the <strong>hello-properties</strong> application, located in the <strong>/hello-properties</strong> directory.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_properties">5.4. Updating Properties</h3>
+<div class="paragraph">
+<p>Property values can be changed at any time, even while the application is running, by updating a PropertyGroup as well as the relevant VersionSets and Mappings. You don&#8217;t have to rebuild or redeploy the application.</p>
+</div>
+<div class="paragraph">
+<p>To update a PropertyGroup, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/update" target="_blank"><code>/v1/property-groups/{propertyGroupName}</code></a> endpoint. The request body is the same as when creating a PropertyGroup, but make sure to increment the version number in addition to updating property values.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To update a FileVersion, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_files/update" target="_blank"><code>http://localhost:8080/henge/v1/files/update/</code></a> endpoint.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>After updating a PropertyGroup, you need to update the VersionSet and Mapping for any applications that should use the updated properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update the VersionSets to refer to the new PropertyGroup version using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/update" target="_blank"><code>/v1/version-sets/{versionSetName}</code></a> endpoint.</p>
+</li>
+<li>
+<p>Update the Mappings to refer to the new VersionSet version using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping" target="_blank"><code>http://localhost:8080/henge/v1/mapping/</code></a> endpoint.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_try_it_out">5.5. Try it Out</h3>
+<div class="paragraph">
+<p>Use the following <a href="https://www.getpostman.com/" target="_blank">Postman</a> requests to load and retrieve properties using a URL.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before trying the examples below, make sure the Henge server is up and running (see <a href="#getting-started">Getting Started</a>).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>First, import the Henge Use Case Simple App Postman collection:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Postman, click <strong>Import</strong>, and then click <strong>Choose Files</strong>.</p>
+</li>
+<li>
+<p>Select the <strong>HengeUseCaseSimpleApp.postman_collection.json</strong> file (located in the <strong>/documentation/demo/</strong> directory), and then click <strong>Open</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Next, send the following requests (located under the <strong>HengeUseCaseSimpleApp</strong> collection in Postman):</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Request</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. Create APP PropertyGroup - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an APP PropertyGroup named <strong>SimpleAppServiceA</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. Create APP PropertyGroup - Microservice B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an APP PropertyGroup named <strong>SimpleAppServiceB</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. Create LIB PropertyGroup - Library 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a LIB PropertyGroup named <strong>SimpleAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. Create VersionSet - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a VersionSet named <strong>SimpleAppVersionSetServiceA</strong> that contains the PropertyGroups <strong>SimpleAppServiceA</strong> and <strong>SimpleAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. Create VersionSet - Microservice B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a VersionSet named <strong>SimpleAppVersionSetServiceB</strong> that contains the PropertyGroups <strong>SimpleAppServiceB</strong> and <strong>SimpleAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. Create Mapping for Dev - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>SimpleAppVersionSetServiceA</strong> with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. Create Mapping for Dev - Microservice B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>SimpleAppVersionSetServiceB</strong> with the application named <strong>microserviceb</strong> and the <strong>dev</strong> environment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. Retrieve Properties for Dev - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9. Retrieve Properties for Dev - Microservice B</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microserviceb</strong> and the <strong>dev</strong> environment. The properties returned include APP properties for Microservice B as well as LIB properties for Library 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10. Update APP PropertyGroup - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updates the APP PropertyGroup named <strong>SimpleAppServiceA</strong> with new property values and increments to v1.0.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11. Update VersionSet - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updates the VersionSet named <strong>SimpleAppVersionSetServiceA</strong> to reference v1.0.1 of the PropertyGroup <strong>SimpleAppServiceA</strong> and increments to v1.0.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12. Update Mapping for Dev - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>SimpleAppVersionSetServiceA</strong> v1.0.1 with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">13. Retrieve Properties for Dev - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment. Note that the v1.0.1 properties are returned.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There are also Postman requests for mapping and retrieving properties for the <strong>prod</strong> environment. Send these requests if you&#8217;d like to test getting properties for another environment.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="use-case-complex-app">6. Use Case: Complex Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As an architect designing cloud application platforms, you need a service to that helps you manage configurations as versioned artifacts the same as software artifacts. Your environment is complex, with multiple application stacks needing different versions of configs in different environments and sub-environments. Don&#8217;t worry&#8212;&#8203;Henge has you covered, and can handle complex deployments like yours.</p>
+</div>
+<div class="sect2">
+<h3 id="_overview_2">6.1. Overview</h3>
+<div class="paragraph">
+<p>In this use case, we have a complex application that is made up of numerous microservices, each of which can include shared libraries as dependencies. The microservices can be deployed in multiple environments, such as development and production, and in different AWS regions. In addition, microservices can be arranged into different product stacks within an environment or region. Microservices may require different property values depending on the environment or stack they are deployed in.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Properties are loaded into the repository using Henge:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Properties for each microservice are stored in a PropertyGroup of type <code>APP</code> (one for each microservice).</p>
+</li>
+<li>
+<p>Properties for each library are stored in a PropertyGroup of type <code>LIB</code> (one for each library).</p>
+</li>
+<li>
+<p>The PropertyGroups are added to a VersionSet (one for each microservice). The VersionSet references all properties used by the microservice as well as any included libraries. (The VersionSet can also reference FileVersions&#8212;&#8203;files with parsable data.)</p>
+</li>
+<li>
+<p>The VersionSet is mapped to application (microservice) and scope (stack, region, and environment). For each application, a mapping is created for each relevant environment (such as <strong>dev</strong> and <strong>prod</strong>), region (such as <strong>us-west-2</strong>), and stack (such as <strong>supersite</strong> and <strong>powerpage</strong>).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>At runtime, each microservice requests properties from the Henge service using a URL. The URL includes the application name and (optionally) the environment, region, and stack as query parameters.</p>
+</li>
+<li>
+<p>Henge retrieves the appropriate properties for the microservice, environment, region, and stack from the repository, including properties for any shared libraries or referenced files, and returns them to the application.</p>
+</li>
+<li>
+<p>Properties can be updated with new values in Henge at any time by making a REST call. The application will receive the new properties the next time it polls Henge. VersionSets can be maintained as versioned artifacts by creating a new VersionSet version for each new microservice version. This makes it easy to support different versions of the same microservice running in different stacks.</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="use_case_complex_app.png" alt="Complex Application">
+</div>
+<div class="title">Figure 2. Use Case Overview: Complex Application</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_properties_2">6.2. Creating Properties</h3>
+<div class="paragraph">
+<p>Use the following requests to load application properties in the Henge repository.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Alternately, you can use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_convenience/batchInsert" target="_blank"><code>http://localhost:8080/henge/v1/convenience/batch</code></a> endpoint to load a PropertyGroup, VersionSet, and Mapping in a single step.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_create_a_propertygroup_2">6.2.1. Create a PropertyGroup</h4>
+<div class="paragraph">
+<p>A PropertyGroup contains properties that belong to the same context, such as a single application. To create a PropertyGroup, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/create" target="_blank"><code>http://localhost:8080/henge/v1/property-groups/</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the PropertyGroup name and version, as well as key value pairs for each property, environment, region, and stack (see <a href="#domain-objects">Domain Objects</a>). Define one PropertyGroup of type <code>APP</code> for each microservice. In addition, define one PropertyGroup of type <code>LIB</code> for each shared library. All microservices that include the shared library will use the same library properties.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To use a file (such as a list of IP addresses) as part of the configuration, create a FileVersion using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_files/upload" target="_blank"><code>http://localhost:8080/henge/v1/files/upload/</code></a> endpoint.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+  "name" : "ComplexAppServiceA",
+  "version" : "1.0.0",
+  "description" : "Complex App Microservice A",
+  "type" : "APP",
+  "active" : true,
+  "properties" : [ {
+    "name" : "complexapp.appmessage",
+    "description" : "Message property",
+    "defaultValue" : "Some message",
+    "propertyScopedValues": [
+        {
+          "value": "This is Microservice A in SuperSite (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "supersite"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in SuperSite (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "supersite"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in PowerPage (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "powerpage"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in PowerPage (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "powerpage"
+            }
+          ]
+        }
+      ]
+    } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_versionset_2">6.2.2. Create a VersionSet</h4>
+<div class="paragraph">
+<p>A VersionSet groups together specific versions of PropertyGroups. (A VersionSet can include FileVersions as well.) To create a VersionSet, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/create" target="_blank"><code>http://localhost:8080/henge/v1/version-sets</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the VersionSet name and version, as well as the PropertyGroup name and version (see <a href="#domain-objects">Domain Objects</a>). Define one VersionSet for each microservice. The VersionSet should include the <code>APP</code> PropertyGroup for the microservice, as well as the <code>LIB</code> PropertyGroup for each shared library included in the microservice.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Instead of specifying a specific version of a PropertyGroup, you can instead specify <code>"version": "latest"</code> for version. In this case, the VersionSet will always include the most recent version of the PropertyGroup.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+  "name": "ComplexAppVersionSetServiceA",
+  "version": "1.0.0",
+  "description": null,
+  "propertyGroupReferences": [
+    {
+      "name": "ComplexAppServiceA",
+      "version": "1.0.0"
+    },
+    {
+      "name": "ComplexAppLibrary1",
+      "version": "1.0.0"
+    }
+  ],
+  "createdDate": null,
+  "scopedPropertyValueKeys": null,
+  "typeHierarchyEnabled": true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_mapping_2">6.2.3. Create a Mapping</h4>
+<div class="paragraph">
+<p>A Mapping entry associates a set of Scopes with a specific version of a VersionSet. To create a Mapping, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping" target="_blank"><code>http://localhost:8080/henge/v1/mapping</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Create a mapping for each microservice. You must include the <code>application</code> parameter with the URL to associate the VersionSet with the correct microservice. Optionally, you can include the <code>scopeString</code> parameter to associate the VersionSet with a particular set of scopes (environment, region, and stack):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>http://localhost:8080/henge/v1/mapping?application=microservicea&amp;scopeString=env=dev,region=us-west-2,stack=powerpage</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the VersionSet name and version (see <a href="#domain-objects">Domain Objects</a>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+    "name": "ComplexAppVersionSetServiceA",
+    "version": "1.0.0"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_retrieving_properties_2">6.3. Retrieving Properties</h3>
+<div class="paragraph">
+<p>Properties can be retrieved at microservice runtime using a URL to access the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_search/findMatches" target="_blank">Henge search API</a>. The URL must include the application (microservice) as a query parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>http://localhost:8080/henge/v1/search/microservicea</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the default property values are retrieved. To retrieve property values for a specific scope, the URL must also include the scope set (such as the environment, region, and stack) as a query parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>http://localhost:8080/henge/v1/search/microservicea?scopes=env=dev,region=us-west-2,stack=powerpage</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To retrieve scope-specific properties, the microservice must be able to send the correct query parameter for the environment, region, and stack that it&#8217;s running in. This can be handled in several ways, for example, by creating a Maven profile for each environment. For an example of profiles in action, see <a href="#hello-properties">the Hello Properties demo application</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_java_properties_api_2">6.3.1. Java Properties API</h4>
+<div class="paragraph">
+<p>To retrieve properties using Java:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>URL url = new URL("http://localhost:8080/henge/v1/search/microservicea");
+InputStream in = url.openStream();
+Reader reader = new InputStreamReader(in, "UTF-8"); // for example
+
+Properties prop = new Properties();
+try {
+    prop.load(reader);
+} finally {
+    reader.close();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_commons_configuration_2">6.3.2. Commons Configuration</h4>
+<div class="paragraph">
+<p>To retrieve properties using <a href="http://commons.apache.org/proper/commons-configuration/" target="_blank">Apache Commons Configuration</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>Parameters params = new Parameters();
+// Read data from this URL
+URL propertiesURL = new URL("http://localhost:8080/henge/v1/search/microservicea");
+
+FileBasedConfigurationBuilder&lt;FileBasedConfiguration&gt; builder =
+    new FileBasedConfigurationBuilder&lt;FileBasedConfiguration&gt;(PropertiesConfiguration.class)
+    .configure(params.fileBased()
+        .setURL(propertiesURL));
+try
+{
+    Configuration config = builder.getConfiguration();
+    // config contains all properties read from the URL
+}
+catch(ConfigurationException cex)
+{
+    // loading of the configuration file failed
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure to add the following dependency to the Maven <strong>pom.xml</strong> file for your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+  &lt;artifactId&gt;commons-configuration2&lt;/artifactId&gt;
+  &lt;version&gt;2.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;commons-beanutils&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;
+    &lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_archaius_2">6.3.3. Archaius</h4>
+<div class="paragraph">
+<p>To retrieve properties using <a href="https://github.com/Netflix/archaius" target="_blank">Netflix Archaius</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a dependency for Archaius to the Maven <strong>pom.xml</strong> file for your project:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.netflix.archaius&lt;/groupId&gt;
+    &lt;artifactId&gt;archaius-core&lt;/artifactId&gt;
+    &lt;version&gt;0.7.4&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Also in the <strong>pom.xml</strong> file, add a dependency for the Tomcat Maven plug-in and specify the following Archaius properties:</p>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.configurationSource.defaultFileName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default configuration file name (use <code>config.properties</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.configurationSource.additionalUrls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Henge search URL with query parameters</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.fixedDelayPollingScheduler.initialDelayMills</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial delay (in milliseconds) before reading from Henge</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.fixedDelayPollingScheduler.delayMills</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delay (in milliseconds) between reads from Henge</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+    &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;2.2&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;path&gt;/microservicea&lt;/path&gt;
+        &lt;port&gt;${tomcat.port}&lt;/port&gt;
+        &lt;useTestClasspath&gt;false&lt;/useTestClasspath&gt;
+        &lt;systemProperties&gt;
+            &lt;application.home&gt;${basedir}${file.separator}src${file.separator}test${file.separator}resources${file.separator}&lt;/application.home&gt;
+            &lt;http.port&gt;${tomcat.port}&lt;/http.port&gt;
+            &lt;archaius.configurationSource.defaultFileName&gt;config.properties&lt;/archaius.configurationSource.defaultFileName&gt;
+            &lt;archaius.configurationSource.additionalUrls&gt;http://localhost:8080/henge/v1/search/microservicea&lt;/archaius.configurationSource.additionalUrls&gt;
+            &lt;archaius.fixedDelayPollingScheduler.initialDelayMills&gt;1000&lt;/archaius.fixedDelayPollingScheduler.initialDelayMills&gt;
+            &lt;archaius.fixedDelayPollingScheduler.delayMills&gt;10000&lt;/archaius.fixedDelayPollingScheduler.delayMills&gt;
+        &lt;/systemProperties&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For an example of using Archaius, see the <strong>pom.xml</strong> file for the <strong>hello-properties</strong> application, located in the <strong>/hello-properties</strong> directory.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_updating_properties_2">6.4. Updating Properties</h3>
+<div class="paragraph">
+<p>Property values can be changed at any time, even while the application is running, by updating a PropertyGroup as well as the relevant VersionSets and Mappings. You don&#8217;t have to rebuild or redeploy the application until it&#8217;s time to deploy a new version of the application.</p>
+</div>
+<div class="paragraph">
+<p>To update a PropertyGroup, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/update" target="_blank"><code>/v1/property-groups/{propertyGroupName}</code></a> endpoint. The request body is the same as when creating a PropertyGroup, but make sure to increment the version number in addition to updating property values.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To update a FileVersion, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_files/update" target="_blank"><code>http://localhost:8080/henge/v1/files/update/</code></a> endpoint.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>After updating a PropertyGroup, you need to update the VersionSet and Mapping for any applications that should use the updated properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update the VersionSets to refer to the new PropertyGroup version using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/update" target="_blank"><code>/v1/version-sets/{versionSetName}</code></a> endpoint.</p>
+</li>
+<li>
+<p>Update the Mappings to refer to the new VersionSet version using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping" target="_blank"><code>http://localhost:8080/henge/v1/mapping/</code></a> endpoint.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, say you have two different stacks (Web sites) called SuperSite and PowerPage. You deploy a new version of a microservice (v1.1) into your PowerPage stack in the dev environment in the AWS us-west-2 region. First you update the microservice&#8217;s APP PropertyGroup with new property values and increment it to v1.1. Next you update the microservice&#8217;s VersionSet to v1.1 and reference the v1.1 PropertyGroup. Finally, you update the Mapping to associate the v1.1 VersionSet with the microservice and the scope set of dev (environment), us-west-2 (region), and PowerPage (stack).</p>
+</div>
+<div class="paragraph">
+<p>Now, the microservice v1.1 running in the PowerPage stack uses the updated v1.1 properties. But the older microservice v1.0 running in the SuperSite stack still uses the v1.0 properties. That&#8217;s the benefit of versioned configurations!</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_try_it_out_2">6.5. Try it Out</h3>
+<div class="paragraph">
+<p>Use the following <a href="https://www.getpostman.com/" target="_blank">Postman</a> requests to load and retrieve properties using a URL.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before trying the examples below, make sure the Henge server is up and running (see <a href="#getting-started">Getting Started</a>).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>First, import the Henge Use Case Simple App Postman collection:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Postman, click <strong>Import</strong>, and then click <strong>Choose Files</strong>.</p>
+</li>
+<li>
+<p>Select the <strong>HengeUseCaseComplexApp.postman_collection.json</strong> file (located in the <strong>/documentation/demo/</strong> directory), and then click <strong>Open</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Next, send the following requests (located under the <strong>HengeUseCaseComplexApp</strong> collection in Postman):</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Request</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. Create APP PropertyGroup - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an APP PropertyGroup named <strong>ComplexAppServiceA</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. Create LIB PropertyGroup - Library 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a LIB PropertyGroup named <strong>ComplexAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. Create a VersionSet - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a VersionSet named <strong>ComplexAppVersionSetServiceA</strong> that contains the PropertyGroups <strong>ComplexAppServiceA</strong> and <strong>ComplexAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. Create Mapping for Microservice A - SuperSite Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>ComplexAppVersionSetServiceA</strong> with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>supersite</strong> stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. Create Mapping for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>ComplexAppVersionSetServiceA</strong> with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. Retrieve Properties for Microservice A - SuperSite Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>supersite</strong> stack. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. Retrieve Properties for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. Update APP PropertyGroup - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updates the APP PropertyGroup named <strong>ComplexAppServiceA</strong> with new property values and increments to v.1.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9. Update VersionSet - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updates the VersionSet named <strong>ComplexAppVersionSetServiceA</strong> to reference v1.1 of PropertyGroup <strong>ComplexAppServiceA</strong> and increments to v1.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10. Update Mapping for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>ComplexAppVersionSetServiceA</strong> v1.1 with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11. Retrieve Properties for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack. Note that the v1.1 properties are returned.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12. Retrieve Properties for Microservice A - SuperSite Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>supersite</strong> stack. Note that the v1.0 properties are returned.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There are also Postman requests for mapping and retrieving properties for Microservice B. Send these requests if you&#8217;d like to test getting properties for another application.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="domain-objects">7. Domain Objects</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Henge relies on a number of domain objects to encapsulate the data needed to provide its property configuration service. Each domain object has a Java class inside the application code, and a JSON representation for REST calls. Most of the domain objects have a name and version attribute associated with them, and they are also immutable. All update methods applied to the objects will create a new entry in the repository.</p>
 </div>
 <div class="sect2">
-<h3 id="_property">2.1. Property</h3>
+<h3 id="_property">7.1. Property</h3>
 <div class="paragraph">
 <p>A <code>Property</code> is a configuration variable. It has the following attributes:</p>
 </div>
@@ -719,13 +2687,19 @@ Though not given as an argument, here Henge is using a default Spring Profile fo
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scope">2.2. Scope</h3>
+<h3 id="Scope">7.2. Scope</h3>
 <div class="paragraph">
-<p>A <code>Scope</code> is a key-value pair used to specify a situation where a given <code>Property</code> assumes a particular value. A <code>Scope</code> is useful when a configuration variable has different values depending on the situation. For example, a property may have different values depending on the environment where the application is executed. In this instance you could have a key as <strong>environment</strong> and possible values of <strong>development</strong>, <strong>test</strong>, and <strong>production</strong>. This would define three instances of <code>Scope</code> that can be used to set different values for the property.</p>
+<p>A <code>Scope</code> is a key-value pair used to specify different values for properties in a given scenario. A <code>Scope</code> is useful when a configuration variable should have different values depending on the environment the application is run in. For example, you could have a scope key as <strong>env</strong> and possible values of <strong>dev</strong>, <strong>test</strong>, and <strong>prod</strong> which are particular environments the application runs in. This would define three instances of <code>Scope</code> that can be used to set different values for the properties in those environments.</p>
+</div>
+<div class="paragraph">
+<p>See the <a href="#PropertyGroup">Property Group</a> section for examples of using one or multiple scopes, as well as how to set up a precedence hierarchy for scopes.</p>
+</div>
+<div class="paragraph">
+<p>Scopes are used when setting up the <code>Mapping</code> domain object and when retrieving a set of properties using the <code>search</code> endpoint. For more information, see the <a href="#Mapping">Mapping</a> section.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_propertygroup">2.3. PropertyGroup</h3>
+<h3 id="PropertyGroup">7.3. PropertyGroup</h3>
 <div class="paragraph">
 <p>A <code>PropertyGroup</code> groups properties that belong to the same context and always go together. It has the following attributes:</p>
 </div>
@@ -759,11 +2733,11 @@ library or dependency of your project. This distinction is used when evaluating 
 </ul>
 </div>
 <div class="paragraph">
-<p>An example of a <code>PropertyGroup</code> might be a configuration for a database connection. For this <code>PropertyGroup</code> you need <code>Property</code> values for <strong>host</strong>, <strong>port</strong>, <strong>username</strong> and <strong>password</strong>. Let&#8217;s assume you have <strong>development</strong>, <strong>test</strong> and <strong>production</strong> environments where the values for these properties may be different. You would define a <code>PropertyGroup</code> with four properties where each of them have three <code>propertyScopedValues</code>. The following is a JSON representation of this example:</p>
+<p>An example of a <code>PropertyGroup</code> might be a configuration for a database connection. For this <code>PropertyGroup</code> you need <code>Property</code> values for <strong>host</strong>, <strong>port</strong>, <strong>username</strong> and <strong>password</strong>. Let&#8217;s assume you have <strong>dev</strong>, <strong>test</strong> and <strong>prod</strong> environments where the values for these properties may be different. You would define a <code>PropertyGroup</code> with four properties. Each property would have three <code>propertyScopedValues</code> and a <code>defaultValue</code>. The following is a JSON representation of this example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-JSON" data-lang="JSON">{
+<pre class="highlight"><code>{
 	"name": "dbconfig",
 	"version": "1.0.0",
 	"description": "Example database configuration",
@@ -772,44 +2746,47 @@ library or dependency of your project. This distinction is used when evaluating 
 	"properties": [{
 		"name": "dbhost",
 		"description": "Ip of database host",
-		"propertyScopedValues": [{
-			"key": "environment=development", <i class="conum" data-value="1"></i><b>(1)</b>
-			"value": "127.0.0.1" <i class="conum" data-value="2"></i><b>(2)</b>
+		"defaultValue": "localhost", # <i class="conum" data-value="3"></i><b>(3)</b>
+        "propertyScopedValues": [{
+			"key": "env=dev", # <i class="conum" data-value="1"></i><b>(1)</b>
+			"value": "127.0.0.1" # <i class="conum" data-value="2"></i><b>(2)</b>
 		}, {
-			"key": "environment=test",
+			"key": "env=test",
 			"value": "192.168.0.10"
 		}, {
-			"key": "environment=production",
+			"key": "env=production",
 			"value": "192.168.0.20"
 		}]
 	}, {
 		"name": "dbport",
 		"description": "Port of database",
-		"defaultValue": "4321" <i class="conum" data-value="3"></i><b>(3)</b>
+		"defaultValue": "4321" # <i class="conum" data-value="4"></i><b>(4)</b>
 	}, {
 		"name": "dbuser",
 		"description": "Username for connecting to database",
-		"propertyScopedValues": [{
-			"key": "environment=development",
+		"defaultValue": "user",
+        "propertyScopedValues": [{
+			"key": "env=dev",
 			"value": "devuser"
 		}, {
-			"key": "environment=test",
+			"key": "env=test",
 			"value": "testuser"
 		}, {
-			"key": "environment=production",
+			"key": "env=prod",
 			"value": "produser"
 		}]
 	}, {
 		"name": "dbpasswd",
 		"description": "Password for connecting to database",
-		"propertyScopedValues": [{
-			"key": "environment=development",
+		"defaultValue": "1234",
+        "propertyScopedValues": [{
+			"key": "env=dev",
 			"value": "1234"
 		}, {
-			"key": "environment=test",
+			"key": "env=test",
 			"value": "1234"
 		}, {
-			"key": "environment=production",
+			"key": "env=prod",
 			"value": "b40df5b0d4d173a554b1030c0f453dac"
 		}]
 	}]
@@ -820,21 +2797,171 @@ library or dependency of your project. This distinction is used when evaluating 
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Note that the key of the <code>propertyScopedValue</code> is a <code>Scope</code> whose key is <strong>environment</strong> and value is <strong>development</strong>.</td>
+<td>The key of the <code>propertyScopedValue</code> is a <code>Scope</code> whose key is <strong>env</strong> and value is <strong>dev</strong>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Also observe that <strong>127.0.0.1</strong> is the value of the <strong>dbhost</strong> property when the <code>Scope</code> is <strong>environment=development</strong>.</td>
+<td><strong>127.0.0.1</strong> is the value of the <strong>dbhost</strong> property when the <code>Scope</code> is <strong>env=dev</strong>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <strong>dbhost</strong> property uses the <code>defaultValue</code> of <strong>localhost</strong> if no <code>Scope</code> is specified when the search is performed on Henge.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>For <strong>dbport</strong>, there are no <code>propertyScopedValues</code> and only a <code>defaultValue</code> because the <strong>dbport</strong> is the same for all environments.</td>
 </tr>
 </table>
 </div>
+<div class="sect3">
+<h4 id="ScopeHierarchy">7.3.1. Scope Sets and Precedence Hierarchy</h4>
+<div class="paragraph">
+<p>The previous example shows a single scoping of different values based on dev, test and prod environments. But how are more complex environments set up?</p>
+</div>
+<div class="paragraph">
+<p>Scopes can be defined in <strong>scope sets</strong> that represent a specific environment the application runs in that has multiple scopes. Some examples of scope sets include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>env</strong>=staging</p>
+</li>
+<li>
+<p><strong>env</strong>=dev, <strong>region</strong>=us-west-2,</p>
+</li>
+<li>
+<p><strong>env</strong>=prod, <strong>region</strong>=us-west-2, <strong>stack</strong>=coolwebsiteA</p>
+</li>
+<li>
+<p><strong>env</strong>=qa, <strong>region</strong>=us-west-2, <strong>stack</strong>=financePages, <strong>hostname</strong>=localhost</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each <code>Property</code> can define one or more scope sets, where a specific property value is designated for each scope set.</p>
+</div>
+<div class="paragraph">
+<p>As an example, let&#8217;s say you have an application that has a URL that can be different based on the environment, the region, and a hostname. Within the <code>PropertyGroup</code> you would define various <code>scopeSets</code> under <code>propertyScopedValues</code> as shown in the following JSON example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{
+    "active": true,
+    "name": "EventLoggerAPP",
+    "properties": [
+        {
+            "defaultValue": "www.website.com",
+            "name": "eventlogger.url",
+            "propertyScopedValues": [
+                {
+                    "scopeSet": [ <i class="conum" data-value="1"></i><b>(1)</b>
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        }
+                    ],
+                    "value": "www.dev-website.com" <i class="conum" data-value="2"></i><b>(2)</b>
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        },
+                        {
+                            "key": "region",
+                            "value": "us-west-2"
+                        }
+                    ],
+                    "value": "us-west-2.dev-website.com" <i class="conum" data-value="3"></i><b>(3)</b>
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "hostname",
+                            "value": "localhost"
+                        }
+                    ],
+                    "value": "localhost:8080" <i class="conum" data-value="4"></i><b>(4)</b>
+                }
+            ]
+        }
+    ],
+    "type": "APP",
+    "version": "1.0.3"
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Instead of defining different key/values as in the previous example, a <code>scopeSet</code> is used to define a set of scopes that have a specific value.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>If deployed in the <strong>dev</strong> environment, the URL is <strong>www.dev-website.com</strong>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>If deployed in the <strong>dev</strong> environment and in the <strong>us-west-2</strong> region, the URL is <strong>us-west-2.dev-website.com</strong>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>If deployed in any environment or region and <strong>hostname=localhost</strong>, the URL is <strong>localhost:8080</strong>. This acts as an override for testing.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Note that in #4, the stipulation is <em>any</em> environment or region. For example, lets say the application is deployed in:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>env=dev</p>
+</li>
+<li>
+<p>region=us-west-2</p>
+</li>
+<li>
+<p>hostname=localhost</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When searching for this property using this same set of scopings, the return value would always be <strong>localhost:8080</strong>. Yet how does Henge know to use precedence for the URL value <strong>localhost:8080</strong>, instead of returning <strong>www.dev-website.com</strong> or <strong>us-west-2.dev-website.com</strong>?</p>
+</div>
+<div class="paragraph">
+<p>Henge uses a hierarchy of scopings for resolving which scoped value takes precedence over another. The resolution order is defined in the Spring profile <strong>henge/henge-domain/src/main/resources/application.yml</strong> by the <strong>scope.precedence.configuration</strong> property. It&#8217;s default hierarchy is:</p>
+</div>
+<div class="paragraph">
+<p><code>env;env+region;env+region+stack;hostname;application</code></p>
+</div>
+<div class="paragraph">
+<p>Sets of scopes are defined using the plus + symbol, and are placed in precedence order. Precedence weight is greater as you move from left to right, so <strong>hostname</strong> has a greater priority than <strong>env</strong> or <strong>env+region</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In our example, the higher precedence of the <strong>hostname=localhost</strong> scope is the reason why the URL resolves to <strong>localhost:8080</strong> in any environment or region. To see a working Postman collection with the above example, see <strong>henge/documentation/demo/HengeScopeHierarchy.postman_collection.json</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>scope.precedence.configuration</strong> property can be configured in any way depending on the scopes you&#8217;ve defined and your environment needs.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you are using a new scope set in a <code>PropertyGroup</code>, make sure that the scope set is represented in <strong>scope.precedence.configuration</strong>, as the hierarchy also generally defines which scope sets can be used when searching. Note that the <strong>application</strong> scope is always added on the end as the last precedence.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_fileversion">2.4. FileVersion</h3>
+<h3 id="_fileversion">7.4. FileVersion</h3>
 <div class="paragraph">
 <p>Henge can also be used to store configuration files that cannot be translated to a <strong>.properties</strong> file. For example, let&#8217;s assume that some part of your application needs to store a long list of geolocations that are fixed, but could change between instances of the system. Being a long list, you would probably not want to store it as property values. It would be more appropriate to store the geolocations in a text file. Henge stores files like these in an entity called <code>FileVersion</code>, which has the following attributes:</p>
 </div>
@@ -874,7 +3001,7 @@ library or dependency of your project. This distinction is used when evaluating 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-JSON" data-lang="JSON">{
+<pre class="highlight"><code>{
   "name": "GeoLoc",
   "version": "1.0.0",
   "description": "List of GeoLocations of Mountains",
@@ -891,7 +3018,7 @@ library or dependency of your project. This distinction is used when evaluating 
 </div>
 </div>
 <div class="sect2">
-<h3 id="_versionset">2.5. VersionSet</h3>
+<h3 id="_versionset">7.5. VersionSet</h3>
 <div class="paragraph">
 <p>A <code>VersionSet</code> groups specific versions of <code>PropertyGroups</code> and <code>FileVersions</code>, wrapping up all the properties needed for a given application.
 The <code>VersionSet</code> itself has a version number associated with it. The reasoning behind this is that applications using Henge are versioned
@@ -935,7 +3062,7 @@ application it serves.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-JSON" data-lang="JSON">{
+<pre class="highlight"><code>{
 	"name": "ExampleVersionSet",
 	"version": "1.0.0",
 	"description": "Example of a VersionSet",
@@ -948,7 +3075,7 @@ application it serves.</p>
 		"version": "1.0.0"
 	}, {
 		"name": "some-other-property-group",
-		"version": "latest" <i class="conum" data-value="1"></i><b>(1)</b>
+		"version": "latest" # <i class="conum" data-value="1"></i><b>(1)</b>
 	}]
 }</code></pre>
 </div>
@@ -963,18 +3090,45 @@ application it serves.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mapping">2.6. Mapping</h3>
+<h3 id="Mapping">7.6. Mapping</h3>
 <div class="paragraph">
 <p>After creating <code>PropertyGroups</code> and <code>VersionSets</code>, the configuration properties defined in them are not yet available to clients. They only become live after
-creating a <code>Mapping</code> entry, which maps a set of <code>Scopes</code> to a specific version of a <code>VersionSet</code>.</p>
+creating a <code>Mapping</code> entry, which binds an application and a set of <code>Scopes</code> to a specific <code>VersionSet</code>.</p>
 </div>
 <div class="paragraph">
-<p>A <code>Mapping</code> entry is created with REST parameters that include an <strong>application</strong> (required), a <strong>scopeString</strong> that defines the set of scopes (optional), and a <strong>body</strong> that indicates the name and version of the <code>VersionSet</code>. The <strong>application</strong> itself is stored in the <code>Mapping</code> as a scope as shown in the following JSON example:</p>
+<p>A <code>Mapping</code> entry is created with REST parameters that include an <strong>application</strong> (required), a <strong>scopeString</strong> that defines the set of scopes (optional), and a <strong>body</strong> that indicates the name and version of the <code>VersionSet</code>. So for instance, you could create a <code>Mapping</code> with this URL request indicating the application and scopes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-JSON" data-lang="JSON">{
-  "{\"scopeSet\":[{\"key\":\"env\",\"value\":\"development\"},{\"key\":\"stack\",\"value\":\"stack1\"},{\"key\":\"application\",\"value\":\"MasterAppOne\"}]}" : {
+<pre class="highlight"><code>http://localhost:8080/henge/v1/mapping?application=loginApp&amp;scopeString=env=prod,stack=financeWebStack</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And this body indicating the <code>VersionSet</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{
+  "name": "VersionSet-1",
+  "version": "1.0.0" <i class="conum" data-value="1"></i><b>(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The version could also be specified as "latest", in which case it will always point to the highest version number for that <code>VersionSet</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>Mapping</code> is stored as a JSON object where the <strong>application</strong> itself is a scope, as shown:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>{
+  "{\"scopeSet\":[{\"key\":\"env\",\"value\":\"prod\"},{\"key\":\"stack\",\"value\":\"financeWebStack\"},{\"key\":\"application\",\"value\":\"loginApp\"}]}" : {
     "name" : "VersionSet-1",
     "version" : "1.0.0"
   }
@@ -982,13 +3136,18 @@ creating a <code>Mapping</code> entry, which maps a set of <code>Scopes</code> t
 </div>
 </div>
 <div class="paragraph">
-<p>A search is made by providing an <strong>application</strong> (required) and a set of scopes (optional). The <code>Mapping</code> is looked up to provide the specific <code>VersionSet</code>, which is then converted to a <strong>.properties</strong> file.</p>
+<p>Using the <code>search</code> endpoint, a complete set of properties is retrieved by providing an <strong>application</strong> (required) and a set of scopes (optional). The <code>Mapping</code> is looked up to provide the specific <code>VersionSet</code>, which is then converted to a <strong>.properties</strong> file. For instance, if the above <code>Mapping</code> was in place, you could then retrieve a complete set of properties using the following <code>search</code> call:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-url" data-lang="url">http://localhost:8080/henge/v1/search/loginApp?scopes=env=prod,stack=financeWebStack</code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="profiles">3. Profiles</h2>
+<h2 id="profiles">8. Profiles</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Sometimes an application needs to behave differently depending on its context. For example, the application might need to use a different IP address or port number when running in a development environment compared to a production environment.</p>
@@ -1001,7 +3160,7 @@ creating a <code>Mapping</code> entry, which maps a set of <code>Scopes</code> t
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Configuration
+<pre class="highlight"><code>@Configuration
 @Profile("dev")
 public class ProductionConfiguration {
 
@@ -1026,12 +3185,12 @@ To learn more about Spring Profiles, see the <a href="https://docs.spring.io/spr
 </table>
 </div>
 <div class="sect2">
-<h3 id="_activating_profiles">3.1. Activating Profiles</h3>
+<h3 id="_activating_profiles">8.1. Activating Profiles</h3>
 <div class="paragraph">
 <p>Configurations or implementations associated with a profile are only available when the profile is active. There are two ways to activate profiles: specify an application property or use a command line argument.</p>
 </div>
 <div class="sect3">
-<h4 id="_specify_an_application_property">3.1.1. Specify an Application Property</h4>
+<h4 id="_specify_an_application_property">8.1.1. Specify an Application Property</h4>
 <div class="paragraph">
 <p>You can activate profiles using the <code>spring.profiles.active</code> property. Specify the active profiles with this property in the <strong>application.yml</strong> file. For example:</p>
 </div>
@@ -1042,7 +3201,7 @@ To learn more about Spring Profiles, see the <a href="https://docs.spring.io/spr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_use_a_command_line_argument">3.1.2. Use a Command Line Argument</h4>
+<h4 id="_use_a_command_line_argument">8.1.2. Use a Command Line Argument</h4>
 <div class="paragraph">
 <p>You can activate profiles when starting the application using a command line argument. Use the switch <code>&#8209;&#8209;spring.profiles.active=profile</code> or the switch <code>&#8209;Dspring.profiles.active=profile</code>. This will override the value of the <code>spring.profiles.active</code> variable. For example:</p>
 </div>
@@ -1054,12 +3213,12 @@ To learn more about Spring Profiles, see the <a href="https://docs.spring.io/spr
 </div>
 </div>
 <div class="sect2">
-<h3 id="_henge_profiles">3.2. Henge Profiles</h3>
+<h3 id="_henge_profiles">8.2. Henge Profiles</h3>
 <div class="paragraph">
 <p>Henge uses a number of pre-defined profiles. See the sections below for information about each profile and its configuration variables.</p>
 </div>
 <div class="sect3">
-<h4 id="_default_profile">3.2.1. Default Profile</h4>
+<h4 id="_default_profile">8.2.1. Default Profile</h4>
 <div class="paragraph">
 <p>The <strong>default</strong> profile is different from other profiles in that you don&#8217;t have to activate it. Instead, it represents the default configuration contained in the <strong>application.yml</strong> file. Use the <strong>default</strong> profile to set values for running the application in a production environment on AWS.</p>
 </div>
@@ -1164,7 +3323,7 @@ To learn more about Spring Profiles, see the <a href="https://docs.spring.io/spr
 </table>
 </div>
 <div class="sect3">
-<h4 id="_dev_profile">3.2.2. Dev Profile</h4>
+<h4 id="_dev_profile">8.2.2. Dev Profile</h4>
 <div class="paragraph">
 <p>Use the <strong>dev</strong> profile to set configuration variables for running Henge in a local environment.</p>
 </div>
@@ -1205,7 +3364,7 @@ To learn more about Spring Profiles, see the <a href="https://docs.spring.io/spr
 </table>
 </div>
 <div class="sect3">
-<h4 id="_eureka_profile">3.2.3. Eureka Profile</h4>
+<h4 id="_eureka_profile">8.2.3. Eureka Profile</h4>
 <div class="paragraph">
 <p>Use the <strong>eureka</strong> profile to enable Eureka as the discovery service. Enabling Eureka provides support for running clustered instances of Henge. See <a href="#eureka-registry">Eureka Registry and Discovery Service</a> for more information.</p>
 </div>
@@ -1223,7 +3382,7 @@ The <strong>eureka</strong> profile does not use any configuration variables. It
 </div>
 </div>
 <div class="sect3">
-<h4 id="_flatfile_local_profile">3.2.4. Flatfile_local Profile</h4>
+<h4 id="_flatfile_local_profile">8.2.4. Flatfile_local Profile</h4>
 <div class="paragraph">
 <p>Use the <strong>flatfile_local</strong> profile to enable local storage of the flatfile implementation of the repositories.</p>
 </div>
@@ -1252,7 +3411,7 @@ The <strong>eureka</strong> profile does not use any configuration variables. It
 </table>
 </div>
 <div class="sect3">
-<h4 id="_flatfile_s3_profile">3.2.5. Flatfile_s3 Profile</h4>
+<h4 id="_flatfile_s3_profile">8.2.5. Flatfile_s3 Profile</h4>
 <div class="paragraph">
 <p>Use the  <strong>flatfile_s3</strong> profile to enable Amazon S3 storage of the flatfile implementation of the repositories.</p>
 </div>
@@ -1285,7 +3444,7 @@ The <strong>eureka</strong> profile does not use any configuration variables. It
 </table>
 </div>
 <div class="sect3">
-<h4 id="_cassandra_profile">3.2.6. Cassandra Profile</h4>
+<h4 id="_cassandra_profile">8.2.6. Cassandra Profile</h4>
 <div class="paragraph">
 <p>Use the <strong>cassandra</strong> profile to enable Cassandra database implementation of the repositories.</p>
 </div>
@@ -1310,7 +3469,7 @@ The <strong>eureka</strong> profile does not use any configuration variables. It
 </table>
 </div>
 <div class="sect3">
-<h4 id="_metrics_profile">3.2.7. Metrics Profile</h4>
+<h4 id="_metrics_profile">8.2.7. Metrics Profile</h4>
 <div class="paragraph">
 <p>Use the <strong>metrics</strong> profile to enable the publishing of Henge metrics. When the <strong>metrics</strong> profile is active, Henge publishes metrics data to the InfluxDB database. You can then display the metrics on a Grafana dashboard, with real-time charts that update every five seconds by default. The charts include information about load and latency, as well as the application endpoints. See <a href="#metrics">Metrics</a> for more information.</p>
 </div>
@@ -1356,7 +3515,7 @@ The <strong>eureka</strong> profile does not use any configuration variables. It
 </div>
 </div>
 <div class="sect2">
-<h3 id="_profile_specific_configurations">3.3. Profile-Specific Configurations</h3>
+<h3 id="_profile_specific_configurations">8.3. Profile-Specific Configurations</h3>
 <div class="paragraph">
 <p>For each profile, there are specific configuration variables you can set, as described in the section above. Edit the values for these variables in the  <strong>src/main/resources/application-{profile}.yml</strong> configuration file in each module.</p>
 </div>
@@ -1376,7 +3535,7 @@ See the tables in the section above for the location of each profile-specific co
 </table>
 </div>
 <div class="sect3">
-<h4 id="_noteworthy_configurations">3.3.1. Noteworthy Configurations</h4>
+<h4 id="_noteworthy_configurations">8.3.1. Noteworthy Configurations</h4>
 <div class="paragraph">
 <p>Below are some configuration variables worthy of special attention.</p>
 </div>
@@ -1454,7 +3613,7 @@ Make sure the credentials given have read and write access to the S3 bucket wher
 </div>
 </div>
 <div class="sect1">
-<h2 id="metrics">4. Metrics</h2>
+<h2 id="metrics">9. Metrics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Think of metrics as a way to add instrumentation to your application. Just as instruments like gauges and tachometers give you useful information while driving your car, metrics let you see relevant usage and performance data for your application while it&#8217;s running.</p>
@@ -1463,7 +3622,7 @@ Make sure the credentials given have read and write access to the S3 bucket wher
 <p>Henge offers metrics for each service endpoint that allow you to monitor their execution. We rely on <a href="http://metrics.dropwizard.io/" target="_blank">Dropwizard Metrics</a> and its integration with <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank">Spring Actuator</a> to provide metrics values. These values are stored in an <a href="https://influxdata.com/time-series-platform/influxdb/" target="_blank">Influx DB</a> database, and they are made available for visualization on a <a href="http://grafana.org/" target="_blank">Grafana</a> dashboard.</p>
 </div>
 <div class="sect2">
-<h3 id="_required_services">4.1. Required Services</h3>
+<h3 id="_required_services">9.1. Required Services</h3>
 <div class="paragraph">
 <p>To run Henge and publish metrics, the InfluxDB and Grafana servers must be running. In addition, Henge needs to be configured to publish metrics data to the InfluxDB server.</p>
 </div>
@@ -1489,12 +3648,12 @@ Make sure the credentials given have read and write access to the S3 bucket wher
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuring_docker">4.2. Configuring Docker</h3>
+<h3 id="_configuring_docker">9.2. Configuring Docker</h3>
 <div class="paragraph">
 <p>You must install and configure Docker to run the Docker containers for metrics. Follow the steps below for your operating system.</p>
 </div>
 <div class="sect3">
-<h4 id="_macos">4.2.1. macOS</h4>
+<h4 id="_macos">9.2.1. macOS</h4>
 <div class="paragraph">
 <p>For systems running macOS, install and configure the Docker Toolbox. This runs Docker in a virtual machine that you can access using the Docker Quickstart Terminal.</p>
 </div>
@@ -1561,7 +3720,7 @@ export DOCKER_TLS_VERIFY=1</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_linux">4.2.2. Linux</h4>
+<h4 id="_linux">9.2.2. Linux</h4>
 <div class="paragraph">
 <p>For systems running Linux, install and configure the Docker Engine. This runs Docker natively on your system (rather than inside a virtual machine, like on macOS).</p>
 </div>
@@ -1641,7 +3800,7 @@ metrics.influx:
 </div>
 </div>
 <div class="sect2">
-<h3 id="_starting_influxdb_and_grafana">4.3. Starting InfluxDB and Grafana</h3>
+<h3 id="_starting_influxdb_and_grafana">9.3. Starting InfluxDB and Grafana</h3>
 <div class="paragraph">
 <p>To start the metrics environment, change to the root directory of the project, and then use the following command:</p>
 </div>
@@ -1664,7 +3823,7 @@ When running this command, make sure you are in the same terminal window you use
 </div>
 </div>
 <div class="sect2">
-<h3 id="_starting_henge_with_metrics_enabled">4.4. Starting Henge With Metrics Enabled</h3>
+<h3 id="_starting_henge_with_metrics_enabled">9.4. Starting Henge With Metrics Enabled</h3>
 <div class="paragraph">
 <p>To start Henge and enable publishing of metrics to InfluxDB, change to the root directory of the project, and then use the following command:</p>
 </div>
@@ -1698,7 +3857,7 @@ The <code>-Dspring.profiles.active</code> switch is used to specify the Spring p
 </table>
 </div>
 <div class="sect3">
-<h4 id="_accessing_influxdb">4.4.1. Accessing InfluxDB</h4>
+<h4 id="_accessing_influxdb">9.4.1. Accessing InfluxDB</h4>
 <div class="paragraph">
 <p>Metrics are published to InfluxDB each time an endpoint is used. To access the InfluxDB web interface, use the appropriate URL for your operating system:</p>
 </div>
@@ -1716,7 +3875,7 @@ The <code>-Dspring.profiles.active</code> switch is used to specify the Spring p
 </div>
 </div>
 <div class="sect3">
-<h4 id="_accessing_grafana">4.4.2. Accessing Grafana</h4>
+<h4 id="_accessing_grafana">9.4.2. Accessing Grafana</h4>
 <div class="paragraph">
 <p>The Grafana dashboard loads metrics values from InfluxDB and makes them available for visualization.  To access the Grafana dashboard, use the appropriate URL for your operating system:</p>
 </div>
@@ -1739,25 +3898,25 @@ The <code>-Dspring.profiles.active</code> switch is used to specify the Spring p
 <div class="content">
 <img src="henge-dashboard.png" alt="Henge Dashboard">
 </div>
-<div class="title">Figure 1. Henge Dashboard</div>
+<div class="title">Figure 3. Henge Dashboard</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="repositories">5. Repositories</h2>
+<h2 id="repositories">10. Repositories</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In addition to running Henge using local flatfiles, it can be configured to store properties in an AWS S3 repository or Cassandra database. The following outlines how to build and run Henge using either repository. The instructions apply to both Linux and macOS.</p>
 </div>
 <div class="sect2">
-<h3 id="_s3_setup">5.1. S3 Setup</h3>
+<h3 id="_s3_setup">10.1. S3 Setup</h3>
 <div class="paragraph">
 <p>The following AWS setup is required to build and run Henge using an S3 repository.</p>
 </div>
 <div class="sect3">
-<h4 id="_create_aws_access_keys">5.1.1. Create AWS Access Keys</h4>
+<h4 id="_create_aws_access_keys">10.1.1. Create AWS Access Keys</h4>
 <div class="paragraph">
 <p>If you haven&#8217;t already done so, generate AWS root access keys to allow Henge to authenticate with AWS.</p>
 </div>
@@ -1787,11 +3946,11 @@ The access key file is a CSV file that contains values for two keys: <strong>AWS
 </table>
 </div>
 <div class="paragraph">
-<p>For more information, see the <a href="http://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html">AWS documentation on Security Credentials</a>.</p>
+<p>For more information, see the <a href="http://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html" target="_blank">AWS documentation on Security Credentials</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_create_an_s3_bucket">5.1.2. Create an S3 Bucket</h4>
+<h4 id="_create_an_s3_bucket">10.1.2. Create an S3 Bucket</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1803,18 +3962,18 @@ The access key file is a CSV file that contains values for two keys: <strong>AWS
 </ol>
 </div>
 <div class="paragraph">
-<p>For more information, see the <a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html">AWS documentation on creating an S3 Bucket</a>.</p>
+<p>For more information, see the <a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html" target="_blank">AWS documentation on creating an S3 Bucket</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_set_up_aws_credentials_locally">5.1.3. Set Up AWS Credentials Locally</h4>
+<h4 id="_set_up_aws_credentials_locally">10.1.3. Set Up AWS Credentials Locally</h4>
 <div class="paragraph">
 <p>You&#8217;ll want to add the AWS access keys you previously downloaded to the <strong>credentials</strong> file in the <strong>~/.aws</strong> directory. This will allow Henge access to the S3 bucket.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Install the AWS CLI. See the <a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html">documentation on installing the AWS CLI</a>.</p>
+<p>Install the AWS CLI. See the <a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html" target="_blank">documentation on installing the AWS CLI</a>.</p>
 </li>
 <li>
 <p>The access keys should be added to a <strong>henge</strong> profile within the <strong>credentials</strong> file. Using the AWS CLI, the keys can be added to the file with the following command:</p>
@@ -1849,7 +4008,7 @@ aws_secret_access_key = {Your Secret Access Key Here}</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build_and_run_henge_2">5.1.4. Build and Run Henge</h4>
+<h4 id="_build_and_run_henge_2">10.1.4. Build and Run Henge</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1906,13 +4065,13 @@ aws_secret_access_key = {Your Secret Access Key Here}</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cassandra_setup">5.2. Cassandra Setup</h3>
+<h3 id="_cassandra_setup">10.2. Cassandra Setup</h3>
 <div class="sect3">
-<h4 id="_run_cassandra_and_load_the_schema">5.2.1. Run Cassandra and Load the Schema</h4>
+<h4 id="_run_cassandra_and_load_the_schema">10.2.1. Run Cassandra and Load the Schema</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Download Cassandra from <a href="http://cassandra.apache.org/download/" class="bare">http://cassandra.apache.org/download/</a></p>
+<p>Download Cassandra from <a href="http://cassandra.apache.org/download/" target="_blank">http://cassandra.apache.org/download/</a>.</p>
 </li>
 <li>
 <p>Install Cassandra by extracting it to a folder of your choice.</p>
@@ -1923,7 +4082,7 @@ aws_secret_access_key = {Your Secret Access Key Here}</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Cassandra&#8217;s <strong>cqlsh</strong> needs to have Python 2 installed and accessible in your system&#8217;s path. It is <strong>only compatible with version 2 of Python</strong> and will not work with the version 3. Python can be downloaded from <a href="https://www.python.org/downloads/" class="bare">https://www.python.org/downloads/</a>.
+Cassandra&#8217;s <strong>cqlsh</strong> needs to have Python 2 installed and accessible in your system&#8217;s path. It is <strong>only compatible with version 2 of Python</strong> and will not work with the version 3. Python can be downloaded from <a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads/</a>.
 </td>
 </tr>
 </table>
@@ -1958,11 +4117,11 @@ Cassandra&#8217;s <strong>cqlsh</strong> needs to have Python 2 installed and ac
 </ol>
 </div>
 <div class="paragraph">
-<p>More information on <strong>cqlsh</strong> is available at the <a href="http://docs.datastax.com/en//cql/3.1/cql/cql_reference/cqlsh.html">datastax cqlsh reference</a>.</p>
+<p>More information on <strong>cqlsh</strong> is available at the <a href="http://docs.datastax.com/en//cql/3.1/cql/cql_reference/cqlsh.html" target="_blank">datastax cqlsh reference</a>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_build_and_run_henge_3">5.2.2. Build and Run Henge</h4>
+<h4 id="_build_and_run_henge_3">10.2.2. Build and Run Henge</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2019,7 +4178,7 @@ Henge defaults to using port 9042 to send Cassandra data (the default port setup
 </div>
 </div>
 <div class="sect3">
-<h4 id="_stopping_cassandra">5.2.3. Stopping Cassandra</h4>
+<h4 id="_stopping_cassandra">10.2.3. Stopping Cassandra</h4>
 <div class="paragraph">
 <p>When you are through testing, you can stop Henge by pressing <strong>Control+C</strong>.</p>
 </div>
@@ -2056,22 +4215,22 @@ your administrator password):</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="eureka-registry">6. Eureka Registry and Discovery Service</h2>
+<h2 id="eureka-registry">11. Eureka Registry and Discovery Service</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Henge includes the built-in capability to run Eureka server and register itself as a Eureka client via Spring Boot. This provides an easy way to implement load balancing and integrate with other services that use Eureka. This section outlines what Eureka does, how to run Henge with Eureka, and the steps we took to implement Henge with Eureka.</p>
 </div>
 <div class="sect2">
-<h3 id="_what_is_eureka">6.1. What is Eureka?</h3>
+<h3 id="_what_is_eureka">11.1. What is Eureka?</h3>
 <div class="paragraph">
 <p>Eureka is an AWS discovery service that allows middle-tier services to register and connect with one another. Its primary purpose is load balancing by ensuring service requests are always routed to an available instance. Eureka includes a server and a client. The server acts as a REST-based registry for clients that runs in a Java servlet container. The Eureka client is a Java library for interfacing with the Eureka server. When a client launches, it sends instance metadata to the Eureka service and notifies the server when it&#8217;s ready to receive traffic. The client has a built-in round-robin load balancer and periodically sends information to the Eureka server indicating which instances are still functioning.</p>
 </div>
 <div class="paragraph">
-<p>More information on Eureka is available at the <a href="https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance">AWS Eureka wiki</a>.</p>
+<p>More information on Eureka is available at the <a href="https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance" target="_blank">AWS Eureka wiki</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_running_henge_with_eureka">6.2. Running Henge With Eureka</h3>
+<h3 id="_running_henge_with_eureka">11.2. Running Henge With Eureka</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -2095,7 +4254,7 @@ the project using the <strong>eureka</strong> profile:</p>
 </div>
 </li>
 <li>
-<p>By accessing the Spring Boot Eureka server page at <a href="http://localhost:8761/" class="bare">http://localhost:8761/</a>, you can see information about the client instances currently registered to the Eureka server.</p>
+<p>By accessing the Spring Boot Eureka server page at <a href="http://localhost:8761/" target="_blank">http://localhost:8761/</a>, you can see information about the client instances currently registered to the Eureka server.</p>
 </li>
 </ol>
 </div>
@@ -2103,16 +4262,16 @@ the project using the <strong>eureka</strong> profile:</p>
 <div class="content">
 <img src="Eureka_server_locally.jpg" alt="Eureka Server Web Page">
 </div>
-<div class="title">Figure 2. Eureka Server Web Page</div>
+<div class="title">Figure 4. Eureka Server Web Page</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_about_our_eureka_implementation">6.3. About Our Eureka Implementation</h3>
+<h3 id="_about_our_eureka_implementation">11.3. About Our Eureka Implementation</h3>
 <div class="paragraph">
 <p>This section explains how we implemented the Eureka server and client using Spring Boot. The steps we took are here for the sake of clarity; there is no need to recreate any of them.</p>
 </div>
 <div class="sect3">
-<h4 id="_eureka_server_implementation">6.3.1. Eureka Server Implementation</h4>
+<h4 id="_eureka_server_implementation">11.3.1. Eureka Server Implementation</h4>
 <div class="paragraph">
 <p>In order to implement a Eureka Server on Spring Boot, we took the following steps.</p>
 </div>
@@ -2130,7 +4289,7 @@ the project using the <strong>eureka</strong> profile:</p>
 <p>Create a Spring Boot <code>Application</code> class that acts as the Eureka server implementation:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">import org.springframework.boot.SpringApplication;
+<pre class="highlight"><code>import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
@@ -2162,7 +4321,7 @@ public class Application {
 <p>Configure the Eureka server in the <strong>application.yml</strong> file:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">server:
+<pre class="highlight"><code>server:
   port: 8761
 
 eureka:
@@ -2192,7 +4351,7 @@ eureka:
 <p>Create the <strong>bootstrap.yml</strong> file:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">spring:
+<pre class="highlight"><code>spring:
   application:
     name: henge</code></pre>
 </div>
@@ -2206,7 +4365,7 @@ registry and register the service and its <strong>spring.application.name</stron
 </div>
 </div>
 <div class="sect3">
-<h4 id="_eureka_client_implementation">6.3.2. Eureka Client Implementation</h4>
+<h4 id="_eureka_client_implementation">11.3.2. Eureka Client Implementation</h4>
 <div class="paragraph">
 <p>The following steps were taken to implement Henge as a Eureka client via Spring Boot.</p>
 </div>
@@ -2216,7 +4375,7 @@ registry and register the service and its <strong>spring.application.name</stron
 <p>Create the Eureka Client configuration class:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Configuration
+<pre class="highlight"><code>@Configuration
 @EnableEurekaClient <i class="conum" data-value="1"></i><b>(1)</b>
 @Profile("eureka")
 public class EurekaClientConfig {
@@ -2237,7 +4396,7 @@ public class EurekaClientConfig {
 <p>Configure the Eureka client in <strong>application.yml</strong>.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-yaml" data-lang="yaml">eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/</code></pre>
+<pre class="highlight"><code>eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2254,7 +4413,7 @@ public class EurekaClientConfig {
 <div id="footer">
 <div id="footer-text">
 Version 0.9.0<br>
-Last updated 2016-09-02 13:21:43 MDT
+Last updated 2016-10-07 09:21:37 MDT
 </div>
 </div>
 </body>

@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Metrics</title>
+<title>Alternate Methods of Deploying Henge</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -509,26 +509,14 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body id="metrics" class="article">
+<body id="deploy" class="article">
 <div id="header">
-<h1>Metrics</h1>
+<h1>Alternate Methods of Deploying Henge</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_required_services">1. Required Services</a></li>
-<li><a href="#_configuring_docker">2. Configuring Docker</a>
-<ul class="sectlevel2">
-<li><a href="#_macos">2.1. macOS</a></li>
-<li><a href="#_linux">2.2. Linux</a></li>
-</ul>
-</li>
-<li><a href="#_starting_influxdb_and_grafana">3. Starting InfluxDB and Grafana</a></li>
-<li><a href="#_starting_henge_with_metrics_enabled">4. Starting Henge With Metrics Enabled</a>
-<ul class="sectlevel2">
-<li><a href="#_accessing_influxdb">4.1. Accessing InfluxDB</a></li>
-<li><a href="#_accessing_grafana">4.2. Accessing Grafana</a></li>
-</ul>
-</li>
+<li><a href="#_deploying_the_jar_on_tomcat">1. Deploying the JAR on Tomcat</a></li>
+<li><a href="#_deploying_the_henge_war_on_tomcat">2. Deploying the Henge WAR on Tomcat</a></li>
 </ul>
 </div>
 </div>
@@ -536,306 +524,87 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Think of metrics as a way to add instrumentation to your application. Just as instruments like gauges and tachometers give you useful information while driving your car, metrics let you see relevant usage and performance data for your application while it&#8217;s running.</p>
-</div>
-<div class="paragraph">
-<p>Henge offers metrics for each service endpoint that allow you to monitor their execution. We rely on <a href="http://metrics.dropwizard.io/" target="_blank">Dropwizard Metrics</a> and its integration with <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank">Spring Actuator</a> to provide metrics values. These values are stored in an <a href="https://influxdata.com/time-series-platform/influxdb/" target="_blank">Influx DB</a> database, and they are made available for visualization on a <a href="http://grafana.org/" target="_blank">Grafana</a> dashboard.</p>
+<p>Henge can alternately be deployed directly onto Apache Tomcat using a JAR or WAR file. Before following the instructions, make sure you have <a href="getting_started.html#getting-started">Henge cloned and built</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_required_services">1. Required Services</h2>
+<h2 id="_deploying_the_jar_on_tomcat">1. Deploying the JAR on Tomcat</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To run Henge and publish metrics, the InfluxDB and Grafana servers must be running. In addition, Henge needs to be configured to publish metrics data to the InfluxDB server.</p>
+<p>The Henge service application uses Spring boot when it builds, and a "fat" jar is generated that contains dependencies inside the archive, including the Tomcat web server. A Tomcat instance will startup with Henge just by running the following in the root project folder:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>java -jar henge-service/target/henge-service.jar</code></pre>
+</div>
 </div>
 <div class="paragraph">
-<p>To simplify this process, and to provide an environment for the purposes of load test analysis, we created Docker images. With Docker, you can quickly start up the metrics environment without having to indvidually install and configure the required services.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The purpose of the Docker images is to provide a metrics environment for temporary use, such as test analysis. This is why the metrics services are configured to run on the same host as Henge.</p>
+<p>The application will now be running on <a href="http://localhost:8080/henge" target="_blank">http://localhost:8080/henge</a> with the default Spring profile, which uses a local flatfile repository. You can change the Tomcat port by adding the option <strong>-Dserver.port=8081</strong> to the command line. For more information regarding configuration see <a href="https://spring.io/blog/2014/03/07/deploying-spring-boot-applications" target="_blank">Deploying Spring Boot Applications</a>.</p>
 </div>
 <div class="paragraph">
-<p>If you need to run the metrics environment for longer periods, it&#8217;s best to configure the metrics environment on another host. In this case, you need to change the class <strong>MetricsConfig.java</strong> (in the <strong>henge-service</strong> module) to point to the new InfluxDB host.</p>
+<p>You can also specify the various <a href="profiles_reference.html#profiles">Spring Profiles</a> for running Henge with other options. For instance, to run with flatfiles on S3 as a repository, you would use the command:</p>
 </div>
-</td>
-</tr>
-</table>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>java -jar -Dspring.profiles.active=dev,flatfile_s3 henge-service/target/henge-service.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that to run flatfiles on S3, you would need to make sure your configuration is setup and Henge is built as indicated in the <a href="repository_reference.html#repositories">Repositories</a> section.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuring_docker">2. Configuring Docker</h2>
+<h2 id="_deploying_the_henge_war_on_tomcat">2. Deploying the Henge WAR on Tomcat</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>You must install and configure Docker to run the Docker containers for metrics. Follow the steps below for your operating system.</p>
-</div>
-<div class="sect2">
-<h3 id="_macos">2.1. macOS</h3>
-<div class="paragraph">
-<p>For systems running macOS, install and configure the Docker Toolbox. This runs Docker in a virtual machine that you can access using the Docker Quickstart Terminal.</p>
-</div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the file <strong>/henge-service/src/main/resources/application-metrics.yml</strong> in a text editor (like <strong>TextEdit</strong>) and change the value for <code>metrics.influxdb.host</code> to <code>192.168.99.100</code>:</p>
+<p>Download Tomcat at <a href="http://tomcat.apache.org" target="_blank">http://tomcat.apache.org</a>. Extract the archive file into a directory.</p>
+</li>
+<li>
+<p>In a terminal, change your directory to the Tomcat directory you extracted to. Start Tomcat with:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code># Metrics - InfluxDB Configuration
-metrics.influx:
-    host: 192.168.99.100 <i class="conum" data-value="1"></i><b>(1)</b>
-    port: 8086
-    user: admin
-    password: admin
-    database: henge
-    periodInSeconds: 5</code></pre>
+<pre class="CodeRay highlight"><code>bin/startup.sh</code></pre>
 </div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Change this value to <code>192.168.99.100</code>, and then save and close the file.</td>
-</tr>
-</table>
 </div>
 </li>
 <li>
-<p>Download the <a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox package for Mac</a>.</p>
+<p>Copy the <strong>henge/henge-war/target/henge.war</strong> to the <strong>&lt;tomcat-dir&gt;/webapps</strong> directory.</p>
 </li>
 <li>
-<p>Double-click the package to run the installer, and then follow the <a href="https://docs.docker.com/toolbox/toolbox_install_mac/" target="_blank">installation instructions</a>.</p>
-</li>
-<li>
-<p>When you reach the <strong>Quick Start</strong> step, select the <strong>Docker Quickstart Terminal</strong> option. This will launch the Docker terminal.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In the future, if you need to launch the Docker terminal, open the <strong>Docker</strong> folder in your <strong>Applications</strong> folder, and then double-click <strong>Docker Quickstart Terminal</strong>.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Configure required environment variables. To do this, enter the following commands in the Docker terminal (press <strong>&lt;Enter&gt;</strong> after each command):</p>
+<p>Within the Tomcat root directory, restart Tomcat by executing:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>export DOCKER_CERT_PATH=~/.docker/machine/certs
-export DOCKER_HOST=tcp://192.168.99.100:2376
-export DOCKER_TLS_VERIFY=1</code></pre>
+<pre class="CodeRay highlight"><code>bin/shutdown.sh
+bin/startup.sh</code></pre>
 </div>
 </div>
+</li>
+<li>
+<p>The Henge application should now be running at <a href="http://localhost:8080/henge" target="_blank">http://localhost:8080/henge</a>, where it displays a simple web page. The application is running with the default Spring profile which uses a local flatfile repository.</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>Docker is now ready to go. Keep the terminal window open, and continue with <a href="#_starting_influxdb_and_grafana">Starting InfluxDB and Grafana</a> below.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_linux">2.2. Linux</h3>
-<div class="paragraph">
-<p>For systems running Linux, install and configure the Docker Engine. This runs Docker natively on your system (rather than inside a virtual machine, like on macOS).</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open the file <strong>/henge-service/src/main/resources/application-metrics.yml</strong> in a text editor and make sure the value for <code>metrics.influxdb.host</code> is <code>127.0.0.1</code>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code># Metrics - InfluxDB Configuration
-metrics.influx:
-    host: 127.0.0.1 <i class="conum" data-value="1"></i><b>(1)</b>
-    port: 8086
-    user: admin
-    password: admin
-    database: henge
-    periodInSeconds: 5</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>If necessary, change this value to <code>127.0.0.1</code>, and then save and close the file.</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Install Docker by following the <a href="https://docs.docker.com/engine/installation/" target="_blank">installation instructions</a> for your Linux distribution.</p>
-</li>
-<li>
-<p>Configure the Docker daemon to enable communication with the Maven plug-in. To do this, open the file <strong>/etc/default/docker</strong> in a text editor and add the following line:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>DOCKER_OPTS="-H tcp://127.0.0.1:4041 -H unix:///var/run/docker.sock" <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The IP address must be the same as for <code>localhost</code>, but the port can be modified as needed. Using the default port of <code>2376</code> caused issues, so here we are using port <code>4041</code> instead.</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Restart Docker using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>sudo restart docker</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Set the <code>DOCKER_HOST</code> environment variable using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>export DOCKER_HOST=tcp://127.0.0.1:4041 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Use the same port as in Step 3 above.</td>
-</tr>
-</table>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Docker is now ready to go. Keep the terminal window open, and continue with <a href="#_starting_influxdb_and_grafana">Starting InfluxDB and Grafana</a> below.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_starting_influxdb_and_grafana">3. Starting InfluxDB and Grafana</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To start the metrics environment, change to the root directory of the project, and then use the following command:</p>
+<p>You can also specify the various <a href="profiles_reference.html#profiles">Henge Spring Profiles</a> by setting these up in JAVA_OPTS. For instance, to run with flatfiles on S3 as a repository, before starting up Tomcat you would use the command:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>mvn -pl henge-docker -P metrics</code></pre>
+<pre class="CodeRay highlight"><code>export JAVA_OPTS=-Dspring.profiles.active=dev,flatfile_s3</code></pre>
 </div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-When running this command, make sure you are in the same terminal window you used to export the environment variables.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_starting_henge_with_metrics_enabled">4. Starting Henge With Metrics Enabled</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To start Henge and enable publishing of metrics to InfluxDB, change to the root directory of the project, and then use the following command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>mvn -pl henge-service spring-boot:run -Dspring.profiles.active=dev,flatfile_local,metrics</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-When running this command, make sure you are in the same terminal window you used to export the environment variables.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The <code>-Dspring.profiles.active</code> switch is used to specify the Spring profiles to activate when running Henge. You can specify different profiles as needed. However, to publish metrics values, the <code>metrics</code> profile must be active. See <a href="profiles_reference.html#profiles">Profiles</a> for more information.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_accessing_influxdb">4.1. Accessing InfluxDB</h3>
-<div class="paragraph">
-<p>Metrics are published to InfluxDB each time an endpoint is used. To access the InfluxDB web interface, use the appropriate URL for your operating system:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>macOS</strong></dt>
-<dd>
-<p><code><a href="http://192.168.99.100:8083" class="bare">http://192.168.99.100:8083</a></code></p>
-</dd>
-<dt class="hdlist1"><strong>Linux</strong></dt>
-<dd>
-<p><code><a href="http://127.0.0.1:8083" class="bare">http://127.0.0.1:8083</a></code></p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_accessing_grafana">4.2. Accessing Grafana</h3>
-<div class="paragraph">
-<p>The Grafana dashboard loads metrics values from InfluxDB and makes them available for visualization.  To access the Grafana dashboard, use the appropriate URL for your operating system:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>macOS</strong></dt>
-<dd>
-<p><code><a href="http://192.168.99.100:3000" class="bare">http://192.168.99.100:3000</a></code></p>
-</dd>
-<dt class="hdlist1"><strong>Linux</strong></dt>
-<dd>
-<p><code><a href="http://127.0.0.1:3000" class="bare">http://127.0.0.1:3000</a></code></p>
-</dd>
-</dl>
 </div>
 <div class="paragraph">
-<p>You can view the dashboard by clicking <strong>Home</strong> in the top banner, and then clicking <strong>Henge</strong>.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src=".//henge-dashboard.png" alt="Henge Dashboard">
-</div>
-<div class="title">Figure 1. Henge Dashboard</div>
-</div>
+<p>Note that to run flatfiles on S3, you would need to make sure your configuration is setup and Henge is built as indicated in the <a href="repository_reference.html#repositories">Repositories</a> section.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-21 14:34:12 MDT
+Last updated 2016-10-03 16:32:32 MDT
 </div>
 </div>
 </body>

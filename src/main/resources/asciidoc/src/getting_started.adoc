@@ -3,18 +3,15 @@
 :sectnums:
 :icons: font
 
-Henge is a flexible key/value store for dynamic configuration properties. The goal of the project is to produce a performant, reliable implementation of everything a production-ready property server application should provide. Because this functionality is composed of a modular architecture, you can customize the setup that works best for your organization.
-
-The idea of creating Henge came from the Netflix Archiaus project, in particular the https://github.com/Netflix/archaius/issues/132[open issue #132] which calls for creating a standard properties service. As described, the service would allow a PolledConfigurationSource on the client side to get all properties, which could then be changed dynamically on the server.
-
-Henge supports pluggable persistence, life cycle management, validation, and querying capabilities of properties. A set of REST APIs are provided to interface with Henge and its properties.
+Getting Started outlines setting up Henge, the API, and some Henge use cases.  
 
 == Setting Up Henge
 
-The following sequence shows how to build and run Henge using a local flatfile repository on both Linux and macOS. For how to run Henge using S3 flatfile or Cassandra repositories, see <<repository_reference#repositories,Repositories>>.
+The following sequence shows how to build, run and test Henge using a local flatfile repository on both Linux and macOS. 
 
 === Dependencies
-Java 1.8.x
+* Java 1.8.x
+* Maven
 
 === Build and Run Henge
 
@@ -36,7 +33,7 @@ mvn clean install
 ====
 The build process will run several tests in the modules, so it may take some time to complete the operation. To build without the tests, you can add *-DskipTests* to the command. 
 ==== 
-. Run the application with the local flatfile repository: 
+. Run the application with a local flatfile repository: 
 +
 [source]
 ----
@@ -45,10 +42,11 @@ mvn -pl henge-service spring-boot:run
 +
 NOTE: Though not given as an argument, here Henge is using a default Spring Profile for runtime configuration. For more information on the different profiles available and how to configure them, see <<profiles_reference#profiles,Profiles>>. 
 
+For how to run Henge using S3 flatfile or Cassandra repositories, see <<repository_reference#repositories,Repositories>>. For instructions on how to deploy directly to a Tomcat instance as a JAR or WAR, see <<alternate_deploy#deploy, Alternate Methods of Deploying Henge>>. 
 
 === Test Henge 
 
-Adding and searching for Henge properties can be tested by running REST calls in the Postman collection files that are available within the */documentation/demo* project folder. If you do not have it installed, https://www.getpostman.com/apps[Postman can be downloaded here]. In Postman, click *Import* and simply drag all of the collection files into the Postman Window. 
+Adding and searching for Henge properties can be tested by running REST calls in the Postman collection files that are available within the */documentation/demo* project folder. If you do not have it installed, https://www.getpostman.com/apps[Postman can be downloaded here^]. In Postman, click *Import* and simply drag all of the collection files into the Postman Window. 
 
 To test a request in Postman, select it in the *Collections* pane, then click *Send*. You can test creating a set of properties in Henge and retrieving them by running the *HengeCollection* REST calls in the following order: 
 
@@ -60,13 +58,23 @@ To test a request in Postman, select it in the *Collections* pane, then click *S
 . Add VerisonSet Mapping with VersionSet1
 . Search by Application with VersionSet1
 
+If you are using local flatfiles as a repository, you can see the files created with the above REST calls under *henge/repository*. 
 
 For more information on what the different *PropertyGroup*, *FileVersion*, *VersionSet*, and *Mapping* domain objects do, see <<domain_reference#domain-objects,Domain Objects>>. 
 
 == REST API Reference 
 To reference the complete REST API, visit the Swagger documentation at:  
 
-http://localhost:8080/henge/swagger/index.html[http://localhost:8080/henge/swagger/index.html]
+http://localhost:8080/henge/swagger/index.html[http://localhost:8080/henge/swagger/index.html^]
 
 To run REST commands within the Swagger UI, a username and password is required. The default is *user/user*. These credentials can be modified in */henge/henge-domain/src/main/resources/application.yml*. 
 
+== Use Cases and the Hello Properties App 
+
+How does one use practically implement Henge in an application, and use it throughout its lifecycle? We're glad you asked. The following links give example use cases of how Henge might be utilized in an application. 
+
+* <<henge_overview#henge-overview, Henge Overview>>
+* <<use_case_simple_app#use-case-simple-app, Simple Application Use Case>>
+* <<use_case_complex_app#use-case-complex-app,Complex Application Use Case>>
+
+We've additionally built <<hello_properties#hello-properties,Hello Properties>>, a simple application that demonstrates using Henge properties dynamically via Archaius.  

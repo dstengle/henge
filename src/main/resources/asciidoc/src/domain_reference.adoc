@@ -16,10 +16,16 @@ A `Property` is a configuration variable. It has the following attributes:
 
 Properties are not referenced directly in JSON format. Instead, several properties are defined inside a `PropertyGroup`. See `PropertyGroup` below for a JSON example.
 
+[[Scope]]
 == Scope
 
-A `Scope` is a key-value pair used to specify a situation where a given `Property` assumes a particular value. A `Scope` is useful when a configuration variable has different values depending on the situation. For example, a property may have different values depending on the environment where the application is executed. In this instance you could have a key as *environment* and possible values of *development*, *test*, and *production*. This would define three instances of `Scope` that can be used to set different values for the property. 
+A `Scope` is a key-value pair used to specify different values for properties in a given scenario. A `Scope` is useful when a configuration variable should have different values depending on the environment the application is run in. For example, you could have a scope key as *env* and possible values of *dev*, *test*, and *prod* which are particular environments the application runs in. This would define three instances of `Scope` that can be used to set different values for the properties in those environments. 
 
+See the <<domain_reference#PropertyGroup, Property Group>> section for examples of using one or multiple scopes, as well as how to set up a precedence hierarchy for scopes. 
+
+Scopes are used when setting up the `Mapping` domain object and when retrieving a set of properties using the `search` endpoint. For more information, see the <<domain_reference#Mapping,Mapping>> section.
+
+[[PropertyGroup]]
 == PropertyGroup
 
 A `PropertyGroup` groups properties that belong to the same context and always go together. It has the following attributes: 
@@ -34,9 +40,9 @@ library or dependency of your project. This distinction is used when evaluating 
 * *isActive*: true indicates the `PropertyGroup` is active.
 * *properties*: the set of `Properties` the `PropertyGroup` contains.
 
-An example of a `PropertyGroup` might be a configuration for a database connection. For this `PropertyGroup` you need `Property` values for *host*, *port*, *username* and *password*. Let's assume you have *development*, *test* and *production* environments where the values for these properties may be different. You would define a `PropertyGroup` with four properties where each of them have three `propertyScopedValues`. The following is a JSON representation of this example:
+An example of a `PropertyGroup` might be a configuration for a database connection. For this `PropertyGroup` you need `Property` values for *host*, *port*, *username* and *password*. Let's assume you have *dev*, *test* and *prod* environments where the values for these properties may be different. You would define a `PropertyGroup` with four properties. Each property would have three `propertyScopedValues` and a `defaultValue`. The following is a JSON representation of this example:
 
-[source, JSON]
+[source]
 ----
 {
 	"name": "dbconfig",
@@ -47,52 +53,145 @@ An example of a `PropertyGroup` might be a configuration for a database connecti
 	"properties": [{
 		"name": "dbhost",
 		"description": "Ip of database host",
-		"propertyScopedValues": [{
-			"key": "environment=development", # <1>
-			"value": "127.0.0.1" # <2>
+		"defaultValue": "localhost", # //<3>
+        "propertyScopedValues": [{
+			"key": "env=dev", # //<1>
+			"value": "127.0.0.1" # //<2>
 		}, {
-			"key": "environment=test",
+			"key": "env=test",
 			"value": "192.168.0.10"
 		}, {
-			"key": "environment=production",
+			"key": "env=production",
 			"value": "192.168.0.20"
 		}]
 	}, {
 		"name": "dbport",
 		"description": "Port of database",
-		"defaultValue": "4321" # <3>
+		"defaultValue": "4321" # //<4>
 	}, {
 		"name": "dbuser",
 		"description": "Username for connecting to database",
-		"propertyScopedValues": [{
-			"key": "environment=development",
+		"defaultValue": "user",
+        "propertyScopedValues": [{
+			"key": "env=dev",
 			"value": "devuser"
 		}, {
-			"key": "environment=test",
+			"key": "env=test",
 			"value": "testuser"
 		}, {
-			"key": "environment=production",
+			"key": "env=prod",
 			"value": "produser"
 		}]
 	}, {
 		"name": "dbpasswd",
 		"description": "Password for connecting to database",
-		"propertyScopedValues": [{
-			"key": "environment=development",
+		"defaultValue": "1234",
+        "propertyScopedValues": [{
+			"key": "env=dev",
 			"value": "1234"
 		}, {
-			"key": "environment=test",
+			"key": "env=test",
 			"value": "1234"
 		}, {
-			"key": "environment=production",
+			"key": "env=prod",
 			"value": "b40df5b0d4d173a554b1030c0f453dac"
 		}]
 	}]
 }
 ----  
-<1> Note that the key of the `propertyScopedValue` is a `Scope` whose key is *environment* and value is *development*.
-<2> Also observe that *127.0.0.1* is the value of the *dbhost* property when the `Scope` is *environment=development*.
-<3> For *dbport*, there are no `propertyScopedValues` and only a `defaultValue` because the *dbport* is the same for all environments. 
+<1> The key of the `propertyScopedValue` is a `Scope` whose key is *env* and value is *dev*.
+<2> *127.0.0.1* is the value of the *dbhost* property when the `Scope` is *env=dev*.
+<3> The *dbhost* property uses the `defaultValue` of *localhost* if no `Scope` is specified when the search is performed on Henge.  
+<4> For *dbport*, there are no `propertyScopedValues` and only a `defaultValue` because the *dbport* is the same for all environments. 
+
+[[ScopeHierarchy]]
+=== Scope Sets and Precedence Hierarchy
+
+The previous example shows a single scoping of different values based on dev, test and prod environments. But how are more complex environments set up? 
+
+Scopes can be defined in *scope sets* that represent a specific environment the application runs in that has multiple scopes. Some examples of scope sets include: 
+
+* *env*=staging
+* *env*=dev, *region*=us-west-2,
+* *env*=prod, *region*=us-west-2, *stack*=coolwebsiteA
+* *env*=qa, *region*=us-west-2, *stack*=financePages, *hostname*=localhost
+
+Each `Property` can define one or more scope sets, where a specific property value is designated for each scope set. 
+
+As an example, let's say you have an application that has a URL that can be different based on the environment, the region, and a hostname. Within the `PropertyGroup` you would define various `scopeSets` under `propertyScopedValues` as shown in the following JSON example.  
+
+[source]
+----
+{
+    "active": true,
+    "name": "EventLoggerAPP",
+    "properties": [
+        {
+            "defaultValue": "www.website.com",
+            "name": "eventlogger.url",
+            "propertyScopedValues": [
+                {
+                    "scopeSet": [ //<1>
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        }
+                    ],
+                    "value": "www.dev-website.com" //<2>  
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        },
+                        {
+                            "key": "region",
+                            "value": "us-west-2"
+                        }
+                    ],
+                    "value": "us-west-2.dev-website.com" //<3> 
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "hostname",
+                            "value": "localhost"
+                        }
+                    ],
+                    "value": "localhost:8080" //<4> 
+                }
+            ]
+        }
+    ],
+    "type": "APP",
+    "version": "1.0.3"
+}
+----
+<1> Instead of defining different key/values as in the previous example, a `scopeSet` is used to define a set of scopes that have a specific value. 
+<2> If deployed in the *dev* environment, the URL is *www.dev-website.com*. 
+<3> If deployed in the *dev* environment and in the *us-west-2* region, the URL is *us-west-2.dev-website.com*.
+<4> If deployed in any environment or region and *hostname=localhost*, the URL is *localhost:8080*. This acts as an override for testing.   
+
+Note that in #4, the stipulation is _any_ environment or region. For example, lets say the application is deployed in:   
+
+* env=dev
+* region=us-west-2
+* hostname=localhost
+
+When searching for this property using this same set of scopings, the return value would always be *localhost:8080*. Yet how does Henge know to use precedence for the URL value *localhost:8080*, instead of returning *www.dev-website.com* or *us-west-2.dev-website.com*?   
+
+Henge uses a hierarchy of scopings for resolving which scoped value takes precedence over another. The resolution order is defined in the Spring profile *henge/henge-domain/src/main/resources/application.yml* by the *scope.precedence.configuration* property. It's default hierarchy is: 
+
+`env;env+region;env+region+stack;hostname;application` 
+
+Sets of scopes are defined using the plus + symbol, and are placed in precedence order. Precedence weight is greater as you move from left to right, so *hostname* has a greater priority than *env* or *env+region*. 
+
+In our example, the higher precedence of the *hostname=localhost* scope is the reason why the URL resolves to *localhost:8080* in any environment or region. To see a working Postman collection with the above example, see *henge/documentation/demo/HengeScopeHierarchy.postman_collection.json*.  
+
+The *scope.precedence.configuration* property can be configured in any way depending on the scopes you've defined and your environment needs. 
+
+NOTE: If you are using a new scope set in a `PropertyGroup`, make sure that the scope set is represented in *scope.precedence.configuration*, as the hierarchy also generally defines which scope sets can be used when searching. Note that the *application* scope is always added on the end as the last precedence. 
 
 == FileVersion
 
@@ -109,7 +208,7 @@ Henge can also be used to store configuration files that cannot be translated to
 * *modifiedDate*
 
 Here is an example of `FileVersion` in JSON format: 
-[source, JSON]
+[source]
 ----
 {
   "name": "GeoLoc",
@@ -147,7 +246,7 @@ When a `VersionSet` is returned by a query to Henge, it is processed and all the
 
 Here is an example of a `VersionSet` in JSON format:
 
-[source, JSON]
+[source]
 ----
 {
 	"name": "ExampleVersionSet",
@@ -162,30 +261,52 @@ Here is an example of a `VersionSet` in JSON format:
 		"version": "1.0.0"
 	}, {
 		"name": "some-other-property-group",
-		"version": "latest" # <1>
+		"version": "latest" # //<1>
 	}]
 }
 ---- 
 <1> A `VersionSet` can point to a symbolic version (latest), in which case it will always point to the highest version number for that `PropertyGroup`. 
 
+[[Mapping]]
 == Mapping
 
 After creating `PropertyGroups` and `VersionSets`, the configuration properties defined in them are not yet available to clients. They only become live after 
-creating a `Mapping` entry, which maps a set of `Scopes` to a specific version of a `VersionSet`.
+creating a `Mapping` entry, which binds an application and a set of `Scopes` to a specific `VersionSet`.
 
-A `Mapping` entry is created with REST parameters that include an *application* (required), a *scopeString* that defines the set of scopes (optional), and a *body* that indicates the name and version of the `VersionSet`. The *application* itself is stored in the `Mapping` as a scope as shown in the following JSON example: 
+A `Mapping` entry is created with REST parameters that include an *application* (required), a *scopeString* that defines the set of scopes (optional), and a *body* that indicates the name and version of the `VersionSet`. So for instance, you could create a `Mapping` with this URL request indicating the application and scopes:  
 
-[source, JSON]
+[source]
+----
+http://localhost:8080/henge/v1/mapping?application=loginApp&scopeString=env=prod,stack=financeWebStack
+----
+
+And this body indicating the `VersionSet`: 
+
+[source]
+----
+{
+  "name": "VersionSet-1",
+  "version": "1.0.0" //<1>
+}
+----
+<1> The version could also be specified as "latest", in which case it will always point to the highest version number for that `VersionSet`. 
+
+The `Mapping` is stored as a JSON object where the *application* itself is a scope, as shown: 
+
+[source]
 ----
 
 {
-  "{\"scopeSet\":[{\"key\":\"env\",\"value\":\"development\"},{\"key\":\"stack\",\"value\":\"stack1\"},{\"key\":\"application\",\"value\":\"MasterAppOne\"}]}" : {
+  "{\"scopeSet\":[{\"key\":\"env\",\"value\":\"prod\"},{\"key\":\"stack\",\"value\":\"financeWebStack\"},{\"key\":\"application\",\"value\":\"loginApp\"}]}" : {
     "name" : "VersionSet-1",
     "version" : "1.0.0"
   }
 }
 ----
 
-A search is made by providing an *application* (required) and a set of scopes (optional). The `Mapping` is looked up to provide the specific `VersionSet`, which is then converted to a *.properties* file. 
+Using the `search` endpoint, a complete set of properties is retrieved by providing an *application* (required) and a set of scopes (optional). The `Mapping` is looked up to provide the specific `VersionSet`, which is then converted to a *.properties* file. For instance, if the above `Mapping` was in place, you could then retrieve a complete set of properties using the following `search` call: 
 
-
+[source, url]
+----
+http://localhost:8080/henge/v1/search/loginApp?scopes=env=prod,stack=financeWebStack
+----

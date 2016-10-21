@@ -1,0 +1,354 @@
+[[use-case-complex-app]]
+= Use Case: Complex Application
+:sectnums:
+:icons: font
+
+As an architect designing cloud application platforms, you need a service to that helps you manage configurations as versioned artifacts the same as software artifacts. Your environment is complex, with multiple application stacks needing different versions of configs in different environments and sub-environments. Don't worry--Henge has you covered, and can handle complex deployments like yours.
+
+== Overview
+
+In this use case, we have a complex application that is made up of numerous microservices, each of which can include shared libraries as dependencies. The microservices can be deployed in multiple environments, such as development and production, and in different AWS regions. In addition, microservices can be arranged into different product stacks within an environment or region. Microservices may require different property values depending on the environment or stack they are deployed in.
+
+. Properties are loaded into the repository using Henge:
+* Properties for each microservice are stored in a PropertyGroup of type `APP` (one for each microservice).
+* Properties for each library are stored in a PropertyGroup of type `LIB` (one for each library).
+* The PropertyGroups are added to a VersionSet (one for each microservice). The VersionSet references all properties used by the microservice as well as any included libraries. (The VersionSet can also reference FileVersions--files with parsable data.)
+* The VersionSet is mapped to application (microservice) and scope (stack, region, and environment). For each application, a mapping is created for each relevant environment (such as *dev* and *prod*), region (such as *us-west-2*), and stack (such as *supersite* and *powerpage*).
+
+. At runtime, each microservice requests properties from the Henge service using a URL. The URL includes the application name and (optionally) the environment, region, and stack as query parameters.
+
+. Henge retrieves the appropriate properties for the microservice, environment, region, and stack from the repository, including properties for any shared libraries or referenced files, and returns them to the application.
+
+. Properties can be updated with new values in Henge at any time by making a REST call. The application will receive the new properties the next time it polls Henge. VersionSets can be maintained as versioned artifacts by creating a new VersionSet version for each new microservice version. This makes it easy to support different versions of the same microservice running in different stacks.
+
+.Use Case Overview: Complex Application
+image::use_case_complex_app.png[Complex Application]
+
+== Creating Properties
+
+Use the following requests to load application properties in the Henge repository.
+
+NOTE: Alternately, you can use the http://localhost:8080/henge/swagger/index.html#!/v1_-_convenience/batchInsert[`http://localhost:8080/henge/v1/convenience/batch`^] endpoint to load a PropertyGroup, VersionSet, and Mapping in a single step.
+
+=== Create a PropertyGroup
+
+A PropertyGroup contains properties that belong to the same context, such as a single application. To create a PropertyGroup, use the http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/create[`http://localhost:8080/henge/v1/property-groups/`^] endpoint.
+
+The request body must be in JSON format and should contain the PropertyGroup name and version, as well as key value pairs for each property, environment, region, and stack (see <<domain_reference#domain-objects,Domain Objects>>). Define one PropertyGroup of type `APP` for each microservice. In addition, define one PropertyGroup of type `LIB` for each shared library. All microservices that include the shared library will use the same library properties.
+
+NOTE: To use a file (such as a list of IP addresses) as part of the configuration, create a FileVersion using the http://localhost:8080/henge/swagger/index.html#!/v1_-_files/upload[`http://localhost:8080/henge/v1/files/upload/`^] endpoint.
+
+[source,options="nowrap"]
+----
+{
+  "name" : "ComplexAppServiceA",
+  "version" : "1.0.0",
+  "description" : "Complex App Microservice A",
+  "type" : "APP",
+  "active" : true,
+  "properties" : [ {
+    "name" : "complexapp.appmessage",
+    "description" : "Message property",
+    "defaultValue" : "Some message",
+    "propertyScopedValues": [
+        {
+          "value": "This is Microservice A in SuperSite (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"	
+            },
+            {
+              "key": "stack",
+              "value": "supersite"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in SuperSite (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"	
+            },
+            {
+              "key": "stack",
+              "value": "supersite"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in PowerPage (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"	
+            },
+            {
+              "key": "stack",
+              "value": "powerpage"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in PowerPage (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"	
+            },
+            {
+              "key": "stack",
+              "value": "powerpage"
+            }
+          ]
+        }
+      ]
+    } ]
+}
+----
+
+=== Create a VersionSet
+
+A VersionSet groups together specific versions of PropertyGroups. (A VersionSet can include FileVersions as well.) To create a VersionSet, use the http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/create[`http://localhost:8080/henge/v1/version-sets`^] endpoint.
+
+The request body must be in JSON format and should contain the VersionSet name and version, as well as the PropertyGroup name and version (see <<domain_reference#domain-objects,Domain Objects>>). Define one VersionSet for each microservice. The VersionSet should include the `APP` PropertyGroup for the microservice, as well as the `LIB` PropertyGroup for each shared library included in the microservice.
+
+NOTE: Instead of specifying a specific version of a PropertyGroup, you can instead specify `"version": "latest"` for version. In this case, the VersionSet will always include the most recent version of the PropertyGroup.
+
+[source,options="nowrap"]
+----
+{
+  "name": "ComplexAppVersionSetServiceA",
+  "version": "1.0.0",
+  "description": null,
+  "propertyGroupReferences": [
+    {
+      "name": "ComplexAppServiceA",
+      "version": "1.0.0"
+    },
+    {
+      "name": "ComplexAppLibrary1",
+      "version": "1.0.0"
+    }
+  ],   
+  "createdDate": null,
+  "scopedPropertyValueKeys": null,
+  "typeHierarchyEnabled": true
+}
+----
+
+=== Create a Mapping
+
+A Mapping entry associates a set of Scopes with a specific version of a VersionSet. To create a Mapping, use the http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping[`http://localhost:8080/henge/v1/mapping`^] endpoint.
+
+Create a mapping for each microservice. You must include the `application` parameter with the URL to associate the VersionSet with the correct microservice. Optionally, you can include the `scopeString` parameter to associate the VersionSet with a particular set of scopes (environment, region, and stack):
+
+[source,options="nowrap"]
+----
+http://localhost:8080/henge/v1/mapping?application=microservicea&scopeString=env=dev,region=us-west-2,stack=powerpage
+----
+
+The request body must be in JSON format and should contain the VersionSet name and version (see <<domain_reference#domain-objects,Domain Objects>>).
+
+[source,options="nowrap"]
+----
+{
+    "name": "ComplexAppVersionSetServiceA",
+    "version": "1.0.0"
+}
+----
+
+== Retrieving Properties
+
+Properties can be retrieved at microservice runtime using a URL to access the http://localhost:8080/henge/swagger/index.html#!/v1_-_search/findMatches[Henge search API^]. The URL must include the application (microservice) as a query parameter:
+
+[source,options="nowrap"]
+----
+http://localhost:8080/henge/v1/search/microservicea
+----
+
+In the above example, the default property values are retrieved. To retrieve property values for a specific scope, the URL must also include the scope set (such as the environment, region, and stack) as a query parameter:
+
+[source,options="nowrap"]
+----
+http://localhost:8080/henge/v1/search/microservicea?scopes=env=dev,region=us-west-2,stack=powerpage
+----
+
+NOTE: To retrieve scope-specific properties, the microservice must be able to send the correct query parameter for the environment, region, and stack that it's running in. This can be handled in several ways, for example, by creating a Maven profile for each environment. For an example of profiles in action, see <<hello_properties#hello-properties,the Hello Properties demo application>>.
+
+=== Java Properties API
+
+To retrieve properties using Java:
+
+[source,options="nowrap"]
+----
+URL url = new URL("http://localhost:8080/henge/v1/search/microservicea");
+InputStream in = url.openStream();
+Reader reader = new InputStreamReader(in, "UTF-8"); // for example
+ 
+Properties prop = new Properties();
+try {
+    prop.load(reader);
+} finally {
+    reader.close();
+}
+----
+
+=== Commons Configuration
+
+To retrieve properties using http://commons.apache.org/proper/commons-configuration/[Apache Commons Configuration^]: 
+
+[source,options="nowrap"]
+----
+Parameters params = new Parameters();
+// Read data from this URL
+URL propertiesURL = new URL("http://localhost:8080/henge/v1/search/microservicea");
+
+FileBasedConfigurationBuilder<FileBasedConfiguration> builder =
+    new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
+    .configure(params.fileBased()
+        .setURL(propertiesURL));
+try
+{
+    Configuration config = builder.getConfiguration();
+    // config contains all properties read from the URL
+}
+catch(ConfigurationException cex)
+{
+    // loading of the configuration file failed
+}
+----
+
+Make sure to add the following dependency to the Maven *pom.xml* file for your project:
+
+[source,options="nowrap"]
+----
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-configuration2</artifactId>
+  <version>2.1</version>
+</dependency>
+<dependency>
+    <groupId>commons-beanutils</groupId>
+    <artifactId>commons-beanutils</artifactId>
+    <version>1.9.2</version>
+</dependency>
+----
+
+=== Archaius
+
+To retrieve properties using https://github.com/Netflix/archaius[Netflix Archaius^]:
+
+. Add a dependency for Archaius to the Maven *pom.xml* file for your project:
++
+[source,options="nowrap"]
+----
+<dependency>
+    <groupId>com.netflix.archaius</groupId>
+    <artifactId>archaius-core</artifactId>
+    <version>0.7.4</version>
+</dependency>
+----
+
+. Also in the *pom.xml* file, add a dependency for the Tomcat Maven plug-in and specify the following Archaius properties:
++
+[options="header"]
+|===
+| Property | Value
+| archaius.configurationSource.defaultFileName | Default configuration file name (use `config.properties`)
+| archaius.configurationSource.additionalUrls | Henge search URL with query parameters
+| archaius.fixedDelayPollingScheduler.initialDelayMills | Initial delay (in milliseconds) before reading from Henge
+| archaius.fixedDelayPollingScheduler.delayMills | Delay (in milliseconds) between reads from Henge
+|===
+
++
+[source,options="nowrap"]
+----
+<plugin>
+    <groupId>org.apache.tomcat.maven</groupId>
+    <artifactId>tomcat7-maven-plugin</artifactId>
+    <version>2.2</version>
+    <configuration>
+        <path>/microservicea</path>
+        <port>${tomcat.port}</port>
+        <useTestClasspath>false</useTestClasspath>
+        <systemProperties>
+            <application.home>${basedir}${file.separator}src${file.separator}test${file.separator}resources${file.separator}</application.home>
+            <http.port>${tomcat.port}</http.port>
+            <archaius.configurationSource.defaultFileName>config.properties</archaius.configurationSource.defaultFileName>
+            <archaius.configurationSource.additionalUrls>http://localhost:8080/henge/v1/search/microservicea</archaius.configurationSource.additionalUrls>
+            <archaius.fixedDelayPollingScheduler.initialDelayMills>1000</archaius.fixedDelayPollingScheduler.initialDelayMills>
+            <archaius.fixedDelayPollingScheduler.delayMills>10000</archaius.fixedDelayPollingScheduler.delayMills>
+        </systemProperties>
+    </configuration>
+</plugin>
+----
+
+NOTE: For an example of using Archaius, see the *pom.xml* file for the *hello-properties* application, located in the */hello-properties* directory. 
+
+== Updating Properties
+
+Property values can be changed at any time, even while the application is running, by updating a PropertyGroup as well as the relevant VersionSets and Mappings. You don't have to rebuild or redeploy the application until it's time to deploy a new version of the application.
+
+To update a PropertyGroup, use the http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/update[`/v1/property-groups/{propertyGroupName}`^] endpoint. The request body is the same as when creating a PropertyGroup, but make sure to increment the version number in addition to updating property values.
+
+NOTE: To update a FileVersion, use the http://localhost:8080/henge/swagger/index.html#!/v1_-_files/update[`http://localhost:8080/henge/v1/files/update/`^] endpoint.
+
+After updating a PropertyGroup, you need to update the VersionSet and Mapping for any applications that should use the updated properties:
+
+* Update the VersionSets to refer to the new PropertyGroup version using the http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/update[`/v1/version-sets/{versionSetName}`^] endpoint. 
+
+* Update the Mappings to refer to the new VersionSet version using the http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping[`http://localhost:8080/henge/v1/mapping/`^] endpoint.
+
+For example, say you have two different stacks (Web sites) called SuperSite and PowerPage. You deploy a new version of a microservice (v1.1) into your PowerPage stack in the dev environment in the AWS us-west-2 region. First you update the microservice's APP PropertyGroup with new property values and increment it to v1.1. Next you update the microservice's VersionSet to v1.1 and reference the v1.1 PropertyGroup. Finally, you update the Mapping to associate the v1.1 VersionSet with the microservice and the scope set of dev (environment), us-west-2 (region), and PowerPage (stack).
+
+Now, the microservice v1.1 running in the PowerPage stack uses the updated v1.1 properties. But the older microservice v1.0 running in the SuperSite stack still uses the v1.0 properties. That's the benefit of versioned configurations!
+
+== Try it Out
+
+Use the following https://www.getpostman.com/[Postman^] requests to load and retrieve properties using a URL.
+
+NOTE: Before trying the examples below, make sure the Henge server is up and running (see <<getting_started#getting-started,Getting Started>>).
+
+First, import the Henge Use Case Simple App Postman collection:
+
+. In Postman, click *Import*, and then click *Choose Files*.
+. Select the *HengeUseCaseComplexApp.postman_collection.json* file (located in the */documentation/demo/* directory), and then click *Open*.
+
+Next, send the following requests (located under the *HengeUseCaseComplexApp* collection in Postman):
+
+[cols="1,2", options="header"]
+|===
+| Request | Description
+| 1. Create APP PropertyGroup - Microservice A | Creates an APP PropertyGroup named *ComplexAppServiceA*.
+| 2. Create LIB PropertyGroup - Library 1 | Creates a LIB PropertyGroup named *ComplexAppLibrary1*.
+| 3. Create a VersionSet - Microservice A | Creates a VersionSet named *ComplexAppVersionSetServiceA* that contains the PropertyGroups *ComplexAppServiceA* and *ComplexAppLibrary1*.
+| 4. Create Mapping for Microservice A - SuperSite Dev | Associates the VersionSet *ComplexAppVersionSetServiceA* with the application named *microservicea* and the *dev* environment, *us-west-2* region, and *supersite* stack.
+| 5. Create Mapping for Microservice A - PowerPage Dev | Associates the VersionSet *ComplexAppVersionSetServiceA* with the application named *microservicea* and the *dev* environment, *us-west-2* region, and *powerpage* stack.
+| 6. Retrieve Properties for Microservice A - SuperSite Dev | Returns the properties associated with the application *microservicea* and the *dev* environment, *us-west-2* region, and *supersite* stack. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.
+| 7. Retrieve Properties for Microservice A - PowerPage Dev | Returns the properties associated with the application *microservicea* and the *dev* environment, *us-west-2* region, and *powerpage* stack. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.
+| 8. Update APP PropertyGroup - Microservice A | Updates the APP PropertyGroup named *ComplexAppServiceA* with new property values and increments to v.1.1.
+| 9. Update VersionSet - Microservice A | Updates the VersionSet named *ComplexAppVersionSetServiceA* to reference v1.1 of PropertyGroup *ComplexAppServiceA* and increments to v1.1.
+| 10. Update Mapping for Microservice A - PowerPage Dev | Associates the VersionSet *ComplexAppVersionSetServiceA* v1.1 with the application named *microservicea* and the *dev* environment, *us-west-2* region, and *powerpage* stack.
+| 11. Retrieve Properties for Microservice A - PowerPage Dev | Returns the properties associated with the application *microservicea* and the *dev* environment, *us-west-2* region, and *powerpage* stack. Note that the v1.1 properties are returned.
+| 12. Retrieve Properties for Microservice A - SuperSite Dev | Returns the properties associated with the application *microservicea* and the *dev* environment, *us-west-2* region, and *supersite* stack. Note that the v1.0 properties are returned.
+|===
+
+NOTE: There are also Postman requests for mapping and retrieving properties for Microservice B. Send these requests if you'd like to test getting properties for another application.

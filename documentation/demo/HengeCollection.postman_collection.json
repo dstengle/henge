@@ -1,1060 +1,662 @@
 {
-	"variables": [],
-	"info": {
-		"name": "HengeCollection",
-		"_postman_id": "cc9f74f6-713f-b61f-ad73-9d29f274125a",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
-	},
-	"item": [
+	"id": "3589385d-eee5-cfe1-7796-416ff22a4855",
+	"name": "HengeCollection",
+	"description": "",
+	"order": [
+		"80ed475a-61b1-d06a-f31e-c19378600f86",
+		"9ff5ba16-7077-ca11-4bd3-e562a26ebb0e",
+		"04f93543-a3d5-d4e6-91a6-2efec55cd6aa",
+		"060ba405-8e91-89b3-ee89-4eb1bad1b74a",
+		"6e1ae786-8cfd-2abd-887b-93bb1424060c",
+		"bd11e31c-12fc-b4db-470c-540273ab43ef",
+		"97a9da01-016c-47ae-42f5-5bf093729e3d",
+		"d03adf8d-d376-81a6-b176-1e2281839087",
+		"d96cccc8-79bd-535b-dac0-c2e6633d46b2",
+		"f993eb6a-e56d-0ef0-31db-d60daefad559",
+		"f656e092-d747-cb01-abcc-95601d8ecf56",
+		"6ee40fe3-69e4-4cd8-7672-88d986327b6b",
+		"cc262b11-a133-f863-f9c4-b09eb7cfada5",
+		"31ca7eeb-9cd1-7de3-366d-5140dcd6801c",
+		"57f8b598-000b-b3bc-3a98-bbc350a3e874",
+		"0d485232-e76f-524b-1db9-b2f71697954a",
+		"f024f774-477c-5397-aba6-fda0224a2077",
+		"737a6ac1-0d82-582b-3bfb-fe79d41a02cd",
+		"bcc011d5-f666-8e9e-3f7a-978e62fadf54",
+		"3ae57280-86b9-3664-842d-9d7a44fd287e",
+		"460d234f-37cc-b427-73d2-4bc753892e97",
+		"6a2bed9f-c52a-463d-d597-957c143ea9fa",
+		"7d17f215-c12c-38c0-34a1-fe2297db1a8b",
+		"cbc944cd-117c-75f1-c396-36637d25652a",
+		"d7fb36c2-0bd6-0507-6cd7-c8e8488e5bed",
+		"2e99745c-e893-0016-8804-8fb577bd231d",
+		"a2b412f0-7224-3ff7-dd63-a7ca0edb9bcd",
+		"ea6a2409-e582-47e5-b357-7d4d58b2021e",
+		"d3afcf17-8fff-73ba-3815-8b537e5b8a47",
+		"19af692c-be61-7b31-7d50-d78a62af91d2"
+	],
+	"folders": [],
+	"timestamp": 1464182763254,
+	"owner": "915894",
+	"public": false,
+	"published": false,
+	"requests": [
 		{
-			"name": "PropertyGroup - Create",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.0\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "PropertyGroup - Update",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.1\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
+			"id": "04f93543-a3d5-d4e6-91a6-2efec55cd6aa",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/latest",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475167426549,
 			"name": "PropertyGroup - Get Latest",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
 		},
 		{
-			"name": "PropertyGroup - Get legacy Versions",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/enterpriseedgecachemiddle/versions",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "PropertyGroup - Get legacy Version 1.0.0",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/enterpriseedgecachemiddle/versions/1.0.0",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "PropertyGroup - Get Latest Legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/enterpriseedgecachemiddle",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
+			"id": "060ba405-8e91-89b3-ee89-4eb1bad1b74a",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
 			"name": "PropertyGroup - Get Versions",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464354113753,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		},
 		{
-			"name": "PropertyGroup - Get Version 1.0.0",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/1.0.0",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Create",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/upload",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"enabled": true
-						},
-						{
-							"key": "data",
-							"value": "{   \"name\": \"FileVersion1\",   \"version\": \"1.0.0\",   \"description\": \"Description\",   \"createdDate\": null }",
-							"type": "text",
-							"enabled": true
-						}
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Get by FileVersion Name",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/FileVersion1",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Update",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/update",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"enabled": true
-						},
-						{
-							"key": "data",
-							"value": "{   \"name\": \"FileVersion1\",   \"version\": \"1.0.1\",   \"description\": \"Description\",   \"createdDate\": null }",
-							"type": "text",
-							"enabled": true
-						}
-					]
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Get by FileVersion Name and version",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions/1.0.0",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Get latest version",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions/ceiling",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Get versions",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Update - set current version",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/current/FileVersion1/1.0.0",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Get current version",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/current/FileVersion1",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Create with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"enterpriseedgecachemiddle\",\n  \"version\": \"1.0.0\",\n  \"description\": null,\n  \"fileVersionReferences\":[\n      {\n          \"name\": \"FileVersion1\",\n          \"version\": \"1.0.0\"\n      }\n      ],\n  \"propertyGroupReferences\": [\n    {\n      \"name\": \"enterpriseedgecachemiddle\",\n      \"version\": \"1.0.0\"\n    }\n  ],\n  \"createdDate\": null,\n  \"scopedPropertyValueKeys\": null,\n  \"typeHierarchyEnabled\": true\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Create with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"VersionSet1\",\n  \"version\": \"1.0.0\",\n  \"description\": null,\n  \"fileVersionReferences\":[\n      {\n          \"name\": \"FileVersion1\",\n          \"version\": \"1.0.0\"\n      }\n      ],\n  \"propertyGroupReferences\": [\n    {\n      \"name\": \"property-group-1\",\n      \"version\": \"1.0.0\"\n    }\n  ],\n  \"createdDate\": null,\n  \"scopedPropertyValueKeys\": null,\n  \"typeHierarchyEnabled\": true\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Get by FileVersion by VersionSet Name and Version",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/VersionSet1/1.0.0/FileVersion1",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Add VerisonSet Mapping with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping?application=enterpriseedgecachemiddle",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"enterpriseedgecachemiddle\",\n    \"version\": \"1.0.0\"\n}"
-				},
-				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
-			},
-			"response": []
-		},
-		{
+			"id": "0d485232-e76f-524b-1db9-b2f71697954a",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/mapping?application=testapplication1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475168549079,
 			"name": "Add VerisonSet Mapping with VersionSet1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping?application=enterpriseedgecachemiddle2",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"VersionSet1\",\n    \"version\": \"1.0.0\"\n}"
-				},
-				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
-			},
-			"response": []
+			"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": [],
+			"rawModeData": "{\n    \"name\": \"VersionSet1\",\n    \"version\": \"1.0.0\"\n}"
 		},
 		{
-			"name": "View Mappings",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"VersionSet0\",\n    \"version\": \"1.0.1\"\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Search by Application with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/search/enterpriseedgecache",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Search by Application with VersionSet1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/search/enterpriseedgecachemiddle2",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Update with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"enterpriseedgecachemiddle\",\n  \"version\": \"1.0.1\",\n  \"description\": null,\n  \"fileVersionReferences\":[\n      {\n          \"name\": \"FileVersion1\",\n          \"version\": \"1.0.0\"\n      }\n      ],\n  \"propertyGroupReferences\": [\n    {\n      \"name\": \"enterpriseedgecachemiddle\",\n      \"version\": \"1.0.0\"\n    }\n  ],\n  \"createdDate\": null,\n  \"scopedPropertyValueKeys\": null,\n  \"typeHierarchyEnabled\": true\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Update with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n  \"name\": \"VersionSet1\",\n  \"version\": \"1.0.1\",\n  \"description\": null,\n  \"fileVersionReferences\":[\n      {\n          \"name\": \"FileVersion1\",\n          \"version\": \"1.0.0\"\n      }\n      ],\n  \"propertyGroupReferences\": [\n    {\n      \"name\": \"property-group-1\",\n      \"version\": \"1.0.0\"\n    }\n  ],\n  \"createdDate\": null,\n  \"scopedPropertyValueKeys\": null,\n  \"typeHierarchyEnabled\": true\n}"
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Read latest with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Read specific version with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle/versions/1.0.0",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Read latest with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Read specific version with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions/1.0.0",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - get versions with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle/versions",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - get versions with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - get latest version number with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle/versions/ceiling",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - get latest version number with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions/ceiling",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Update VerisonSet Mapping with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping?application=enterpriseedgecachemiddle",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"enterpriseedgecachemiddle\",\n    \"version\": \"1.0.1\"\n}"
-				},
-				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
-			},
-			"response": []
-		},
-		{
-			"name": "Update VerisonSet Mapping with VersionSet1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping?application=enterpriseedgecachemiddle2",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"VersionSet1\",\n    \"version\": \"1.0.1\"\n}"
-				},
-				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
-			},
-			"response": []
-		},
-		{
-			"name": "Delete VerisonSet Mapping with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping?application=enterpriseedgecachemiddle",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
-			},
-			"response": []
-		},
-		{
-			"name": "Delete VerisonSet Mapping with VersionSet1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/mapping?application=enterpriseedgecachemiddle2",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries"
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Delete specific version with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions/1.0.1",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Delete all versions with PropertyGroup1",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "VersionSet - Delete all versions with legacy",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/version-sets/enterpriseedgecachemiddle",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Delete FileVersion version.",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions/1.0.1",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "FileVersion - Delete FileVersion ",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/files/FileVersion1",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
+			"id": "19af692c-be61-7b31-7d50-d78a62af91d2",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "DELETE",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
 			"name": "PropertyGroup - Delete PropertyGroup by name",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
-				},
-				"description": ""
-			},
-			"response": []
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464354271161,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		},
 		{
-			"name": "PropertyGroup - Delete legacy Version 1.0.0",
-			"request": {
-				"url": "http://localhost:8080/henge/v1/property-groups/enterpriseedgecachemiddle/versions/1.0.0",
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					},
-					{
-						"key": "Authorization",
-						"value": "Basic dXNlcjp1c2Vy",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": []
+			"id": "2e99745c-e893-0016-8804-8fb577bd231d",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions/1.0.1",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "DELETE",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
+			"name": "VersionSet - Delete specific version with PropertyGroup1",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464707982252,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "31ca7eeb-9cd1-7de3-366d-5140dcd6801c",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "POST",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "raw",
+			"name": "VersionSet - Create with PropertyGroup1",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464705702660,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n  \"name\": \"VersionSet1\",\n  \"version\": \"1.0.0\",\n  \"description\": null,\n  \"fileVersionReferences\":[\n      {\n          \"name\": \"FileVersion1\",\n          \"version\": \"1.0.0\"\n      }\n      ],\n  \"propertyGroupReferences\": [\n    {\n      \"name\": \"property-group-1\",\n      \"version\": \"1.0.0\"\n    }\n  ],\n  \"createdDate\": null,\n  \"scopedPropertyValueKeys\": null,\n  \"typeHierarchyEnabled\": true\n}"
+		},
+		{
+			"id": "3ae57280-86b9-3664-842d-9d7a44fd287e",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475169160055,
+			"name": "VersionSet - Read latest with PropertyGroup1",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
+		},
+		{
+			"id": "460d234f-37cc-b427-73d2-4bc753892e97",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions/1.0.0",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1464708428428,
+			"name": "VersionSet - Read specific version with PropertyGroup1",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
+		},
+		{
+			"id": "57f8b598-000b-b3bc-3a98-bbc350a3e874",
+			"headers": "",
+			"url": "http://localhost:8080/henge/v1/files/VersionSet1/1.0.0/FileVersion1",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475168069812,
+			"name": "FileVersion - Get FileVersion by VersionSet Name and Version",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
+		},
+		{
+			"id": "6a2bed9f-c52a-463d-d597-957c143ea9fa",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
+			"name": "VersionSet - get versions with PropertyGroup1",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464707321325,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "6e1ae786-8cfd-2abd-887b-93bb1424060c",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/property-groups/property-group-1/versions/1.0.0",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
+			"name": "PropertyGroup - Get Version 1.0.0",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464354142249,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "6ee40fe3-69e4-4cd8-7672-88d986327b6b",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/files/current/FileVersion1/1.0.0",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Update - set current version",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464616168861,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "737a6ac1-0d82-582b-3bfb-fe79d41a02cd",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/search/testapplication1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475168685644,
+			"name": "Search by Application with VersionSet1",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
+		},
+		{
+			"id": "7d17f215-c12c-38c0-34a1-fe2297db1a8b",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1/versions/ceiling",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
+			"name": "VersionSet - get latest version number with PropertyGroup1",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464708605867,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "80ed475a-61b1-d06a-f31e-c19378600f86",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/property-groups/",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475248539072,
+			"name": "PropertyGroup - Create",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": [],
+			"rawModeData": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.0\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : \"Pet Store App\",\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
+		},
+		{
+			"id": "97a9da01-016c-47ae-42f5-5bf093729e3d",
+			"headers": "",
+			"url": "http://localhost:8080/henge/v1/files/FileVersion1",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Get by FileVersion Name",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464615567239,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "9ff5ba16-7077-ca11-4bd3-e562a26ebb0e",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/property-groups/property-group-1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475248450885,
+			"name": "PropertyGroup - Update",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": [],
+			"rawModeData": "{\r\n  \"name\" : \"property-group-1\",\r\n  \"version\" : \"1.0.1\",\r\n  \"description\" : \"property-group-1-description\",\r\n  \"type\" : \"APP\",\r\n  \"active\" : true,\r\n  \"createdDate\" : \"2015-11-23T09:44:51.580\",\r\n  \"properties\" : [ {\r\n    \"name\" : \"app-name\",\r\n    \"description\" : \"Application Description\",\r\n    \"defaultValue\" : \"Pet Store App\",\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Pet Store App - Development\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Pet Store App - Production\"\r\n    } ] \r\n  }, {\r\n    \"name\" : \"property-foo\",\r\n    \"description\" : \"Dummy Description\",\r\n    \"defaultValue\" : null,\r\n    \"propertyScopedValues\" : [ {\r\n      \"key\" : \"env=dev\",\r\n      \"value\" : \"Bar Dev\"\r\n    }, {\r\n      \"key\" : \"env=prod\",\r\n      \"value\" : \"Bar Prod\"\r\n    } ]\r\n  } ]\r\n}"
+		},
+		{
+			"id": "a2b412f0-7224-3ff7-dd63-a7ca0edb9bcd",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "DELETE",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "params",
+			"name": "VersionSet - Delete all versions with PropertyGroup1",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464708047525,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "bcc011d5-f666-8e9e-3f7a-978e62fadf54",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\nContent-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/version-sets/VersionSet1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1464707125459,
+			"name": "VersionSet - Update with PropertyGroup1",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": [],
+			"rawModeData": "{\n  \"name\": \"VersionSet1\",\n  \"version\": \"1.0.1\",\n  \"description\": null,\n  \"fileVersionReferences\":[\n      {\n          \"name\": \"FileVersion1\",\n          \"version\": \"1.0.0\"\n      }\n      ],\n  \"propertyGroupReferences\": [\n    {\n      \"name\": \"property-group-1\",\n      \"version\": \"1.0.0\"\n    }\n  ],\n  \"createdDate\": null,\n  \"scopedPropertyValueKeys\": null,\n  \"typeHierarchyEnabled\": true\n}"
+		},
+		{
+			"id": "bd11e31c-12fc-b4db-470c-540273ab43ef",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/files/upload",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "file",
+					"type": "file",
+					"enabled": true
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"key": "data",
+					"value": "{   \"name\": \"FileVersion1\",   \"version\": \"1.0.0\",   \"description\": \"Description\",   \"createdDate\": null }",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1464615511622,
+			"name": "FileVersion - Create",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
+		},
+		{
+			"id": "cbc944cd-117c-75f1-c396-36637d25652a",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/mapping?application=testapplication1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475169245813,
+			"name": "Update VerisonSet Mapping with VersionSet1",
+			"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": [],
+			"rawModeData": "{\n    \"name\": \"VersionSet1\",\n    \"version\": \"1.0.1\"\n}"
+		},
+		{
+			"id": "cc262b11-a133-f863-f9c4-b09eb7cfada5",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/files/current/FileVersion1",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Get current version",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464706722478,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "d03adf8d-d376-81a6-b176-1e2281839087",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/files/update",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [
+				{
+					"key": "file",
+					"type": "file",
+					"enabled": true
+				},
+				{
+					"key": "data",
+					"value": "{   \"name\": \"FileVersion1\",   \"version\": \"1.0.1\",   \"description\": \"Description\",   \"createdDate\": null }",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "FileVersion - Update",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464615633350,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "d3afcf17-8fff-73ba-3815-8b537e5b8a47",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/files/FileVersion1",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "DELETE",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1464709023366,
+			"name": "FileVersion - Delete FileVersion ",
+			"description": "",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": []
+		},
+		{
+			"id": "d7fb36c2-0bd6-0507-6cd7-c8e8488e5bed",
+			"headers": "Content-Type: application/json\nAuthorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/mapping?application=testapplication1",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "raw",
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1475169350992,
+			"name": "Delete VerisonSet Mapping with VersionSet1",
+			"description": "Application: PropertyGroup-App\nVersion: 1.0.0\nLibs: All\nScopes: env=dev\n\nReturn: VersionSet0, all libraries",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "d96cccc8-79bd-535b-dac0-c2e6633d46b2",
+			"headers": "",
+			"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions/1.0.0",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Get by FileVersion Name and version",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464615855213,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "ea6a2409-e582-47e5-b357-7d4d58b2021e",
+			"headers": "Authorization: Basic dXNlcjp1c2Vy\n",
+			"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions/1.0.1",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "DELETE",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Delete FileVersion version.",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464615764894,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "f024f774-477c-5397-aba6-fda0224a2077",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost:8080/henge/v1/mapping",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": [],
+			"dataMode": "raw",
+			"name": "View Mappings",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464705804379,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n    \"name\": \"VersionSet0\",\n    \"version\": \"1.0.1\"\n}"
+		},
+		{
+			"id": "f656e092-d747-cb01-abcc-95601d8ecf56",
+			"headers": "",
+			"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Get versions",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464615947893,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "f993eb6a-e56d-0ef0-31db-d60daefad559",
+			"headers": "",
+			"url": "http://localhost:8080/henge/v1/files/FileVersion1/versions/ceiling",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "3589385d-eee5-cfe1-7796-416ff22a4855",
+			"data": null,
+			"dataMode": "params",
+			"name": "FileVersion - Get latest version",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1464615911118,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
 		}
 	]
 }

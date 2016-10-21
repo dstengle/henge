@@ -1,0 +1,115 @@
+[[hello-properties]]
+= Hello Properties Application
+:sectnums:
+:icons: font
+
+Hello Properties is a REST-based Java application that displays messages using Henge properties. It dynamically grabs Henge properties via a simple integration with Archaius:
+
+- Properties are stored in the Henge repository. 
+- Henge properties are loaded to Archaius on start up with the `<archaius.configurationSource.additionalUrls>` URL setting in the .pom file. This setting is used to give Archaius a URL to load properties from; here we specify the `search` endpoint in Henge which finds and retrieves property groups for an application.
+- Hello Properties uses Archaius libraries to retrieve individual properties during runtime and display them in two REST-based method calls. 
+- As properties are versioned within Henge, Archaius dynamically picks up changes by polling the Henge `search` endpoint URL every few seconds. 
+
+The demo below walks through how to start up Hello Properties, how different property values are referenced for the dev and prod environments, and how properties can be dynamically versioned.  
+
+== Loading Properties 
+Before starting Hello Properties, you will need to load properties related to the application into Henge. Make sure you have <<getting_started#getting-started,Henge cloned and built>> and  https://www.getpostman.com/apps[Postman installed^] before walking through the steps. 
+
+. Within the project root directory, start Henge using a local flatfile repository: 
++
+[source]
+----
+mvn -pl henge-service spring-boot:run
+----
+. Start Postman. Click *Import*. Drag */henge/hello-properties/Hello%20Properties.postman_collection.json* into the Postman window. 
+. Within the Hello Properties collection, click *Henge - Convenience* and click *Send*. This is a convenience method that will load properties for the application using `PropertyGroup`, `VersionSet` and `Mapping` domain objects with a JSON request.  
+
+[NOTE]
+====
+For more information on what the domain objects do, see <<domain_reference#domain-objects,Domain Objects>>. 
+
+Here we are using Postman to send REST calls, though this could also be done using curl. To view the complete REST API, see the http://localhost:8080/henge/swagger/index.html[Henge Swagger API documentation^].  
+====
+
+
+== Building and Running Hello Properties
+
+. Open a separate Terminal window. Within the */henge/hello-properties* folder, build the application: 
++
+[source]
+----
+mvn clean install
+----
+. Within the same folder, run the application using the Maven Tomcat plugin: 
++
+[source]
+----
+mvn tomcat7:run
+----
+. You can now test the two REST endpoints of the application with Postman. Within the Hello Properties collection, run the following REST calls: 
+
+.. *Hello Property Name* - displays a message using the property *helloproperties.name*. 
+.. *Hello Properties Message* - displays a message that uses both *helloproperties.name* and *helloproperties.message* properties. 
+
+== Changing to the Dev Environment
+
+The previous REST calls reference the *default* values for the properties as defined in the `PropertyGroup`. Different property values are also defined for both *dev* and *prod* environment scopes in the `PropertyGroup`. The scopes exist to demonstrate running the application in different environments where property values vary. 
+[NOTE]
+====
+See the *Henge - Convenience* REST call for details on what scoped values are loaded into the PropertyGroup. For more information on scopes, see the  <<domain_reference#Scope,Scope section of Domain Objects>>. 
+====
+
+Continuing from the steps above, you can re-run the application with the *dev* environment scoping using a different Maven profile:     
+
+. Stop Hello Properties by pressing *Control-C*. 
+. In */henge/hello-properties* folder, restart Hello Properties using the *dev* Maven profile. 
++
+[source]
+----
+mvn tomcat7:run -Denv=dev
+----
+. Rerun the following Postman calls in the Hello Properties collection. Note that the calls now display different messages based on the *dev* scoping. 
+
+.. *Hello Property Name* 
+.. *Hello Properties Message* 
+
+[NOTE] 
+====
+Within the *henge/hello-properties/pom.xml*, there are Maven profiles set up to run the application using *default*, *dev* and *prod* environments. Each profile sets the Archaius system property `<archaius.configurationSource.additionalUrls>` to one of three Henge `search` endpoints with different environment scopes: 
+
+[source]
+----
+http://localhost:8080/henge/v1/search/helloproperties
+
+http://localhost:8080/henge/v1/search/helloproperties?scopes=env=dev
+
+http://localhost:8080/henge/v1/search/helloproperties?scopes=env=prod
+----
+Outside of Maven profiles, `<archaius.configurationSource.additionalUrls>` could alternately be set at the command line with: 
+
+[source]
+----
+mvn tomcat7:run -Darchaius.configurationSource.additionalUrls=Dhttp://localhost:8080/henge/v1/search/helloproperties?scopes=env=dev
+----
+For more information on this Archaius system property, see the https://github.com/Netflix/archaius/wiki/Getting-Started[Archaius wiki^]. 
+====
+
+== Versioning Properties
+
+As mentioned, versioned changes to properties are picked up in the application dynamically via Archaius, so the application does not require a restart. Continuing from the steps above, you can test versioning the application's properties in Henge with the following steps. 
+
+. Within the Postman Hello Properties collection, run the following REST calls that update the `PropertyGroup`, `VersionSet` and `Mapping`. 
+
+.. *Update Property Group* - creates a new 1.0.1 PropertyGroup with changed property values
+.. *Update VersionSet* - creates a new 1.0.1 VersionSet that references the new PropertyGroup 
+.. *Update Mapping* - creates a new Mapping that assigns the *default* scope to the new VersionSet
+.. *Update Mapping Dev Scope* - creates a new Mapping that assigns the *dev* scope to the new VersionSet
++
+NOTE: See the */henge/repository* folder to view the new flatfile objects that are created. 
+
+. Wait 10 seconds, as this is the polling interval configured for Archaius. Rerun the following Postman calls in the Hello Properties collection. Note that the calls now display different messages based on the versioned property values.
+
+.. *Hello Property Name* 
+.. *Hello Properties Message* 
+
+NOTE: Within the VersionSet, you can also have it reference the PropertyGroup as "latest" instead of a hard-coded version such as "1.0.1". If the VersionSet had been set up as such, step 1 would only require versioning the `PropertyGroup`, as the `VersionSet` would then pick up the latest version of the `PropertyGroup`. The `Mapping` can also use "latest" to reference the latest `VersionSet`. 

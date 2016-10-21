@@ -516,11 +516,15 @@ table.CodeRay td.code>pre{padding:0}
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_property">1. Property</a></li>
-<li><a href="#_scope">2. Scope</a></li>
-<li><a href="#_propertygroup">3. PropertyGroup</a></li>
+<li><a href="#Scope">2. Scope</a></li>
+<li><a href="#PropertyGroup">3. PropertyGroup</a>
+<ul class="sectlevel2">
+<li><a href="#ScopeHierarchy">3.1. Scope Sets and Precedence Hierarchy</a></li>
+</ul>
+</li>
 <li><a href="#_fileversion">4. FileVersion</a></li>
 <li><a href="#_versionset">5. VersionSet</a></li>
-<li><a href="#_mapping">6. Mapping</a></li>
+<li><a href="#Mapping">6. Mapping</a></li>
 </ul>
 </div>
 </div>
@@ -560,15 +564,21 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="_scope">2. Scope</h2>
+<h2 id="Scope">2. Scope</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>Scope</code> is a key-value pair used to specify a situation where a given <code>Property</code> assumes a particular value. A <code>Scope</code> is useful when a configuration variable has different values depending on the situation. For example, a property may have different values depending on the environment where the application is executed. In this instance you could have a key as <strong>environment</strong> and possible values of <strong>development</strong>, <strong>test</strong>, and <strong>production</strong>. This would define three instances of <code>Scope</code> that can be used to set different values for the property.</p>
+<p>A <code>Scope</code> is a key-value pair used to specify different values for properties in a given scenario. A <code>Scope</code> is useful when a configuration variable should have different values depending on the environment the application is run in. For example, you could have a scope key as <strong>env</strong> and possible values of <strong>dev</strong>, <strong>test</strong>, and <strong>prod</strong> which are particular environments the application runs in. This would define three instances of <code>Scope</code> that can be used to set different values for the properties in those environments.</p>
+</div>
+<div class="paragraph">
+<p>See the <a href="#PropertyGroup">Property Group</a> section for examples of using one or multiple scopes, as well as how to set up a precedence hierarchy for scopes.</p>
+</div>
+<div class="paragraph">
+<p>Scopes are used when setting up the <code>Mapping</code> domain object and when retrieving a set of properties using the <code>search</code> endpoint. For more information, see the <a href="#Mapping">Mapping</a> section.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_propertygroup">3. PropertyGroup</h2>
+<h2 id="PropertyGroup">3. PropertyGroup</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <code>PropertyGroup</code> groups properties that belong to the same context and always go together. It has the following attributes:</p>
@@ -603,60 +613,63 @@ library or dependency of your project. This distinction is used when evaluating 
 </ul>
 </div>
 <div class="paragraph">
-<p>An example of a <code>PropertyGroup</code> might be a configuration for a database connection. For this <code>PropertyGroup</code> you need <code>Property</code> values for <strong>host</strong>, <strong>port</strong>, <strong>username</strong> and <strong>password</strong>. Let&#8217;s assume you have <strong>development</strong>, <strong>test</strong> and <strong>production</strong> environments where the values for these properties may be different. You would define a <code>PropertyGroup</code> with four properties where each of them have three <code>propertyScopedValues</code>. The following is a JSON representation of this example:</p>
+<p>An example of a <code>PropertyGroup</code> might be a configuration for a database connection. For this <code>PropertyGroup</code> you need <code>Property</code> values for <strong>host</strong>, <strong>port</strong>, <strong>username</strong> and <strong>password</strong>. Let&#8217;s assume you have <strong>dev</strong>, <strong>test</strong> and <strong>prod</strong> environments where the values for these properties may be different. You would define a <code>PropertyGroup</code> with four properties. Each property would have three <code>propertyScopedValues</code> and a <code>defaultValue</code>. The following is a JSON representation of this example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dbconfig</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Example database configuration</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">type</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">APP</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">active</span><span class="delimiter">&quot;</span></span>: <span class="value">true</span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">properties</span><span class="delimiter">&quot;</span></span>: [{
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dbhost</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Ip of database host</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">propertyScopedValues</span><span class="delimiter">&quot;</span></span>: [{
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=development</span><span class="delimiter">&quot;</span></span>, <i class="conum" data-value="1"></i><b>(1)</b>
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">127.0.0.1</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="2"></i><b>(2)</b>
-                }, {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=test</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">192.168.0.10</span><span class="delimiter">&quot;</span></span>
-                }, {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=production</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">192.168.0.20</span><span class="delimiter">&quot;</span></span>
-                }]
-        }, {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dbport</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Port of database</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">defaultValue</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">4321</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="3"></i><b>(3)</b>
-        }, {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dbuser</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Username for connecting to database</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">propertyScopedValues</span><span class="delimiter">&quot;</span></span>: [{
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=development</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">devuser</span><span class="delimiter">&quot;</span></span>
-                }, {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=test</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">testuser</span><span class="delimiter">&quot;</span></span>
-                }, {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=production</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">produser</span><span class="delimiter">&quot;</span></span>
-                }]
-        }, {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dbpasswd</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Password for connecting to database</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">propertyScopedValues</span><span class="delimiter">&quot;</span></span>: [{
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=development</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1234</span><span class="delimiter">&quot;</span></span>
-                }, {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=test</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1234</span><span class="delimiter">&quot;</span></span>
-                }, {
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">key</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">environment=production</span><span class="delimiter">&quot;</span></span>,
-                        <span class="key"><span class="delimiter">&quot;</span><span class="content">value</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">b40df5b0d4d173a554b1030c0f453dac</span><span class="delimiter">&quot;</span></span>
-                }]
-        }]
+<pre class="CodeRay highlight"><code>{
+	"name": "dbconfig",
+	"version": "1.0.0",
+	"description": "Example database configuration",
+	"type": "APP",
+	"active": true,
+	"properties": [{
+		"name": "dbhost",
+		"description": "Ip of database host",
+		"defaultValue": "localhost", # <i class="conum" data-value="3"></i><b>(3)</b>
+        "propertyScopedValues": [{
+			"key": "env=dev", # <i class="conum" data-value="1"></i><b>(1)</b>
+			"value": "127.0.0.1" # <i class="conum" data-value="2"></i><b>(2)</b>
+		}, {
+			"key": "env=test",
+			"value": "192.168.0.10"
+		}, {
+			"key": "env=production",
+			"value": "192.168.0.20"
+		}]
+	}, {
+		"name": "dbport",
+		"description": "Port of database",
+		"defaultValue": "4321" # <i class="conum" data-value="4"></i><b>(4)</b>
+	}, {
+		"name": "dbuser",
+		"description": "Username for connecting to database",
+		"defaultValue": "user",
+        "propertyScopedValues": [{
+			"key": "env=dev",
+			"value": "devuser"
+		}, {
+			"key": "env=test",
+			"value": "testuser"
+		}, {
+			"key": "env=prod",
+			"value": "produser"
+		}]
+	}, {
+		"name": "dbpasswd",
+		"description": "Password for connecting to database",
+		"defaultValue": "1234",
+        "propertyScopedValues": [{
+			"key": "env=dev",
+			"value": "1234"
+		}, {
+			"key": "env=test",
+			"value": "1234"
+		}, {
+			"key": "env=prod",
+			"value": "b40df5b0d4d173a554b1030c0f453dac"
+		}]
+	}]
 }</code></pre>
 </div>
 </div>
@@ -664,17 +677,167 @@ library or dependency of your project. This distinction is used when evaluating 
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Note that the key of the <code>propertyScopedValue</code> is a <code>Scope</code> whose key is <strong>environment</strong> and value is <strong>development</strong>.</td>
+<td>The key of the <code>propertyScopedValue</code> is a <code>Scope</code> whose key is <strong>env</strong> and value is <strong>dev</strong>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Also observe that <strong>127.0.0.1</strong> is the value of the <strong>dbhost</strong> property when the <code>Scope</code> is <strong>environment=development</strong>.</td>
+<td><strong>127.0.0.1</strong> is the value of the <strong>dbhost</strong> property when the <code>Scope</code> is <strong>env=dev</strong>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The <strong>dbhost</strong> property uses the <code>defaultValue</code> of <strong>localhost</strong> if no <code>Scope</code> is specified when the search is performed on Henge.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
 <td>For <strong>dbport</strong>, there are no <code>propertyScopedValues</code> and only a <code>defaultValue</code> because the <strong>dbport</strong> is the same for all environments.</td>
 </tr>
 </table>
+</div>
+<div class="sect2">
+<h3 id="ScopeHierarchy">3.1. Scope Sets and Precedence Hierarchy</h3>
+<div class="paragraph">
+<p>The previous example shows a single scoping of different values based on dev, test and prod environments. But how are more complex environments set up?</p>
+</div>
+<div class="paragraph">
+<p>Scopes can be defined in <strong>scope sets</strong> that represent a specific environment the application runs in that has multiple scopes. Some examples of scope sets include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>env</strong>=staging</p>
+</li>
+<li>
+<p><strong>env</strong>=dev, <strong>region</strong>=us-west-2,</p>
+</li>
+<li>
+<p><strong>env</strong>=prod, <strong>region</strong>=us-west-2, <strong>stack</strong>=coolwebsiteA</p>
+</li>
+<li>
+<p><strong>env</strong>=qa, <strong>region</strong>=us-west-2, <strong>stack</strong>=financePages, <strong>hostname</strong>=localhost</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each <code>Property</code> can define one or more scope sets, where a specific property value is designated for each scope set.</p>
+</div>
+<div class="paragraph">
+<p>As an example, let&#8217;s say you have an application that has a URL that can be different based on the environment, the region, and a hostname. Within the <code>PropertyGroup</code> you would define various <code>scopeSets</code> under <code>propertyScopedValues</code> as shown in the following JSON example.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+    "active": true,
+    "name": "EventLoggerAPP",
+    "properties": [
+        {
+            "defaultValue": "www.website.com",
+            "name": "eventlogger.url",
+            "propertyScopedValues": [
+                {
+                    "scopeSet": [ <i class="conum" data-value="1"></i><b>(1)</b>
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        }
+                    ],
+                    "value": "www.dev-website.com" <i class="conum" data-value="2"></i><b>(2)</b>
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        },
+                        {
+                            "key": "region",
+                            "value": "us-west-2"
+                        }
+                    ],
+                    "value": "us-west-2.dev-website.com" <i class="conum" data-value="3"></i><b>(3)</b>
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "hostname",
+                            "value": "localhost"
+                        }
+                    ],
+                    "value": "localhost:8080" <i class="conum" data-value="4"></i><b>(4)</b>
+                }
+            ]
+        }
+    ],
+    "type": "APP",
+    "version": "1.0.3"
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Instead of defining different key/values as in the previous example, a <code>scopeSet</code> is used to define a set of scopes that have a specific value.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>If deployed in the <strong>dev</strong> environment, the URL is <strong>www.dev-website.com</strong>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>If deployed in the <strong>dev</strong> environment and in the <strong>us-west-2</strong> region, the URL is <strong>us-west-2.dev-website.com</strong>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>If deployed in any environment or region and <strong>hostname=localhost</strong>, the URL is <strong>localhost:8080</strong>. This acts as an override for testing.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Note that in #4, the stipulation is <em>any</em> environment or region. For example, lets say the application is deployed in:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>env=dev</p>
+</li>
+<li>
+<p>region=us-west-2</p>
+</li>
+<li>
+<p>hostname=localhost</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When searching for this property using this same set of scopings, the return value would always be <strong>localhost:8080</strong>. Yet how does Henge know to use precedence for the URL value <strong>localhost:8080</strong>, instead of returning <strong>www.dev-website.com</strong> or <strong>us-west-2.dev-website.com</strong>?</p>
+</div>
+<div class="paragraph">
+<p>Henge uses a hierarchy of scopings for resolving which scoped value takes precedence over another. The resolution order is defined in the Spring profile <strong>henge/henge-domain/src/main/resources/application.yml</strong> by the <strong>scope.precedence.configuration</strong> property. It&#8217;s default hierarchy is:</p>
+</div>
+<div class="paragraph">
+<p><code>env;env+region;env+region+stack;hostname;application</code></p>
+</div>
+<div class="paragraph">
+<p>Sets of scopes are defined using the plus + symbol, and are placed in precedence order. Precedence weight is greater as you move from left to right, so <strong>hostname</strong> has a greater priority than <strong>env</strong> or <strong>env+region</strong>.</p>
+</div>
+<div class="paragraph">
+<p>In our example, the higher precedence of the <strong>hostname=localhost</strong> scope is the reason why the URL resolves to <strong>localhost:8080</strong> in any environment or region. To see a working Postman collection with the above example, see <strong>henge/documentation/demo/HengeScopeHierarchy.postman_collection.json</strong>.</p>
+</div>
+<div class="paragraph">
+<p>The <strong>scope.precedence.configuration</strong> property can be configured in any way depending on the scopes you&#8217;ve defined and your environment needs.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you are using a new scope set in a <code>PropertyGroup</code>, make sure that the scope set is represented in <strong>scope.precedence.configuration</strong>, as the hierarchy also generally defines which scope sets can be used when searching. Note that the <strong>application</strong> scope is always added on the end as the last precedence.
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -720,18 +883,18 @@ library or dependency of your project. This distinction is used when evaluating 
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">GeoLoc</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">List of GeoLocations of Mountains</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">content</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">TW91bnQgRWxiZXJ0LCBDb2xvcmFkb3wzOS4xMTc4NTEyfC0xMDYuNDQ1MTU5OQpNb3
+<pre class="CodeRay highlight"><code>{
+  "name": "GeoLoc",
+  "version": "1.0.0",
+  "description": "List of GeoLocations of Mountains",
+  "content": "TW91bnQgRWxiZXJ0LCBDb2xvcmFkb3wzOS4xMTc4NTEyfC0xMDYuNDQ1MTU5OQpNb3
   VudCBNaXRjaGVsbCwgTm9ydGggQ2Fyb2xpbmF8MzUuNzY0OTYxMnwtODIuMjY1MTEKTW91bnQgUmFp
-  bmllciwgV2FzaGluZ3Rvbnw0Ni44NTI5MTI5fC0xMjEuNzYwNDQ0Ng==</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">filename</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">GeoLoc.txt</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">createdBy</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">rdaugherty</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">createdDate</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">2016-08-22T09:44:51.58</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">modifiedBy</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">rdaugherty</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">modifiedDate</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">2016-08-22T09:44:51.58</span><span class="delimiter">&quot;</span></span>
+  bmllciwgV2FzaGluZ3Rvbnw0Ni44NTI5MTI5fC0xMjEuNzYwNDQ0Ng==",
+  "filename": "GeoLoc.txt",
+  "createdBy": "rdaugherty",
+  "createdDate": "2016-08-22T09:44:51.58",
+  "modifiedBy": "rdaugherty",
+  "modifiedDate": "2016-08-22T09:44:51.58"
 }</code></pre>
 </div>
 </div>
@@ -783,21 +946,21 @@ application it serves.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">ExampleVersionSet</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">description</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">Example of a VersionSet</span><span class="delimiter">&quot;</span></span>,
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">fileVersionReferences</span><span class="delimiter">&quot;</span></span>: [{
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">configfile</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>
-        }],
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">propertyGroupReferences</span><span class="delimiter">&quot;</span></span>: [{
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dbconfig</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>
-        }, {
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">some-other-property-group</span><span class="delimiter">&quot;</span></span>,
-                <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">latest</span><span class="delimiter">&quot;</span></span> <i class="conum" data-value="1"></i><b>(1)</b>
-        }]
+<pre class="CodeRay highlight"><code>{
+	"name": "ExampleVersionSet",
+	"version": "1.0.0",
+	"description": "Example of a VersionSet",
+	"fileVersionReferences": [{
+		"name": "configfile",
+		"version": "1.0.0"
+	}],
+	"propertyGroupReferences": [{
+		"name": "dbconfig",
+		"version": "1.0.0"
+	}, {
+		"name": "some-other-property-group",
+		"version": "latest" # <i class="conum" data-value="1"></i><b>(1)</b>
+	}]
 }</code></pre>
 </div>
 </div>
@@ -812,34 +975,66 @@ application it serves.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_mapping">6. Mapping</h2>
+<h2 id="Mapping">6. Mapping</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>After creating <code>PropertyGroups</code> and <code>VersionSets</code>, the configuration properties defined in them are not yet available to clients. They only become live after
-creating a <code>Mapping</code> entry, which maps a set of <code>Scopes</code> to a specific version of a <code>VersionSet</code>.</p>
+creating a <code>Mapping</code> entry, which binds an application and a set of <code>Scopes</code> to a specific <code>VersionSet</code>.</p>
 </div>
 <div class="paragraph">
-<p>A <code>Mapping</code> entry is created with REST parameters that include an <strong>application</strong> (required), a <strong>scopeString</strong> that defines the set of scopes (optional), and a <strong>body</strong> that indicates the name and version of the <code>VersionSet</code>. The <strong>application</strong> itself is stored in the <code>Mapping</code> as a scope as shown in the following JSON example:</p>
+<p>A <code>Mapping</code> entry is created with REST parameters that include an <strong>application</strong> (required), a <strong>scopeString</strong> that defines the set of scopes (optional), and a <strong>body</strong> that indicates the name and version of the <code>VersionSet</code>. So for instance, you could create a <code>Mapping</code> with this URL request indicating the application and scopes:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="JSON">{
-<span class="error"> </span><span class="error"> </span><span class="key"><span class="delimiter">&quot;</span><span class="content">{</span><span class="char">\&quot;</span><span class="content">scopeSet</span><span class="char">\&quot;</span><span class="content">:[{</span><span class="char">\&quot;</span><span class="content">key</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">env</span><span class="char">\&quot;</span><span class="content">,</span><span class="char">\&quot;</span><span class="content">value</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">development</span><span class="char">\&quot;</span><span class="content">},{</span><span class="char">\&quot;</span><span class="content">key</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">stack</span><span class="char">\&quot;</span><span class="content">,</span><span class="char">\&quot;</span><span class="content">value</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">stack1</span><span class="char">\&quot;</span><span class="content">},{</span><span class="char">\&quot;</span><span class="content">key</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">application</span><span class="char">\&quot;</span><span class="content">,</span><span class="char">\&quot;</span><span class="content">value</span><span class="char">\&quot;</span><span class="content">:</span><span class="char">\&quot;</span><span class="content">MasterAppOne</span><span class="char">\&quot;</span><span class="content">}]}</span><span class="delimiter">&quot;</span></span> : {
-<span class="error"> </span><span class="error"> </span><span class="error"> </span><span class="error"> </span><span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">VersionSet-1</span><span class="delimiter">&quot;</span></span>,
-<span class="error"> </span><span class="error"> </span><span class="error"> </span><span class="error"> </span><span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">1.0.0</span><span class="delimiter">&quot;</span></span>
-<span class="error"> </span><span class="error"> </span>}
+<pre class="CodeRay highlight"><code>http://localhost:8080/henge/v1/mapping?application=loginApp&amp;scopeString=env=prod,stack=financeWebStack</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And this body indicating the <code>VersionSet</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+  "name": "VersionSet-1",
+  "version": "1.0.0" <i class="conum" data-value="1"></i><b>(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The version could also be specified as "latest", in which case it will always point to the highest version number for that <code>VersionSet</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>Mapping</code> is stored as a JSON object where the <strong>application</strong> itself is a scope, as shown:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>{
+  "{\"scopeSet\":[{\"key\":\"env\",\"value\":\"prod\"},{\"key\":\"stack\",\"value\":\"financeWebStack\"},{\"key\":\"application\",\"value\":\"loginApp\"}]}" : {
+    "name" : "VersionSet-1",
+    "version" : "1.0.0"
+  }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>A search is made by providing an <strong>application</strong> (required) and a set of scopes (optional). The <code>Mapping</code> is looked up to provide the specific <code>VersionSet</code>, which is then converted to a <strong>.properties</strong> file.</p>
+<p>Using the <code>search</code> endpoint, a complete set of properties is retrieved by providing an <strong>application</strong> (required) and a set of scopes (optional). The <code>Mapping</code> is looked up to provide the specific <code>VersionSet</code>, which is then converted to a <strong>.properties</strong> file. For instance, if the above <code>Mapping</code> was in place, you could then retrieve a complete set of properties using the following <code>search</code> call:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="url">http://localhost:8080/henge/v1/search/loginApp?scopes=env=prod,stack=financeWebStack</code></pre>
+</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-18 14:57:38 BRST
+Last updated 2016-10-03 15:56:27 MDT
 </div>
 </div>
 </body>

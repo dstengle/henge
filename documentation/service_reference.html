@@ -541,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>Eureka is an AWS discovery service that allows middle-tier services to register and connect with one another. Its primary purpose is load balancing by ensuring service requests are always routed to an available instance. Eureka includes a server and a client. The server acts as a REST-based registry for clients that runs in a Java servlet container. The Eureka client is a Java library for interfacing with the Eureka server. When a client launches, it sends instance metadata to the Eureka service and notifies the server when it&#8217;s ready to receive traffic. The client has a built-in round-robin load balancer and periodically sends information to the Eureka server indicating which instances are still functioning.</p>
 </div>
 <div class="paragraph">
-<p>More information on Eureka is available at the <a href="https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance">AWS Eureka wiki</a>.</p>
+<p>More information on Eureka is available at the <a href="https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance" target="_blank">AWS Eureka wiki</a>.</p>
 </div>
 </div>
 </div>
@@ -571,7 +571,7 @@ the project using the <strong>eureka</strong> profile:</p>
 </div>
 </li>
 <li>
-<p>By accessing the Spring Boot Eureka server page at <a href="http://localhost:8761/" class="bare">http://localhost:8761/</a>, you can see information about the client instances currently registered to the Eureka server.</p>
+<p>By accessing the Spring Boot Eureka server page at <a href="http://localhost:8761/" target="_blank">http://localhost:8761/</a>, you can see information about the client instances currently registered to the Eureka server.</p>
 </li>
 </ol>
 </div>
@@ -608,17 +608,17 @@ the project using the <strong>eureka</strong> profile:</p>
 <p>Create a Spring Boot <code>Application</code> class that acts as the Eureka server implementation:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.springframework.boot.SpringApplication</span>;
-<span class="keyword">import</span> <span class="include">org.springframework.boot.autoconfigure.SpringBootApplication</span>;
-<span class="keyword">import</span> <span class="include">org.springframework.cloud.netflix.eureka.server.EnableEurekaServer</span>;
+<pre class="CodeRay highlight"><code>import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-<span class="annotation">@SpringBootApplication</span> <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="annotation">@EnableEurekaServer</span> <i class="conum" data-value="2"></i><b>(2)</b>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">Application</span> {
+@SpringBootApplication <i class="conum" data-value="1"></i><b>(1)</b>
+@EnableEurekaServer <i class="conum" data-value="2"></i><b>(2)</b>
+public class Application {
 
-        <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> args) {
-                SpringApplication.run(Application.class, args);
-        }
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
 
 }</code></pre>
 </div>
@@ -640,17 +640,17 @@ the project using the <strong>eureka</strong> profile:</p>
 <p>Configure the Eureka server in the <strong>application.yml</strong> file:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">server</span>:
-  <span class="key">port</span>: <span class="string"><span class="content">8761</span></span>
+<pre class="CodeRay highlight"><code>server:
+  port: 8761
 
-<span class="key">eureka</span>:
-  <span class="key">instance</span>:
-    <span class="key">hostname</span>: <span class="string"><span class="content">localhost</span></span>
-  <span class="key">client</span>:
-    <span class="key">registerWithEureka</span>: <span class="string"><span class="content">false </span></span><i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key">fetchRegistry</span>: <span class="string"><span class="content">false </span></span><i class="conum" data-value="1"></i><b>(1)</b>
-    <span class="key">serviceUrl</span>:
-      <span class="key">defaultZone</span>: <span class="string"><span class="content">http://${eureka.instance.hostname}:${server.port}/eureka/ </span></span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false <i class="conum" data-value="1"></i><b>(1)</b>
+    fetchRegistry: false <i class="conum" data-value="1"></i><b>(1)</b>
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -670,9 +670,9 @@ the project using the <strong>eureka</strong> profile:</p>
 <p>Create the <strong>bootstrap.yml</strong> file:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
-  <span class="key">application</span>:
-    <span class="key">name</span>: <span class="string"><span class="content">henge</span></span></code></pre>
+<pre class="CodeRay highlight"><code>spring:
+  application:
+    name: henge</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -694,10 +694,10 @@ registry and register the service and its <strong>spring.application.name</stron
 <p>Create the Eureka Client configuration class:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
-<span class="annotation">@EnableEurekaClient</span> <i class="conum" data-value="1"></i><b>(1)</b>
-<span class="annotation">@Profile</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">eureka</span><span class="delimiter">&quot;</span></span>)
-<span class="directive">public</span> <span class="type">class</span> <span class="class">EurekaClientConfig</span> {
+<pre class="CodeRay highlight"><code>@Configuration
+@EnableEurekaClient <i class="conum" data-value="1"></i><b>(1)</b>
+@Profile("eureka")
+public class EurekaClientConfig {
 
 }</code></pre>
 </div>
@@ -715,7 +715,7 @@ registry and register the service and its <strong>spring.application.name</stron
 <p>Configure the Eureka client in <strong>application.yml</strong>.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">eureka.client.serviceUrl.defaultZone</span>: <span class="string"><span class="content">http://localhost:8761/eureka/</span></span></code></pre>
+<pre class="CodeRay highlight"><code>eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -730,7 +730,7 @@ registry and register the service and its <strong>spring.application.name</stron
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-18 14:57:38 BRST
+Last updated 2016-10-03 16:45:41 MDT
 </div>
 </div>
 </body>
