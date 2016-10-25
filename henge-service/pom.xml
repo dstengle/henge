@@ -277,6 +277,7 @@
 										</ports>
 									</tcp>
 									<time>500000</time>
+									<log>Created default superuser role 'cassandra'</log>
 								</wait>
 							</run>
 						</image>
@@ -285,21 +286,19 @@
 							<alias>henge</alias>
 							<build>
 								<dockerFileDir>${docker.imagesdir}/henge-cassandra</dockerFileDir>
-
 							</build>
 							<run>
 								<env>
-									<cassandra_ip>${docker.host.address}</cassandra_ip>
+									<cassandra_ip>${cassandra_server.ip}</cassandra_ip>
 								</env>
 								<ports>
 									<port>8080:8080</port>
 								</ports>
-
 								<links>
 									<link>cassandra_server</link>
 								</links>
 							</run>
-						</image>
+						</image>						
 					</images>
 				</configuration>
 				<!-- <executions> <execution> <id>start</id> <goals> <goal>build</goal> 

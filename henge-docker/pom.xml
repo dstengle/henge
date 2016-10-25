@@ -34,7 +34,7 @@
 									<alias>cassandra_server</alias>
 									<run>
 										<ports>
-											<port>9042:9042</port>
+											<port>19042:9042</port>
 										</ports>
 										<wait>
 											<tcp>
