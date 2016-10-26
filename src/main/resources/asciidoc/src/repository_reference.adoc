@@ -19,20 +19,20 @@ If you haven't already done so, generate AWS root access keys to allow Henge to 
 
 NOTE: The access key file is a CSV file that contains values for two keys: *AWSAccessKeyId* and *AWSSecretKey*. You will need these two key values in a later step.
 
-For more information, see the http://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html[AWS documentation on Security Credentials]. 
+For more information, see the http://docs.aws.amazon.com/general/latest/gr/root-vs-iam.html[AWS documentation on Security Credentials^]. 
 
 === Create an S3 Bucket
 
 . Within the S3 Dashboard, click *Create Bucket* to create a new S3 Bucket as a repository for Henge flat files. 
 . Give the bucket a unique name, such as *henge-repository-[OrganizationName]*, then click *Create*.  
 
-For more information, see the http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html[AWS documentation on creating an S3 Bucket]. 
+For more information, see the http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html[AWS documentation on creating an S3 Bucket^]. 
 
 === Set Up AWS Credentials Locally
 
 You'll want to add the AWS access keys you previously downloaded to the *credentials* file in the *~/.aws* directory. This will allow Henge access to the S3 bucket.
 
-. Install the AWS CLI. See the http://docs.aws.amazon.com/cli/latest/userguide/installing.html[documentation on installing the AWS CLI]. 
+. Install the AWS CLI. See the http://docs.aws.amazon.com/cli/latest/userguide/installing.html[documentation on installing the AWS CLI^]. 
 . The access keys should be added to a *henge* profile within the *credentials* file. Using the AWS CLI, the keys can be added to the file with the following command: 
 +
 [source]
@@ -100,10 +100,10 @@ As shown in the run command, Henge uses Spring Profiles for runtime configuratio
 == Cassandra Setup
 
 === Run Cassandra and Load the Schema
-. Download Cassandra from http://cassandra.apache.org/download/
+. Download Cassandra from http://cassandra.apache.org/download/[http://cassandra.apache.org/download/^].
 . Install Cassandra by extracting it to a folder of your choice.
 + 
-NOTE: Cassandra's *cqlsh* needs to have Python 2 installed and accessible in your system's path. It is **only compatible with version 2 of Python** and will not work with the version 3. Python can be downloaded from https://www.python.org/downloads/.  
+NOTE: Cassandra's *cqlsh* needs to have Python 2 installed and accessible in your system's path. It is **only compatible with version 2 of Python** and will not work with the version 3. Python can be downloaded from https://www.python.org/downloads/[https://www.python.org/downloads/^].  
 
 . Start Cassandra by running:
 +
@@ -122,7 +122,7 @@ NOTE: Cassandra's *cqlsh* needs to have Python 2 installed and accessible in you
 {cassandra_install_folder}/bin/cqlsh -f henge-repository/src/cassandra/cql/load.cql 
 ----
 
-More information on *cqlsh* is available at the http://docs.datastax.com/en//cql/3.1/cql/cql_reference/cqlsh.html[datastax cqlsh reference]. 
+More information on *cqlsh* is available at the http://docs.datastax.com/en//cql/3.1/cql/cql_reference/cqlsh.html[datastax cqlsh reference^]. 
 
 === Build and Run Henge
 

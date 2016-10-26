@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Metrics</title>
+<title>Henge Overview</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -509,24 +509,25 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body id="metrics" class="article">
+<body id="henge-overview" class="article">
 <div id="header">
-<h1>Metrics</h1>
+<h1>Henge Overview</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_required_services">1. Required Services</a></li>
-<li><a href="#_configuring_docker">2. Configuring Docker</a>
+<li><a href="#_enter_henge">1. Enter Henge</a></li>
+<li><a href="#_the_henge_properties_model">2. The Henge Properties Model</a></li>
+<li><a href="#_versions_and_mappings">3. Versions and Mappings</a></li>
+<li><a href="#_henge_in_architecture_and_app_lifecycle">4. Henge in Architecture and App Lifecycle</a>
 <ul class="sectlevel2">
-<li><a href="#_macos">2.1. macOS</a></li>
-<li><a href="#_linux">2.2. Linux</a></li>
+<li><a href="#_storing_running_and_getting">4.1. Storing, Running and Getting</a></li>
+<li><a href="#_a_typical_lifecycle_issues_included">4.2. A Typical Lifecycle (Issues Included)</a></li>
 </ul>
 </li>
-<li><a href="#_starting_influxdb_and_grafana">3. Starting InfluxDB and Grafana</a></li>
-<li><a href="#_starting_henge_with_metrics_enabled">4. Starting Henge With Metrics Enabled</a>
+<li><a href="#_back_to_the_neolithic">5. Back to the Neolithic</a>
 <ul class="sectlevel2">
-<li><a href="#_accessing_influxdb">4.1. Accessing InfluxDB</a></li>
-<li><a href="#_accessing_grafana">4.2. Accessing Grafana</a></li>
+<li><a href="#_feature_summary">5.1. Feature Summary</a></li>
+<li><a href="#_henge_architecture">5.2. Henge Architecture</a></li>
 </ul>
 </li>
 </ul>
@@ -536,306 +537,417 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Think of metrics as a way to add instrumentation to your application. Just as instruments like gauges and tachometers give you useful information while driving your car, metrics let you see relevant usage and performance data for your application while it&#8217;s running.</p>
+<p>From the dawn of time, developers have been storing configurations for their application in Java properties files. Whenever they pushed their application from one environment to the next (during deployment), they would request that the properties files be edited to reflect the unique values needed for each environment. After a while, even if the software could be produced as an artifact, the configs were hopelessly jumbled across the enterprise. Any exercise in resolving config values within the environment or across environments would lead to premature gray hair.</p>
 </div>
 <div class="paragraph">
-<p>Henge offers metrics for each service endpoint that allow you to monitor their execution. We rely on <a href="http://metrics.dropwizard.io/" target="_blank">Dropwizard Metrics</a> and its integration with <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank">Spring Actuator</a> to provide metrics values. These values are stored in an <a href="https://influxdata.com/time-series-platform/influxdb/" target="_blank">Influx DB</a> database, and they are made available for visualization on a <a href="http://grafana.org/" target="_blank">Grafana</a> dashboard.</p>
+<p>Although many enterprises are now moving to key-value stores to retrieve properties and alleviate the file chaos, most of these key-value stores lack a complete hierarchical properties model that supports the application lifecycle.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_required_services">1. Required Services</h2>
+<h2 id="_enter_henge">1. Enter Henge</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To run Henge and publish metrics, the InfluxDB and Grafana servers must be running. In addition, Henge needs to be configured to publish metrics data to the InfluxDB server.</p>
+<p>At Kenzan, we grew interested in this apparent property service gap through our own experience in developing a properties store using Netflix Archaius. In particular, we noted Archaius’ <a href="https://github.com/Netflix/archaius/issues/132" target="_blank">open issue #132</a>, which calls for creating a central properties service that separates the persistence of properties from Archaius. The question then became, how could we build something that fills this gap, is feature rich and marries well with modular application design?</p>
 </div>
 <div class="paragraph">
-<p>To simplify this process, and to provide an environment for the purposes of load test analysis, we created Docker images. With Docker, you can quickly start up the metrics environment without having to indvidually install and configure the required services.</p>
+<p>Enter Henge, a REST-based property server that aims to bring order to configuration properties in a number of ways:</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The purpose of the Docker images is to provide a metrics environment for temporary use, such as test analysis. This is why the metrics services are configured to run on the same host as Henge.</p>
-</div>
-<div class="paragraph">
-<p>If you need to run the metrics environment for longer periods, it&#8217;s best to configure the metrics environment on another host. In this case, you need to change the class <strong>MetricsConfig.java</strong> (in the <strong>henge-service</strong> module) to point to the new InfluxDB host.</p>
-</div>
-</td>
-</tr>
-</table>
+<div class="ulist">
+<ul>
+<li>
+<p>Make configs first class, versioned and immutable artifacts, just like software.</p>
+</li>
+<li>
+<p>Group all possible environment values for a property in one place, preventing confusion and dismay.</p>
+</li>
+<li>
+<p>Define property groups for each of the libraries composing an application, and aggregate them into a single application config.</p>
+</li>
+<li>
+<p>Put the configs on the network where they can be updated centrally for all applications.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuring_docker">2. Configuring Docker</h2>
+<h2 id="_the_henge_properties_model">2. The Henge Properties Model</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>You must install and configure Docker to run the Docker containers for metrics. Follow the steps below for your operating system.</p>
+<p>How does Henge accomplish all this? Its primary value lies in how it models properties using JSON objects. The two most basic building blocks are Property Groups and Scopes.</p>
 </div>
-<div class="sect2">
-<h3 id="_macos">2.1. macOS</h3>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Property Groups</strong> contain a set of properties related to your application. Property Groups can be of type APP, representing the application itself, or of type LIB, representing a dependent library with its own set of properties. Each Property Group is immutable and has a version.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Scopes</strong> define cases where a property will have different values depending on the environment it is running in. Scopes, along with the different property values, can be defined within each Property in the Property Group.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
-<p>For systems running macOS, install and configure the Docker Toolbox. This runs Docker in a virtual machine that you can access using the Docker Quickstart Terminal.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open the file <strong>/henge-service/src/main/resources/application-metrics.yml</strong> in a text editor (like <strong>TextEdit</strong>) and change the value for <code>metrics.influxdb.host</code> to <code>192.168.99.100</code>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code># Metrics - InfluxDB Configuration
-metrics.influx:
-    host: 192.168.99.100 <i class="conum" data-value="1"></i><b>(1)</b>
-    port: 8086
-    user: admin
-    password: admin
-    database: henge
-    periodInSeconds: 5</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Change this value to <code>192.168.99.100</code>, and then save and close the file.</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Download the <a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox package for Mac</a>.</p>
-</li>
-<li>
-<p>Double-click the package to run the installer, and then follow the <a href="https://docs.docker.com/toolbox/toolbox_install_mac/" target="_blank">installation instructions</a>.</p>
-</li>
-<li>
-<p>When you reach the <strong>Quick Start</strong> step, select the <strong>Docker Quickstart Terminal</strong> option. This will launch the Docker terminal.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In the future, if you need to launch the Docker terminal, open the <strong>Docker</strong> folder in your <strong>Applications</strong> folder, and then double-click <strong>Docker Quickstart Terminal</strong>.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Configure required environment variables. To do this, enter the following commands in the Docker terminal (press <strong>&lt;Enter&gt;</strong> after each command):</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>export DOCKER_CERT_PATH=~/.docker/machine/certs
-export DOCKER_HOST=tcp://192.168.99.100:2376
-export DOCKER_TLS_VERIFY=1</code></pre>
-</div>
-</div>
-</li>
-</ol>
+<p>As an example, you might have a Property Group for a SendEmail library that supports your application. It has a <strong>supportEmail</strong> property, which has different values for dev, staging and prod environments. In Henge, you would define it as:</p>
 </div>
 <div class="paragraph">
-<p>Docker is now ready to go. Keep the terminal window open, and continue with <a href="#_starting_influxdb_and_grafana">Starting InfluxDB and Grafana</a> below.</p>
+<p><strong>Property Group:</strong> SendEmail (type=LIB, v1.0)</p>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_linux">2.2. Linux</h3>
-<div class="paragraph">
-<p>For systems running Linux, install and configure the Docker Engine. This runs Docker natively on your system (rather than inside a virtual machine, like on macOS).</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>Open the file <strong>/henge-service/src/main/resources/application-metrics.yml</strong> in a text editor and make sure the value for <code>metrics.influxdb.host</code> is <code>127.0.0.1</code>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code># Metrics - InfluxDB Configuration
-metrics.influx:
-    host: 127.0.0.1 <i class="conum" data-value="1"></i><b>(1)</b>
-    port: 8086
-    user: admin
-    password: admin
-    database: henge
-    periodInSeconds: 5</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>If necessary, change this value to <code>127.0.0.1</code>, and then save and close the file.</td>
-</tr>
-</table>
+<p><strong>Property:</strong> supportEmail</p>
+<div class="ulist">
+<ul>
+<li>
+<p>defaultValue = <a href="mailto:test@awesome.com">test@awesome.com</a></p>
+</li>
+<li>
+<p>Scopes</p>
+<div class="ulist">
+<ul>
+<li>
+<p>env=dev</p>
+<div class="ulist">
+<ul>
+<li>
+<p>value = <a href="mailto:testSupport@awesome.com">testSupport@awesome.com</a></p>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<p>Install Docker by following the <a href="https://docs.docker.com/engine/installation/" target="_blank">installation instructions</a> for your Linux distribution.</p>
-</li>
+<p>env=stage</p>
+<div class="ulist">
+<ul>
 <li>
-<p>Configure the Docker daemon to enable communication with the Maven plug-in. To do this, open the file <strong>/etc/default/docker</strong> in a text editor and add the following line:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>DOCKER_OPTS="-H tcp://127.0.0.1:4041 -H unix:///var/run/docker.sock" <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The IP address must be the same as for <code>localhost</code>, but the port can be modified as needed. Using the default port of <code>2376</code> caused issues, so here we are using port <code>4041</code> instead.</td>
-</tr>
-</table>
+<p>value = <a href="mailto:stageSupport@awesome.com">stageSupport@awesome.com</a></p>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<p>Restart Docker using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>sudo restart docker</code></pre>
+<p>env=prod</p>
+<div class="ulist">
+<ul>
+<li>
+<p>value = <a href="mailto:techsupport@awesome.com">techsupport@awesome.com</a></p>
+</li>
+</ul>
 </div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<p>Set the <code>DOCKER_HOST</code> environment variable using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>export DOCKER_HOST=tcp://127.0.0.1:4041 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Use the same port as in Step 3 above.</td>
-</tr>
-</table>
-</div>
+<p><strong>Property:</strong> anotherProperty…</p>
 </li>
-</ol>
+</ul>
 </div>
 <div class="paragraph">
-<p>Docker is now ready to go. Keep the terminal window open, and continue with <a href="#_starting_influxdb_and_grafana">Starting InfluxDB and Grafana</a> below.</p>
+<p>For supportEmail there are three scopes — <strong>env=dev</strong>, <strong>env=stage</strong>, <strong>env=prod</strong> — each of which have different values. The scope key is env, defining a new type of scoping. During runtime, a search is performed on Henge using one of these environment scopes to determine what property value it should retrieve for the application in that environment. Note that there is also a <strong>defaultValue</strong>: if none of the three environments are referenced when searching, it will use the default value.</p>
 </div>
+<div class="paragraph">
+<p>For more complex environments, you can also define sets of scopes. Some examples of scope sets that define an environment might include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>env</strong>=staging</p>
+</li>
+<li>
+<p><strong>env</strong>=dev, <strong>region</strong>=us-west-2</p>
+</li>
+<li>
+<p><strong>env</strong>=prod, <strong>region</strong>=us-west-2, <strong>stack</strong>=coolwebsiteA</p>
+</li>
+<li>
+<p><strong>env</strong>=qa, <strong>region</strong>=us-west-2, <strong>stack</strong>=financePages, <strong>hostname</strong>=localhost</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Within each property you can specify one or more scope sets and give a property value for each scope set. If a property has multiple different values based on a complex environment, a hierarchy is used to determine precedence for the various values a property could take on. For more information, see <a href="domain_reference.html#domain-objects">Domain Objects</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_starting_influxdb_and_grafana">3. Starting InfluxDB and Grafana</h2>
+<h2 id="_versions_and_mappings">3. Versions and Mappings</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To start the metrics environment, change to the root directory of the project, and then use the following command:</p>
+<p>There are two other important pieces to the model that bring it all together. Once you’ve set up Property Groups or File Versions for an application, you group them in a Version Set representing the application as a whole, and create a Mapping used to search for a complete set of properties.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>mvn -pl henge-docker -P metrics</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
 <tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-When running this command, make sure you are in the same terminal window you used to export the environment variables.
-</td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A <strong>Version Set</strong> references multiple Property Groups of type APP or LIB, and defines a complete set of properties for an application. A Version Set is immutable, and has its own version separate from the various Property Groups. Note that it can reference a Property Group with “latest” as the symbolic version, to always include the most recent version of the Property Group.</p></td>
 </tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_starting_henge_with_metrics_enabled">4. Starting Henge With Metrics Enabled</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To start Henge and enable publishing of metrics to InfluxDB, change to the root directory of the project, and then use the following command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>mvn -pl henge-service spring-boot:run -Dspring.profiles.active=dev,flatfile_local,metrics</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
 <tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-When running this command, make sure you are in the same terminal window you used to export the environment variables.
-</td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Mappings</strong> link a specific version of a Version Set to an application running in a specific environment (defined by the Scopes). When a search request is sent to Henge, it uses this Mapping to get all properties for the application on its environment. The Mapping itself is mutable, and can also reference the “latest” symbolic version of a Version Set.</p></td>
 </tr>
+</tbody>
 </table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The <code>-Dspring.profiles.active</code> switch is used to specify the Spring profiles to activate when running Henge. You can specify different profiles as needed. However, to publish metrics values, the <code>metrics</code> profile must be active. See <a href="profiles_reference.html#profiles">Profiles</a> for more information.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_accessing_influxdb">4.1. Accessing InfluxDB</h3>
 <div class="paragraph">
-<p>Metrics are published to InfluxDB each time an endpoint is used. To access the InfluxDB web interface, use the appropriate URL for your operating system:</p>
+<p>Expanding on our previous example, let’s assume that we are building a brand new EventLogger application that logs events to a logging database. Some things to know about our application:</p>
 </div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>macOS</strong></dt>
-<dd>
-<p><code><a href="http://192.168.99.100:8083" class="bare">http://192.168.99.100:8083</a></code></p>
-</dd>
-<dt class="hdlist1"><strong>Linux</strong></dt>
-<dd>
-<p><code><a href="http://127.0.0.1:8083" class="bare">http://127.0.0.1:8083</a></code></p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_accessing_grafana">4.2. Accessing Grafana</h3>
-<div class="paragraph">
-<p>The Grafana dashboard loads metrics values from InfluxDB and makes them available for visualization.  To access the Grafana dashboard, use the appropriate URL for your operating system:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>macOS</strong></dt>
-<dd>
-<p><code><a href="http://192.168.99.100:3000" class="bare">http://192.168.99.100:3000</a></code></p>
-</dd>
-<dt class="hdlist1"><strong>Linux</strong></dt>
-<dd>
-<p><code><a href="http://127.0.0.1:3000" class="bare">http://127.0.0.1:3000</a></code></p>
-</dd>
-</dl>
+<div class="ulist">
+<ul>
+<li>
+<p>The EventLogger application itself has its own set of properties.</p>
+</li>
+<li>
+<p>EventLogger uses two other libraries that have their own properties: an EventDB library for storing events, and the previously mentioned SendEmail library for sending emails.</p>
+</li>
+<li>
+<p>EventLogger relies on searching through a very long EventHierarchy for categorizing Events into logging actions. This is contained in a JSON text file.</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>You can view the dashboard by clicking <strong>Home</strong> in the top banner, and then clicking <strong>Henge</strong>.</p>
+<p>Based on this we create Property Groups, a File Version and a Version Set for the application like so:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src=".//henge-dashboard.png" alt="Henge Dashboard">
+<img src=".//VersionSet1.png" alt="Version Set 1.0">
 </div>
-<div class="title">Figure 1. Henge Dashboard</div>
 </div>
+<div class="paragraph">
+<p>Within the Version Set we are referencing the “latest” versions of the Property Groups and File Version, in this case 1.0.</p>
+</div>
+<div class="paragraph">
+<p>EventLogger runs on dev, stage and prod environments. Many properties in the three Property Groups can have different values in these environments. As we did in the previous SendEmail example, we use dev, stage and prod scopes to assign different property values for those properties that differ in the environments.</p>
+</div>
+<div class="paragraph">
+<p>We also create three Mappings that link the application and its environments to the “latest” EventLogger Version Set (in this case 1.0):</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>EventLogger app running on env=dev  	&#8594; 	EventLogger Version Set (latest)</p>
+</li>
+<li>
+<p>EventLogger app running on env=stage 	&#8594; 	EventLogger Version Set (latest)</p>
+</li>
+<li>
+<p>EventLogger app running on env=prod 	&#8594; 	EventLogger Version Set (latest)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of the above Mappings represent a complete set of properties that we can search for and retrieve from Henge, depending on the environment the application is running in.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_henge_in_architecture_and_app_lifecycle">4. Henge in Architecture and App Lifecycle</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that we have defined a good properties model for our EventLogger application, how does the application get those properties from Henge in our architecture, and how are properties versioned as an artifact alongside our application through its lifecycle?</p>
+</div>
+<div class="sect2">
+<h3 id="_storing_running_and_getting">4.1. Storing, Running and Getting</h3>
+<div class="paragraph">
+<p>Henge currently supports pluggable persistence on three repository types — flatfile local, flatfile on S3, and Cassandra (though Henge could easily be extended to use any data store such as RDBMS, Hibernate, etc.). Because our fictional engineering shop has ample S3 space that is backed up, we opt to run Henge using an S3 flatfile repository.</p>
+</div>
+<div class="paragraph">
+<p>We intend to have many applications use Henge for accessing properties going forward, not just EventLogger. All of our current applications use Netflix Eureka for discovery and request load balancing, so we’d like to do the same with Henge. We make the obvious decision of running Henge with its built-in Eureka client. This is swiftly accomplished by referencing a Spring Profile on the Henge run command.</p>
+</div>
+<div class="paragraph">
+<p>Netflix Archaius is also commonly used in many of our applications as a library to retrieve properties. We determine to use a simple integration between Archaius and Henge. On startup, EventLogger loads properties to Archaius. This is accomplished with the Archaius configuration source URL setting, which we set to the Henge search REST endpoint whose function is to retrieve property sets. Archaius polls the Henge search endpoint occasionally for updates. At runtime, EventLogger grabs individual properties as needed using Archaius libraries, and receives dynamic changes to properties as they occur. It is worth noting that any property library could be used to get individual properties, such as Java Properties classes or Apache Commons Configuration.</p>
+</div>
+<div class="paragraph">
+<p>How Henge fits in our architecture now looks as follows:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src=".//HengeArc.png" alt="EventLogger Architecture">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_a_typical_lifecycle_issues_included">4.2. A Typical Lifecycle (Issues Included)</h3>
+<div class="paragraph">
+<p>During development, the EventLogger application goes through several iterative versions where property values change. Property Groups are versioned as needed. Nothing needs to change in the Version Set, as it already references the “latest” version of Property Groups. All the same, we create a new version of the Version Set to parallel the new application version - this will make it easier to perform a rollback should it ever be required (more on this later). The Mappings do not change, as they reference the latest Version Set.</p>
+</div>
+<div class="paragraph">
+<p>When EventLogger v2.0 is ready for staging, the properties model is:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src=".//VersionSet2.png" alt="VersionSet 2.0">
+</div>
+</div>
+<div class="paragraph">
+<p>In <strong>staging</strong>, we’d like to test out the performance of how Henge is loading properties via Archaius’ polling, as the properties and file that are loaded are quite large. Using Henge’s built in Codahale metrics, as well as Henge’s pre-built Docker container that runs a metrics environment with InfluxDB and Grafana, Henge is started in staging and run through several test scenarios. With the captured data, it’s determined that the REST call loading properties from Henge is quite fast, but that it is best to tweak the polling in Archaius to be less frequent so that resources are more efficiently used elsewhere.</p>
+</div>
+<div class="paragraph">
+<p>After EventLogger has gone to <strong>production</strong>, it’s found that the number of thread pools assigned to DB calls is too low and is causing the application to slow down. This thread pool count can be increased in EventDB properties. A single REST call is made to update the EventDB Property Group with the increased thread pool count. Because it is immutable, a new version 1.6 is created, and the Version Set automatically references this latest Property Group. Archaius picks up the change in Henge via polling, and the application automatically starts using the new thread pool count. Happily, we didn’t have to rebuild and redeploy the application to accomplish this feat.</p>
+</div>
+<div class="paragraph">
+<p>EventLogger later goes through a <strong>release cycle</strong> with several enhancements for version 3.0. During the overhaul, the 3rd party SendEmail library has had a fresh update, and so its property configuration has changed. There is also a new MetricsClient library used by EventLogger to interface with a MetricDB server. The MetricsDB server is a homegrown application that has its own set of properties that will managed by Henge in a separate Version Set, and the MetricsClient will require its own set of properties. For EventLogger, we create a new Property Group for the MetricsClient library, version the SendEmail properties, and version the Version Set to reference to the new MetricsClient properties. Going to production with EventLogger v3.0, our new properties model looks as follows:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src=".//VersionSet3.png" alt="VersionSet 3.0">
+</div>
+</div>
+<div class="paragraph">
+<p>Initially everything goes smoothly when moving back into production, but then, disaster strikes. <strong>Something goes horribly amiss</strong> with the new Metrics server, and EventLogger comes to a staggering halt. It’s going to take some time to figure out the root cause and fix it, so it’s decided the best path is to roll back to EventLogger 2.0 in the meantime. The older version of the application is redeployed, and alongside it, we take care of properties by simply referring back to the older Version Set 2.0. To do so we make a single REST call to update the production Mapping&#8201;&#8212;&#8201;instead of referencing “latest” for the Version Set, we set it to 2.0. Later when we can find the monkey in our wrench and fix the problem, we can go back into production by re-updating the production Mapping to reference “latest.”</p>
+</div>
+<div class="paragraph">
+<p>You might ask yourself, how would my own engineering shop have handled such a rollback with its current properties architecture?</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_back_to_the_neolithic">5. Back to the Neolithic</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Having seen how Henge allows properties to be centrally versioned across the bumps in an application lifecycle, going back to using .properties files or a simple key-value store seems contrary to the immutable nature of the application itself. Just as Henges were once needed as community gathering places for sharing core ideas carved in stone, your microservice apps need a gathering place for their foundational key values. In this case, going back to the Neolithic Age is not such a bad idea after all.</p>
+</div>
+<div class="paragraph">
+<p>To quickly download, run and test Henge, see our <a href="https://github.com/kenzanlabs/henge/wiki" target="_blank">Getting Started page on Github</a>. Or read on for some more specifics.</p>
+</div>
+<div class="sect2">
+<h3 id="_feature_summary">5.1. Feature Summary</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Henge is a central dynamic property store with a REST-based interface for easy integration.</p>
+</li>
+<li>
+<p>It offers pluggable persistence — currently flatfile, flatfile on S3, and Cassandra are included as repository options, though Henge could easily be extended to use any data store (RDBMS, Hibernate, etc.).</p>
+</li>
+<li>
+<p>Henge has smart modeling of properties that accounts for different property values across deployment environments.</p>
+</li>
+<li>
+<p>The property model lets you define property groups for each of the libraries composing an application, and aggregate them into a single application config.</p>
+</li>
+<li>
+<p>Everything is immutable and includes a version. The result is a complete view of how properties have changed as your application has grown, with an application config that moves as an artifact alongside your application.</p>
+</li>
+<li>
+<p>In addition to properties, Henge stores and retrieves any related files an application might parse.</p>
+</li>
+<li>
+<p>Before properties are put into Henge, they are validated with JSR 303 bean validation.</p>
+</li>
+<li>
+<p>A Docker container is included for running Henge in a container environment.</p>
+</li>
+<li>
+<p>Henge is built with high performance in mind to support properties dynamically changing.</p>
+</li>
+<li>
+<p>The REST calls to Henge have Codahale metrics built in. We also include a pre-built Docker metrics environment that uses InfluxDB and Grafana to record and visualize those metrics.</p>
+</li>
+<li>
+<p>Henge is built with integration to Eureka, so that it can be deployed as a Eureka client that is discoverable and load balanced.</p>
+</li>
+<li>
+<p>It is easily integrated with Archaius for dynamic property retrieval, but property retrieval works with any language or library that can make a REST call to a URL.</p>
+</li>
+<li>
+<p>Spring Security is enabled to allow authorization to be set up for the various Henge REST calls.
+Henge uses Spring Profiles at runtime to select and modify its various features.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_henge_architecture">5.2. Henge Architecture</h3>
+<div class="paragraph">
+<p>We built Henge using a suite of modern, flexible open source frameworks and libraries. The architecture below also highlights several future enhancements we are looking at — though by all means fork freely on the <a href="https://github.com/kenzanlabs/henge" target="_blank">Henge Github page</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src=".//henge_architecture.png" alt="Henge Architecture">
+</div>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Henge Component</th>
+<th class="tableblock halign-left valign-top">Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="3"><p class="tableblock">Core</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Objects (discussed above)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html#boot-features-profiles" target="_blank">Spring Profiles</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://beanvalidation.org/1.0/spec/" target="_blank">JSR 303 bean validation</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="4"><p class="tableblock">Persistence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Flatfile</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://aws.amazon.com/s3/" target="_blank">Amazon S3</a> (flatfile)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://cassandra.apache.org/" target="_blank">Cassandra</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RDBMS / <a href="http://hibernate.org/" target="_blank">Hibernate</a> (future)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">HTTP Server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://tomcat.apache.org/" target="_blank">Tomcat</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://www.eclipse.org/jetty/" target="_blank">Jetty</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">REST / <a href="https://jersey.java.net/" target="_blank">Jersey</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://projects.spring.io/spring-security/" target="_blank">Spring Security</a>&#8201;&#8212;&#8201;Authentication, Authorization, and Session (future)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LDAP / <a href="https://www.atlassian.com/software/crowd" target="_blank">Atlassian Crowd</a> (future)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Web Application (future)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="http://www.w3schools.com/html/html5_intro.asp" target="_blank">HTML5</a> / <a href="http://www.w3schools.com/css/css3_intro.asp" target="_blank">CSS3</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://angularjs.org/" target="_blank">AngularJS</a> / <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WebSockets (future)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/Atmosphere/atmosphere" target="_blank">Atmosphere</a></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-21 14:34:12 MDT
+Last updated 2016-10-06 15:44:32 MDT
 </div>
 </div>
 </body>

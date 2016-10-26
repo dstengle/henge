@@ -1,0 +1,56 @@
+[[deploy]]
+= Alternate Methods of Deploying Henge
+:sectnums:
+:icons: font
+
+Henge can alternately be deployed directly onto Apache Tomcat using a JAR or WAR file. Before following the instructions, make sure you have <<getting_started#getting-started,Henge cloned and built>>.
+
+== Deploying the JAR on Tomcat
+The Henge service application uses Spring boot when it builds, and a "fat" jar is generated that contains dependencies inside the archive, including the Tomcat web server. A Tomcat instance will startup with Henge just by running the following in the root project folder:
+
+[source]
+----
+java -jar henge-service/target/henge-service.jar
+----
+
+The application will now be running on http://localhost:8080/henge[http://localhost:8080/henge^] with the default Spring profile, which uses a local flatfile repository. You can change the Tomcat port by adding the option *-Dserver.port=8081* to the command line. For more information regarding configuration see https://spring.io/blog/2014/03/07/deploying-spring-boot-applications[Deploying Spring Boot Applications^].
+
+You can also specify the various <<profiles_reference#profiles,Spring Profiles>> for running Henge with other options. For instance, to run with flatfiles on S3 as a repository, you would use the command: 
+
+[source]
+----
+java -jar -Dspring.profiles.active=dev,flatfile_s3 henge-service/target/henge-service.jar
+----
+Note that to run flatfiles on S3, you would need to make sure your configuration is setup and Henge is built as indicated in the <<repository_reference#repositories, Repositories>> section. 
+
+
+
+== Deploying the Henge WAR on Tomcat
+
+. Download Tomcat at http://tomcat.apache.org[http://tomcat.apache.org^]. Extract the archive file into a directory. 
+
+. In a terminal, change your directory to the Tomcat directory you extracted to. Start Tomcat with:
++
+[source]
+----
+bin/startup.sh
+----
+
+. Copy the *henge/henge-war/target/henge.war* to the *<tomcat-dir>/webapps* directory.
+
+. Within the Tomcat root directory, restart Tomcat by executing:
++
+[source]
+----
+bin/shutdown.sh
+bin/startup.sh
+----
+. The Henge application should now be running at http://localhost:8080/henge[http://localhost:8080/henge^], where it displays a simple web page. The application is running with the default Spring profile which uses a local flatfile repository. 
+
+You can also specify the various <<profiles_reference#profiles,Henge Spring Profiles>> by setting these up in JAVA_OPTS. For instance, to run with flatfiles on S3 as a repository, before starting up Tomcat you would use the command: 
+
+[source]
+----
+export JAVA_OPTS=-Dspring.profiles.active=dev,flatfile_s3
+----
+Note that to run flatfiles on S3, you would need to make sure your configuration is setup and Henge is built as indicated in the <<repository_reference#repositories, Repositories>> section. 

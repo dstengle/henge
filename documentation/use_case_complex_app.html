@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Metrics</title>
+<title>Use Case: Complex Application</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -509,26 +509,29 @@ table.CodeRay td.code>pre{padding:0}
 .CodeRay .head .head{color:#f4f}
 </style>
 </head>
-<body id="metrics" class="article">
+<body id="use-case-complex-app" class="article">
 <div id="header">
-<h1>Metrics</h1>
+<h1>Use Case: Complex Application</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_required_services">1. Required Services</a></li>
-<li><a href="#_configuring_docker">2. Configuring Docker</a>
+<li><a href="#_overview">1. Overview</a></li>
+<li><a href="#_creating_properties">2. Creating Properties</a>
 <ul class="sectlevel2">
-<li><a href="#_macos">2.1. macOS</a></li>
-<li><a href="#_linux">2.2. Linux</a></li>
+<li><a href="#_create_a_propertygroup">2.1. Create a PropertyGroup</a></li>
+<li><a href="#_create_a_versionset">2.2. Create a VersionSet</a></li>
+<li><a href="#_create_a_mapping">2.3. Create a Mapping</a></li>
 </ul>
 </li>
-<li><a href="#_starting_influxdb_and_grafana">3. Starting InfluxDB and Grafana</a></li>
-<li><a href="#_starting_henge_with_metrics_enabled">4. Starting Henge With Metrics Enabled</a>
+<li><a href="#_retrieving_properties">3. Retrieving Properties</a>
 <ul class="sectlevel2">
-<li><a href="#_accessing_influxdb">4.1. Accessing InfluxDB</a></li>
-<li><a href="#_accessing_grafana">4.2. Accessing Grafana</a></li>
+<li><a href="#_java_properties_api">3.1. Java Properties API</a></li>
+<li><a href="#_commons_configuration">3.2. Commons Configuration</a></li>
+<li><a href="#_archaius">3.3. Archaius</a></li>
 </ul>
 </li>
+<li><a href="#_updating_properties">4. Updating Properties</a></li>
+<li><a href="#_try_it_out">5. Try it Out</a></li>
 </ul>
 </div>
 </div>
@@ -536,306 +539,593 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>Think of metrics as a way to add instrumentation to your application. Just as instruments like gauges and tachometers give you useful information while driving your car, metrics let you see relevant usage and performance data for your application while it&#8217;s running.</p>
-</div>
-<div class="paragraph">
-<p>Henge offers metrics for each service endpoint that allow you to monitor their execution. We rely on <a href="http://metrics.dropwizard.io/" target="_blank">Dropwizard Metrics</a> and its integration with <a href="http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready" target="_blank">Spring Actuator</a> to provide metrics values. These values are stored in an <a href="https://influxdata.com/time-series-platform/influxdb/" target="_blank">Influx DB</a> database, and they are made available for visualization on a <a href="http://grafana.org/" target="_blank">Grafana</a> dashboard.</p>
+<p>As an architect designing cloud application platforms, you need a service to that helps you manage configurations as versioned artifacts the same as software artifacts. Your environment is complex, with multiple application stacks needing different versions of configs in different environments and sub-environments. Don&#8217;t worry&#8212;&#8203;Henge has you covered, and can handle complex deployments like yours.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_required_services">1. Required Services</h2>
+<h2 id="_overview">1. Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To run Henge and publish metrics, the InfluxDB and Grafana servers must be running. In addition, Henge needs to be configured to publish metrics data to the InfluxDB server.</p>
-</div>
-<div class="paragraph">
-<p>To simplify this process, and to provide an environment for the purposes of load test analysis, we created Docker images. With Docker, you can quickly start up the metrics environment without having to indvidually install and configure the required services.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The purpose of the Docker images is to provide a metrics environment for temporary use, such as test analysis. This is why the metrics services are configured to run on the same host as Henge.</p>
-</div>
-<div class="paragraph">
-<p>If you need to run the metrics environment for longer periods, it&#8217;s best to configure the metrics environment on another host. In this case, you need to change the class <strong>MetricsConfig.java</strong> (in the <strong>henge-service</strong> module) to point to the new InfluxDB host.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_configuring_docker">2. Configuring Docker</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You must install and configure Docker to run the Docker containers for metrics. Follow the steps below for your operating system.</p>
-</div>
-<div class="sect2">
-<h3 id="_macos">2.1. macOS</h3>
-<div class="paragraph">
-<p>For systems running macOS, install and configure the Docker Toolbox. This runs Docker in a virtual machine that you can access using the Docker Quickstart Terminal.</p>
+<p>In this use case, we have a complex application that is made up of numerous microservices, each of which can include shared libraries as dependencies. The microservices can be deployed in multiple environments, such as development and production, and in different AWS regions. In addition, microservices can be arranged into different product stacks within an environment or region. Microservices may require different property values depending on the environment or stack they are deployed in.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Open the file <strong>/henge-service/src/main/resources/application-metrics.yml</strong> in a text editor (like <strong>TextEdit</strong>) and change the value for <code>metrics.influxdb.host</code> to <code>192.168.99.100</code>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code># Metrics - InfluxDB Configuration
-metrics.influx:
-    host: 192.168.99.100 <i class="conum" data-value="1"></i><b>(1)</b>
-    port: 8086
-    user: admin
-    password: admin
-    database: henge
-    periodInSeconds: 5</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Change this value to <code>192.168.99.100</code>, and then save and close the file.</td>
-</tr>
-</table>
+<p>Properties are loaded into the repository using Henge:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Properties for each microservice are stored in a PropertyGroup of type <code>APP</code> (one for each microservice).</p>
+</li>
+<li>
+<p>Properties for each library are stored in a PropertyGroup of type <code>LIB</code> (one for each library).</p>
+</li>
+<li>
+<p>The PropertyGroups are added to a VersionSet (one for each microservice). The VersionSet references all properties used by the microservice as well as any included libraries. (The VersionSet can also reference FileVersions&#8212;&#8203;files with parsable data.)</p>
+</li>
+<li>
+<p>The VersionSet is mapped to application (microservice) and scope (stack, region, and environment). For each application, a mapping is created for each relevant environment (such as <strong>dev</strong> and <strong>prod</strong>), region (such as <strong>us-west-2</strong>), and stack (such as <strong>supersite</strong> and <strong>powerpage</strong>).</p>
+</li>
+</ul>
 </div>
 </li>
 <li>
-<p>Download the <a href="https://www.docker.com/products/docker-toolbox" target="_blank">Docker Toolbox package for Mac</a>.</p>
+<p>At runtime, each microservice requests properties from the Henge service using a URL. The URL includes the application name and (optionally) the environment, region, and stack as query parameters.</p>
 </li>
 <li>
-<p>Double-click the package to run the installer, and then follow the <a href="https://docs.docker.com/toolbox/toolbox_install_mac/" target="_blank">installation instructions</a>.</p>
+<p>Henge retrieves the appropriate properties for the microservice, environment, region, and stack from the repository, including properties for any shared libraries or referenced files, and returns them to the application.</p>
 </li>
 <li>
-<p>When you reach the <strong>Quick Start</strong> step, select the <strong>Docker Quickstart Terminal</strong> option. This will launch the Docker terminal.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In the future, if you need to launch the Docker terminal, open the <strong>Docker</strong> folder in your <strong>Applications</strong> folder, and then double-click <strong>Docker Quickstart Terminal</strong>.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Configure required environment variables. To do this, enter the following commands in the Docker terminal (press <strong>&lt;Enter&gt;</strong> after each command):</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>export DOCKER_CERT_PATH=~/.docker/machine/certs
-export DOCKER_HOST=tcp://192.168.99.100:2376
-export DOCKER_TLS_VERIFY=1</code></pre>
-</div>
-</div>
+<p>Properties can be updated with new values in Henge at any time by making a REST call. The application will receive the new properties the next time it polls Henge. VersionSets can be maintained as versioned artifacts by creating a new VersionSet version for each new microservice version. This makes it easy to support different versions of the same microservice running in different stacks.</p>
 </li>
 </ol>
-</div>
-<div class="paragraph">
-<p>Docker is now ready to go. Keep the terminal window open, and continue with <a href="#_starting_influxdb_and_grafana">Starting InfluxDB and Grafana</a> below.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_linux">2.2. Linux</h3>
-<div class="paragraph">
-<p>For systems running Linux, install and configure the Docker Engine. This runs Docker natively on your system (rather than inside a virtual machine, like on macOS).</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Open the file <strong>/henge-service/src/main/resources/application-metrics.yml</strong> in a text editor and make sure the value for <code>metrics.influxdb.host</code> is <code>127.0.0.1</code>:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code># Metrics - InfluxDB Configuration
-metrics.influx:
-    host: 127.0.0.1 <i class="conum" data-value="1"></i><b>(1)</b>
-    port: 8086
-    user: admin
-    password: admin
-    database: henge
-    periodInSeconds: 5</code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>If necessary, change this value to <code>127.0.0.1</code>, and then save and close the file.</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Install Docker by following the <a href="https://docs.docker.com/engine/installation/" target="_blank">installation instructions</a> for your Linux distribution.</p>
-</li>
-<li>
-<p>Configure the Docker daemon to enable communication with the Maven plug-in. To do this, open the file <strong>/etc/default/docker</strong> in a text editor and add the following line:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>DOCKER_OPTS="-H tcp://127.0.0.1:4041 -H unix:///var/run/docker.sock" <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The IP address must be the same as for <code>localhost</code>, but the port can be modified as needed. Using the default port of <code>2376</code> caused issues, so here we are using port <code>4041</code> instead.</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Restart Docker using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>sudo restart docker</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Set the <code>DOCKER_HOST</code> environment variable using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>export DOCKER_HOST=tcp://127.0.0.1:4041 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
-</div>
-</div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Use the same port as in Step 3 above.</td>
-</tr>
-</table>
-</div>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Docker is now ready to go. Keep the terminal window open, and continue with <a href="#_starting_influxdb_and_grafana">Starting InfluxDB and Grafana</a> below.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_starting_influxdb_and_grafana">3. Starting InfluxDB and Grafana</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To start the metrics environment, change to the root directory of the project, and then use the following command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>mvn -pl henge-docker -P metrics</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-When running this command, make sure you are in the same terminal window you used to export the environment variables.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_starting_henge_with_metrics_enabled">4. Starting Henge With Metrics Enabled</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To start Henge and enable publishing of metrics to InfluxDB, change to the root directory of the project, and then use the following command:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code>mvn -pl henge-service spring-boot:run -Dspring.profiles.active=dev,flatfile_local,metrics</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-When running this command, make sure you are in the same terminal window you used to export the environment variables.
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The <code>-Dspring.profiles.active</code> switch is used to specify the Spring profiles to activate when running Henge. You can specify different profiles as needed. However, to publish metrics values, the <code>metrics</code> profile must be active. See <a href="profiles_reference.html#profiles">Profiles</a> for more information.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="_accessing_influxdb">4.1. Accessing InfluxDB</h3>
-<div class="paragraph">
-<p>Metrics are published to InfluxDB each time an endpoint is used. To access the InfluxDB web interface, use the appropriate URL for your operating system:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>macOS</strong></dt>
-<dd>
-<p><code><a href="http://192.168.99.100:8083" class="bare">http://192.168.99.100:8083</a></code></p>
-</dd>
-<dt class="hdlist1"><strong>Linux</strong></dt>
-<dd>
-<p><code><a href="http://127.0.0.1:8083" class="bare">http://127.0.0.1:8083</a></code></p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_accessing_grafana">4.2. Accessing Grafana</h3>
-<div class="paragraph">
-<p>The Grafana dashboard loads metrics values from InfluxDB and makes them available for visualization.  To access the Grafana dashboard, use the appropriate URL for your operating system:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1"><strong>macOS</strong></dt>
-<dd>
-<p><code><a href="http://192.168.99.100:3000" class="bare">http://192.168.99.100:3000</a></code></p>
-</dd>
-<dt class="hdlist1"><strong>Linux</strong></dt>
-<dd>
-<p><code><a href="http://127.0.0.1:3000" class="bare">http://127.0.0.1:3000</a></code></p>
-</dd>
-</dl>
-</div>
-<div class="paragraph">
-<p>You can view the dashboard by clicking <strong>Home</strong> in the top banner, and then clicking <strong>Henge</strong>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src=".//henge-dashboard.png" alt="Henge Dashboard">
+<img src=".//use_case_complex_app.png" alt="Complex Application">
 </div>
-<div class="title">Figure 1. Henge Dashboard</div>
+<div class="title">Figure 1. Use Case Overview: Complex Application</div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_creating_properties">2. Creating Properties</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the following requests to load application properties in the Henge repository.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Alternately, you can use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_convenience/batchInsert" target="_blank"><code>http://localhost:8080/henge/v1/convenience/batch</code></a> endpoint to load a PropertyGroup, VersionSet, and Mapping in a single step.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_create_a_propertygroup">2.1. Create a PropertyGroup</h3>
+<div class="paragraph">
+<p>A PropertyGroup contains properties that belong to the same context, such as a single application. To create a PropertyGroup, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/create" target="_blank"><code>http://localhost:8080/henge/v1/property-groups/</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the PropertyGroup name and version, as well as key value pairs for each property, environment, region, and stack (see <a href="domain_reference.html#domain-objects">Domain Objects</a>). Define one PropertyGroup of type <code>APP</code> for each microservice. In addition, define one PropertyGroup of type <code>LIB</code> for each shared library. All microservices that include the shared library will use the same library properties.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To use a file (such as a list of IP addresses) as part of the configuration, create a FileVersion using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_files/upload" target="_blank"><code>http://localhost:8080/henge/v1/files/upload/</code></a> endpoint.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>{
+  "name" : "ComplexAppServiceA",
+  "version" : "1.0.0",
+  "description" : "Complex App Microservice A",
+  "type" : "APP",
+  "active" : true,
+  "properties" : [ {
+    "name" : "complexapp.appmessage",
+    "description" : "Message property",
+    "defaultValue" : "Some message",
+    "propertyScopedValues": [
+        {
+          "value": "This is Microservice A in SuperSite (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "supersite"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in SuperSite (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "supersite"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in PowerPage (Development Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "dev"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "powerpage"
+            }
+          ]
+        },
+        {
+          "value": "This is Microservice A in PowerPage (Production Mode)",
+          "scopeSet": [
+            {
+              "key": "env",
+              "value": "prod"
+            },
+            {
+              "key": "region",
+              "value": "us-west-2"
+            },
+            {
+              "key": "stack",
+              "value": "powerpage"
+            }
+          ]
+        }
+      ]
+    } ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_versionset">2.2. Create a VersionSet</h3>
+<div class="paragraph">
+<p>A VersionSet groups together specific versions of PropertyGroups. (A VersionSet can include FileVersions as well.) To create a VersionSet, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/create" target="_blank"><code>http://localhost:8080/henge/v1/version-sets</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the VersionSet name and version, as well as the PropertyGroup name and version (see <a href="domain_reference.html#domain-objects">Domain Objects</a>). Define one VersionSet for each microservice. The VersionSet should include the <code>APP</code> PropertyGroup for the microservice, as well as the <code>LIB</code> PropertyGroup for each shared library included in the microservice.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Instead of specifying a specific version of a PropertyGroup, you can instead specify <code>"version": "latest"</code> for version. In this case, the VersionSet will always include the most recent version of the PropertyGroup.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>{
+  "name": "ComplexAppVersionSetServiceA",
+  "version": "1.0.0",
+  "description": null,
+  "propertyGroupReferences": [
+    {
+      "name": "ComplexAppServiceA",
+      "version": "1.0.0"
+    },
+    {
+      "name": "ComplexAppLibrary1",
+      "version": "1.0.0"
+    }
+  ],
+  "createdDate": null,
+  "scopedPropertyValueKeys": null,
+  "typeHierarchyEnabled": true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_a_mapping">2.3. Create a Mapping</h3>
+<div class="paragraph">
+<p>A Mapping entry associates a set of Scopes with a specific version of a VersionSet. To create a Mapping, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping" target="_blank"><code>http://localhost:8080/henge/v1/mapping</code></a> endpoint.</p>
+</div>
+<div class="paragraph">
+<p>Create a mapping for each microservice. You must include the <code>application</code> parameter with the URL to associate the VersionSet with the correct microservice. Optionally, you can include the <code>scopeString</code> parameter to associate the VersionSet with a particular set of scopes (environment, region, and stack):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>http://localhost:8080/henge/v1/mapping?application=microservicea&amp;scopeString=env=dev,region=us-west-2,stack=powerpage</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The request body must be in JSON format and should contain the VersionSet name and version (see <a href="domain_reference.html#domain-objects">Domain Objects</a>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>{
+    "name": "ComplexAppVersionSetServiceA",
+    "version": "1.0.0"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_retrieving_properties">3. Retrieving Properties</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Properties can be retrieved at microservice runtime using a URL to access the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_search/findMatches" target="_blank">Henge search API</a>. The URL must include the application (microservice) as a query parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>http://localhost:8080/henge/v1/search/microservicea</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the default property values are retrieved. To retrieve property values for a specific scope, the URL must also include the scope set (such as the environment, region, and stack) as a query parameter:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>http://localhost:8080/henge/v1/search/microservicea?scopes=env=dev,region=us-west-2,stack=powerpage</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To retrieve scope-specific properties, the microservice must be able to send the correct query parameter for the environment, region, and stack that it&#8217;s running in. This can be handled in several ways, for example, by creating a Maven profile for each environment. For an example of profiles in action, see <a href="hello_properties.html#hello-properties">the Hello Properties demo application</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_java_properties_api">3.1. Java Properties API</h3>
+<div class="paragraph">
+<p>To retrieve properties using Java:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>URL url = new URL("http://localhost:8080/henge/v1/search/microservicea");
+InputStream in = url.openStream();
+Reader reader = new InputStreamReader(in, "UTF-8"); // for example
+
+Properties prop = new Properties();
+try {
+    prop.load(reader);
+} finally {
+    reader.close();
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_commons_configuration">3.2. Commons Configuration</h3>
+<div class="paragraph">
+<p>To retrieve properties using <a href="http://commons.apache.org/proper/commons-configuration/" target="_blank">Apache Commons Configuration</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>Parameters params = new Parameters();
+// Read data from this URL
+URL propertiesURL = new URL("http://localhost:8080/henge/v1/search/microservicea");
+
+FileBasedConfigurationBuilder&lt;FileBasedConfiguration&gt; builder =
+    new FileBasedConfigurationBuilder&lt;FileBasedConfiguration&gt;(PropertiesConfiguration.class)
+    .configure(params.fileBased()
+        .setURL(propertiesURL));
+try
+{
+    Configuration config = builder.getConfiguration();
+    // config contains all properties read from the URL
+}
+catch(ConfigurationException cex)
+{
+    // loading of the configuration file failed
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Make sure to add the following dependency to the Maven <strong>pom.xml</strong> file for your project:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
+  &lt;artifactId&gt;commons-configuration2&lt;/artifactId&gt;
+  &lt;version&gt;2.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;commons-beanutils&lt;/groupId&gt;
+    &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;
+    &lt;version&gt;1.9.2&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_archaius">3.3. Archaius</h3>
+<div class="paragraph">
+<p>To retrieve properties using <a href="https://github.com/Netflix/archaius" target="_blank">Netflix Archaius</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add a dependency for Archaius to the Maven <strong>pom.xml</strong> file for your project:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.netflix.archaius&lt;/groupId&gt;
+    &lt;artifactId&gt;archaius-core&lt;/artifactId&gt;
+    &lt;version&gt;0.7.4&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Also in the <strong>pom.xml</strong> file, add a dependency for the Tomcat Maven plug-in and specify the following Archaius properties:</p>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.configurationSource.defaultFileName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default configuration file name (use <code>config.properties</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.configurationSource.additionalUrls</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Henge search URL with query parameters</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.fixedDelayPollingScheduler.initialDelayMills</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial delay (in milliseconds) before reading from Henge</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">archaius.fixedDelayPollingScheduler.delayMills</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delay (in milliseconds) between reads from Henge</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight nowrap"><code>&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+    &lt;artifactId&gt;tomcat7-maven-plugin&lt;/artifactId&gt;
+    &lt;version&gt;2.2&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;path&gt;/microservicea&lt;/path&gt;
+        &lt;port&gt;${tomcat.port}&lt;/port&gt;
+        &lt;useTestClasspath&gt;false&lt;/useTestClasspath&gt;
+        &lt;systemProperties&gt;
+            &lt;application.home&gt;${basedir}${file.separator}src${file.separator}test${file.separator}resources${file.separator}&lt;/application.home&gt;
+            &lt;http.port&gt;${tomcat.port}&lt;/http.port&gt;
+            &lt;archaius.configurationSource.defaultFileName&gt;config.properties&lt;/archaius.configurationSource.defaultFileName&gt;
+            &lt;archaius.configurationSource.additionalUrls&gt;http://localhost:8080/henge/v1/search/microservicea&lt;/archaius.configurationSource.additionalUrls&gt;
+            &lt;archaius.fixedDelayPollingScheduler.initialDelayMills&gt;1000&lt;/archaius.fixedDelayPollingScheduler.initialDelayMills&gt;
+            &lt;archaius.fixedDelayPollingScheduler.delayMills&gt;10000&lt;/archaius.fixedDelayPollingScheduler.delayMills&gt;
+        &lt;/systemProperties&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For an example of using Archaius, see the <strong>pom.xml</strong> file for the <strong>hello-properties</strong> application, located in the <strong>/hello-properties</strong> directory.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_updating_properties">4. Updating Properties</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Property values can be changed at any time, even while the application is running, by updating a PropertyGroup as well as the relevant VersionSets and Mappings. You don&#8217;t have to rebuild or redeploy the application until it&#8217;s time to deploy a new version of the application.</p>
+</div>
+<div class="paragraph">
+<p>To update a PropertyGroup, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_property-groups/update" target="_blank"><code>/v1/property-groups/{propertyGroupName}</code></a> endpoint. The request body is the same as when creating a PropertyGroup, but make sure to increment the version number in addition to updating property values.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+To update a FileVersion, use the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_files/update" target="_blank"><code>http://localhost:8080/henge/v1/files/update/</code></a> endpoint.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>After updating a PropertyGroup, you need to update the VersionSet and Mapping for any applications that should use the updated properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Update the VersionSets to refer to the new PropertyGroup version using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_version-sets/update" target="_blank"><code>/v1/version-sets/{versionSetName}</code></a> endpoint.</p>
+</li>
+<li>
+<p>Update the Mappings to refer to the new VersionSet version using the <a href="http://localhost:8080/henge/swagger/index.html#!/v1_-_mapping/setMapping" target="_blank"><code>http://localhost:8080/henge/v1/mapping/</code></a> endpoint.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, say you have two different stacks (Web sites) called SuperSite and PowerPage. You deploy a new version of a microservice (v1.1) into your PowerPage stack in the dev environment in the AWS us-west-2 region. First you update the microservice&#8217;s APP PropertyGroup with new property values and increment it to v1.1. Next you update the microservice&#8217;s VersionSet to v1.1 and reference the v1.1 PropertyGroup. Finally, you update the Mapping to associate the v1.1 VersionSet with the microservice and the scope set of dev (environment), us-west-2 (region), and PowerPage (stack).</p>
+</div>
+<div class="paragraph">
+<p>Now, the microservice v1.1 running in the PowerPage stack uses the updated v1.1 properties. But the older microservice v1.0 running in the SuperSite stack still uses the v1.0 properties. That&#8217;s the benefit of versioned configurations!</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_try_it_out">5. Try it Out</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the following <a href="https://www.getpostman.com/" target="_blank">Postman</a> requests to load and retrieve properties using a URL.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Before trying the examples below, make sure the Henge server is up and running (see <a href="getting_started.html#getting-started">Getting Started</a>).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>First, import the Henge Use Case Simple App Postman collection:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Postman, click <strong>Import</strong>, and then click <strong>Choose Files</strong>.</p>
+</li>
+<li>
+<p>Select the <strong>HengeUseCaseComplexApp.postman_collection.json</strong> file (located in the <strong>/documentation/demo/</strong> directory), and then click <strong>Open</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Next, send the following requests (located under the <strong>HengeUseCaseComplexApp</strong> collection in Postman):</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Request</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. Create APP PropertyGroup - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an APP PropertyGroup named <strong>ComplexAppServiceA</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. Create LIB PropertyGroup - Library 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a LIB PropertyGroup named <strong>ComplexAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. Create a VersionSet - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a VersionSet named <strong>ComplexAppVersionSetServiceA</strong> that contains the PropertyGroups <strong>ComplexAppServiceA</strong> and <strong>ComplexAppLibrary1</strong>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. Create Mapping for Microservice A - SuperSite Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>ComplexAppVersionSetServiceA</strong> with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>supersite</strong> stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. Create Mapping for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>ComplexAppVersionSetServiceA</strong> with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. Retrieve Properties for Microservice A - SuperSite Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>supersite</strong> stack. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. Retrieve Properties for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack. The properties returned include APP properties for Microservice A as well as LIB properties for Library 1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. Update APP PropertyGroup - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updates the APP PropertyGroup named <strong>ComplexAppServiceA</strong> with new property values and increments to v.1.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9. Update VersionSet - Microservice A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Updates the VersionSet named <strong>ComplexAppVersionSetServiceA</strong> to reference v1.1 of PropertyGroup <strong>ComplexAppServiceA</strong> and increments to v1.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">10. Update Mapping for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Associates the VersionSet <strong>ComplexAppVersionSetServiceA</strong> v1.1 with the application named <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">11. Retrieve Properties for Microservice A - PowerPage Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>powerpage</strong> stack. Note that the v1.1 properties are returned.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12. Retrieve Properties for Microservice A - SuperSite Dev</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the properties associated with the application <strong>microservicea</strong> and the <strong>dev</strong> environment, <strong>us-west-2</strong> region, and <strong>supersite</strong> stack. Note that the v1.0 properties are returned.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There are also Postman requests for mapping and retrieving properties for Microservice B. Send these requests if you&#8217;d like to test getting properties for another application.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-10-21 14:34:12 MDT
+Last updated 2016-10-06 13:53:20 MDT
 </div>
 </div>
 </body>
