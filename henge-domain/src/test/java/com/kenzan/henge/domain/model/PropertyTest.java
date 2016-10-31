@@ -28,6 +28,7 @@ import com.kenzan.henge.config.TestContextConfig;
 import com.kenzan.henge.config.ValidatorConfig;
 import com.kenzan.henge.domain.AbstractBaseDomainTest;
 import com.kenzan.henge.domain.fixture.PropertyFixture;
+import com.kenzan.henge.domain.model.type.PropertyType;
 import com.kenzan.henge.domain.utils.ScopeUtils;
 
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class PropertyTest extends AbstractBaseDomainTest {
 	@Before
 	public void setup() {
 		
-		property = new Property.Builder("property.name").withDefaultValue("default-value")
+		property = new Property.Builder("property.name").withDefaultValue("default-value").withType(PropertyType.STRING)
 				.withScopedValues(PropertyScopedValue.builder(ScopeUtils.parseScopeString("env=env-1,stack=stack-1,subenv=subenv-1"),	"env=env-1,stack=stack-1,subenv=subenv-1--value").build())
 				.withScopedValues(PropertyScopedValue.builder(ScopeUtils.parseScopeString("env=env-1,stack=stack-1,subenv=subenv-2"),	"env=env-1,stack=stack-1,subenv=subenv-2--value").build())
 				.withScopedValues(PropertyScopedValue.builder(ScopeUtils.parseScopeString("env=env-1,stack=stack-2,subenv=subenv-1"), "env=env-1,stack=stack-2,subenv=subenv-1--value").build())
@@ -105,7 +106,7 @@ public class PropertyTest extends AbstractBaseDomainTest {
     public void fromJSON() {
         
         //This json is the output from toJSON(). 
-        String json = "{ \"name\" : \"property.name\", \"description\" : null, \"defaultValue\" : \"default-value\", \"propertyScopedValues\" :"
+        String json = "{ \"name\" : \"property.name\", \"description\" : null, \"defaultValue\" : \"default-value\", \"type\" : \"STRING\", \"propertyScopedValues\" :"
             + " [ { \"value\" : \"env=env-1,stack=stack-1,subenv=subenv-2--value\", \"scopeSet\" : [ { \"key\" : \"subenv\", \"value\" : \"subenv-2\" },"
             + " { \"key\" : \"stack\", \"value\" : \"stack-1\" }, { \"key\" : \"env\", \"value\" : \"env-1\" } ] }, { \"value\" : "
             + "\"env=env-1,stack=stack-2,subenv=subenv-1--value\", \"scopeSet\" : [ { \"key\" : \"subenv\", \"value\" : \"subenv-1\" },"

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kenzan.henge.config.TestContextConfig;
 import com.kenzan.henge.domain.AbstractBaseDomainTest;
 import com.kenzan.henge.domain.model.type.PropertyGroupType;
+import com.kenzan.henge.domain.model.type.PropertyType;
 import com.kenzan.henge.domain.utils.ScopeUtils;
 
 import java.io.IOException;
@@ -185,6 +186,23 @@ public class PropertyGroupTest extends AbstractBaseDomainTest {
         fail("Expected ConstraintViolationException wasn't thrown.");
     }
 	
+    @Test
+    public void testValidationPropertiesTypeFail() {
+
+        expectedException.expect(ConstraintViolationException.class);
+
+        final LocalDateTime now = LocalDateTime.now();
+        PropertyGroup.builder("name", "1.0.0").withCreatedBy("createdBy").withCreatedDate(now)
+                .withDescription("description").withIsActive(true).withType("APP")
+                .withProperties(Property.builder("propertyName").withDefaultValue("1").withType(PropertyType.INTEGER)
+                        .withScopedValues(PropertyScopedValue
+                                .builder(Sets.newHashSet(Scope.builder("env", "dev").build()), "test").build())
+                        .build())
+                .build(validator);
+
+        fail("Expected ConstraintViolationException wasn't thrown.");
+    }
+
 	@Test
     public void testCopyObject() {
         

@@ -37,6 +37,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.kenzan.henge.domain.model.type.PropertyGroupType;
 import com.kenzan.henge.domain.validator.CheckEnumeration;
+import com.kenzan.henge.domain.validator.CheckPropertiesType;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -81,6 +82,7 @@ public class PropertyGroup extends NamedVersionedModel {
 	@ApiModelProperty(required = false, value="Denotes this property-group, as the active property-group version.", example="true")
 	private final boolean isActive;
 	
+	@CheckPropertiesType
 	@ApiModelProperty(required = false, value="The property-group's associated properties.")
 	private final Set<Property> properties;
 	

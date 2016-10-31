@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
+import com.kenzan.henge.domain.model.type.PropertyType;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -54,7 +55,7 @@ import io.swagger.annotations.ApiModelProperty;
  * A property may only belong to one property-group. 0
  */
 @JsonDeserialize(builder = Property.Builder.class, as = Property.class)
-@JsonPropertyOrder({ "id", "name", "description", "defaultValue", "scopeValues", "version", "createdBy", "createdDate" })
+@JsonPropertyOrder({ "id", "name", "description", "defaultValue", "type", "scopeValues", "version", "createdBy", "createdDate" })
 @ApiModel(description = "A property contains a name, description and a set of property-scoped-values.")
 public class Property implements Serializable {
 
@@ -83,6 +84,9 @@ public class Property implements Serializable {
 	// @Pattern(regexp="", message="")
 	@ApiModelProperty(required = false, value = "property's default value.", example = "Default-PetStore application.")
 	private final String defaultValue;
+	
+	@ApiModelProperty(required = false, value = "property's type.", example="String")
+	private final PropertyType type;
 
 	@Valid
 	@ApiModelProperty(required = false, value = "Set of unique property-scoped-values associated with this property.")
@@ -94,6 +98,7 @@ public class Property implements Serializable {
 		this.description = builder.description;
 		this.defaultValue = builder.defaultValue;
 		this.propertyScopedValues = builder.propertyScopedValues;
+		this.type = builder.type;
 	}
 
 	/**
@@ -116,6 +121,14 @@ public class Property implements Serializable {
 	public String getDefaultValue() {
 		return defaultValue;
 	}
+	
+	/**
+	 * 
+	 * @return the type
+	 */
+	public PropertyType getType() {
+		return type;
+	}
 
 	/**
 	 * @return the scopePropertyValues
@@ -134,6 +147,7 @@ public class Property implements Serializable {
 		return Objects.equal(this.name, that.name)
 				&& Objects.equal(this.description, that.description)
 				&& Objects.equal(this.defaultValue, that.defaultValue)
+				&& Objects.equal(this.type, that.getType())
 				&& Objects.equal(this.propertyScopedValues,
 						that.getPropertyScopedValues());
 	}
@@ -141,13 +155,14 @@ public class Property implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(this.name, this.description, this.defaultValue,
-				this.propertyScopedValues);
+				this.type, this.propertyScopedValues);
 	}
 
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("name", this.name)
 				.add("defaultValue", this.defaultValue)
+				.add("type", this.type)
 				.add("propertyScopedValues", this.propertyScopedValues)
 				.toString();
 	}
@@ -168,6 +183,7 @@ public class Property implements Serializable {
 		private String name;
 		private String description;
 		private String defaultValue;
+		private PropertyType type;
 		private Set<PropertyScopedValue> propertyScopedValues;
 
 		private Builder(final Property original) {
@@ -175,6 +191,7 @@ public class Property implements Serializable {
 			this.name = original.getName();
 			this.description = original.getDescription();
 			this.defaultValue = original.getDefaultValue();
+			this.type = original.getType();
 			this.propertyScopedValues = original.getPropertyScopedValues();
 		}
 
@@ -195,6 +212,11 @@ public class Property implements Serializable {
 		public Builder withDefaultValue(final String defaultValue) {
 
 			this.defaultValue = defaultValue;
+			return this;
+		}
+		
+		public Builder withType(final PropertyType type) {
+			this.type = type;
 			return this;
 		}
 

@@ -15,19 +15,58 @@
  */
 package com.kenzan.henge.domain.model.type;
 
+import java.util.function.Function;
+
+import com.google.common.base.Strings;
+import com.kenzan.henge.domain.model.type.validator.BooleanValidatorFunction;
+import com.kenzan.henge.domain.model.type.validator.DoubleValidatorFunction;
+import com.kenzan.henge.domain.model.type.validator.FloatValidatorFunction;
+import com.kenzan.henge.domain.model.type.validator.IntegerValidatorFunction;
+import com.kenzan.henge.domain.model.type.validator.LongValidatorFunction;
+
 public enum PropertyType {
 
-	STRING("String"), 
-	BOOLEAN("Boolean");
+    STRING("String"), 
+    BOOLEAN("Boolean", BooleanValidatorFunction.class), 
+    INTEGER("Integer", IntegerValidatorFunction.class), 
+    LONG("Long", LongValidatorFunction.class), 
+    DOUBLE("Double", DoubleValidatorFunction.class), 
+    FLOAT("Float", FloatValidatorFunction.class);
 
-	private String type;
+    private String type;
+    private Class<Function<String, Boolean>> typeValidatorClass;
 
-	private PropertyType(String type) {
-		this.type = type;
-	}
+    private PropertyType(String type) {
 
-	public String getType() {
-		return this.type;
-	}
-	
+        this(type, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    private PropertyType(String type, Class<? extends Function<String, Boolean>> typeValidatorClass) {
+
+        this.type = type;
+        this.typeValidatorClass = (Class<Function<String, Boolean>>) typeValidatorClass;
+    }
+
+    public String getType() {
+
+        return this.type;
+    }
+
+    public boolean validate(String value) {
+
+        if (!Strings.isNullOrEmpty(value) && this.typeValidatorClass != null) {
+            Function<String, Boolean> function;
+            try {
+                function = this.typeValidatorClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException(
+                        String.format("Error creating type validator for class [%s]", this.typeValidatorClass));
+            }
+            return function.apply(value);
+        }
+
+        return true;
+    }
+
 }

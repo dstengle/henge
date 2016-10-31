@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kenzan.henge.config.TestContextConfig;
 import com.kenzan.henge.domain.model.Property;
 import com.kenzan.henge.domain.model.PropertyScopedValue;
+import com.kenzan.henge.domain.model.type.PropertyType;
 
 import java.io.IOException;
 
@@ -28,7 +29,7 @@ public class JsonUtilsTest {
 	@Test
 	public void toJsonTest() throws JsonProcessingException {
 		
-	    final String expected = "{\"name\":\"propertyName\",\"description\":\"Description\",\"defaultValue\":\"defaultValue\",\"propertyScopedValues\":[{\"value\":\"value1\",\"scopeSet\":[{\"key\":\"scope-key-1\",\"value\":\"scope-value-1\"}]}]}";
+	    final String expected = "{\"name\":\"propertyName\",\"description\":\"Description\",\"defaultValue\":\"defaultValue\",\"type\":\"STRING\",\"propertyScopedValues\":[{\"value\":\"value1\",\"scopeSet\":[{\"key\":\"scope-key-1\",\"value\":\"scope-value-1\"}]}]}";
 		
 		final PropertyScopedValue propertyScopedValue = PropertyScopedValue.builder(ScopeUtils.parseScopeString("scope-key-1=scope-value-1"), "value1").build();
 		
@@ -36,6 +37,7 @@ public class JsonUtilsTest {
 								.withDescription("Description")
 								.withDefaultValue("defaultValue")
 								.withScopedValues(propertyScopedValue)
+								.withType(PropertyType.STRING)
 								.build();
 		final String json = jsonUtils.toJson(property);
 		
