@@ -1,0 +1,94 @@
+[[scopes]]
+
+= Using Scope Sets and the Scope Hierarchy
+
+Before reading further, make sure you've covered the topics in the <<domain_reference#domain-objects, Domain Objects article>> as these help provide a basis for understanding scope sets and the scope hierarchy. 
+
+For more complex environments, scopes are defined in *scope sets* that represent a specific environment the application runs in where properties can have different values based on those environments. Some examples of scope sets include: 
+
+* *env*=staging
+* *env*=dev, *region*=us-west-2,
+* *env*=prod, *region*=us-west-2, *stack*=coolwebsiteA
+* *env*=qa, *subenv*=perf, *region*=us-west-2, *stack*=financePages 
+
+Each `Property` can define one or more scope sets, where a specific property value can be designated for each scope set. 
+
+While you would typically assign different property values per scope set, you may also have the need to override values using a specific scoping. A *scope hierarchy* is used to determine precedence for scoped values and allow overrides. 
+
+As an example of how the scope hierarchy comes into play, let’s say you require a performance testing subenvironment (subenv=perf) that defines higher performance load testing values for thread pools and other properties. You want to be able to use this subenv=perf scope to override property values in dev or staging. To do so you could use the scope hierarchy to cause *subenv* to have a higher precedence than *env*. You could then deploy the app to any environment and specify subenv=perf as the scoping. This would override properties to the higher performance property values.
+
+To demonstrate this example, the following `PropertyGroup` JSON shows how you might define different `scopeSets` for a *threadPoolMax* property, including the subenv=perf scope. 
+
+[source]
+----
+{
+    "active": true,
+    "name": "ITService",
+    "properties": [
+        {
+            "defaultValue": "75",
+            "name": "threadPoolMax",
+            "propertyScopedValues": [
+                {
+                    "scopeSet": [ //<1>
+                        {
+                            "key": "env",
+                            "value": "dev" 
+                        }
+                    ],
+                    "value": "10" //<2>
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "env",
+                            "value": "dev"
+                        },
+                        {
+                            "key": "region",
+                            "value": "us-west-2" 
+                        }
+                    ],
+                    "value": "20" //<3>
+                },
+                {
+                    "scopeSet": [
+                        {
+                            "key": "subenv",
+                            "value": "perf" //<4>
+                        }
+                    ],
+                    "value": "75" 
+                }
+            ]
+        }
+    ],
+    "type": "APP",
+    "version": "1.0.4"
+}
+----
+<1> A `scopeSet` is used to define a set of scopes that have a specific value. 
+<2> If deployed in the *dev* environment, the max threadpool count is 10. 
+<3> If deployed in the *dev* environment and in the *us-west-2* region, the max threadpool count is 20.
+<4> If deployed in any environment or region and *subenv=perf*, the max threadpool count is 75. This acts as an override for load testing.   
+
+Note that in #4, the stipulation is _any_ environment or region. For example, lets say the application is deployed in:   
+
+* env=dev
+* region=us-west-2
+* subenv=perf
+
+When searching for this property using this same set of scopings, the return value would always be a max number of *75*. Yet how does Henge know to use the value *75*, instead of returning *10* or *20*?   
+
+As mentioned, Henge uses the *scope hierarchy* for resolving which scoped value takes precedence over another. The resolution order is defined in the Spring profile *henge/henge-domain/src/main/resources/application.yml* by the *scope.precedence.configuration* property. It's default hierarchy is: 
+
+`env;env+region;env+region+stack;subenv;application` 
+
+Sets of scopes are defined with the plus + symbol, and are placed in precedence order. Precedence weight is greater as you move from left to right, so *subenv* has a greater priority than *env* or *env+region*. 
+
+In our example, the higher precedence of the *subenv=perf* scope is the reason why the threadPoolMax resolves to *75* in any environment or region. To see a working Postman collection with the above example, see *henge/documentation/demo/HengeScopeHierarchy.postman_collection.json*.  
+
+The *scope.precedence.configuration* property can be configured in any way depending on the scopes you've defined and your environment needs. 
+
+NOTE: If you are using a new scope set in a `PropertyGroup`, make sure that the scope set is also represented in *scope.precedence.configuration*, as the hierarchy generally defines which scope sets can be used when searching. Note that the *application* scope is always added on the end as the last precedence. 
+

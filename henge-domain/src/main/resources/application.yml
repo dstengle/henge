@@ -35,7 +35,7 @@ text.encoding: utf-8
 
 scope:
    # Scope precedence configuration used in evaluating properties and resolving matches from queries to VersionSets
-   precedence.configuration: env;env+region;env+region+stack;hostname;application
+   precedence.configuration: env;env+region;env+region+stack;subenv;application
 
    # String to represent the application name in the scope keys
    application.name.key: application
