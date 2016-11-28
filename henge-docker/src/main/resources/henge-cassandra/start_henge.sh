@@ -1,8 +1,9 @@
 echo '==================='
-echo 'Poop is in the eye of the deholder'
-env
 echo $cassandra_ip
 echo '==================='
+
+# WGET the Henge
+
 
 cassandra_port=9042
 load_file="/tmp/load.cql"

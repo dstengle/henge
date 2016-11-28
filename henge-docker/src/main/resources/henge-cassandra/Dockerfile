@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-ARG jarPath=henge-service.jar
+ARG jarPath=henge-service-0.9.1-SNAPSHOT.jar
 
 RUN apt-get update
 
@@ -11,6 +11,6 @@ RUN pip install cqlsh
 COPY java.sh /tmp/java.sh
 RUN sh /tmp/java.sh
 COPY $jarPath /tmp/henge.jar
-COPY start_property_server.sh /tmp/start_property_server.sh
+COPY start_henge.sh /tmp/start_henge.sh
 COPY load.cql /tmp/load.cql
-ENTRYPOINT ["sh", "/tmp/start_property_server.sh"]
+ENTRYPOINT ["sh", "/tmp/start_henge.sh"]

@@ -49,9 +49,3 @@ CREATE TABLE file_version (
   modified_date timestamp,
   PRIMARY KEY (name, version)
 );
-
-CREATE TABLE file_version_current (
-  name text,
-  version text,
-  PRIMARY KEY (name)
-);

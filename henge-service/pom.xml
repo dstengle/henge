@@ -197,7 +197,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>henge-service</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -205,7 +204,41 @@
 				<!-- <configuration> <requiresUnpack> <dependency> <groupId>com.netflix.eureka</groupId> 
 					<artifactId>eureka-core</artifactId> </dependency> <dependency> <groupId>com.netflix.eureka</groupId> 
 					<artifactId>eureka-client</artifactId> </dependency> </requiresUnpack> </configuration> -->
+				<executions>					
+					<execution>
+						<id>repackage</id>
+						<phase>package</phase>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
+			<!-- THIS DOES NOT WORK. It copies over an empty jar. Docker should pull the artifact from NEXUS instead...
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${docker.imagesdir}/henge-cassandra</outputDirectory>
+							<resources>
+								<resource>
+									<directory>/${project.build.directory}/</directory>
+									<include>*.jar</include>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+			
 			<plugin>
 				<groupId>com.github.kongchen</groupId>
 				<artifactId>swagger-maven-plugin</artifactId>
@@ -230,81 +263,6 @@
 					</apiSources>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<!-- here the phase you need -->
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${docker.imagesdir}/henge-cassandra</outputDirectory>
-							<resources>
-								<resource>
-									<directory>/${project.build.directory}/</directory>
-									<include>*.jar</include>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.15.2</version>
-				<extensions>true</extensions>
-				<configuration>
-					<images>
-						<image>
-							<name>cassandra:3.0</name>
-							<alias>cassandra_server</alias>
-							<run>
-								<ports>
-									<port>9042:9042</port>
-								</ports>
-								<wait>
-									<tcp>
-										<ports>
-											<port>9042</port>
-										</ports>
-									</tcp>
-									<time>500000</time>
-									<log>Created default superuser role 'cassandra'</log>
-								</wait>
-							</run>
-						</image>
-						<image>
-							<name>kenzan/henge</name>
-							<alias>henge</alias>
-							<build>
-								<dockerFileDir>${docker.imagesdir}/henge-cassandra</dockerFileDir>
-							</build>
-							<run>
-								<env>
-									<cassandra_ip>${cassandra_server.ip}</cassandra_ip>
-								</env>
-								<ports>
-									<port>8080:8080</port>
-								</ports>
-								<links>
-									<link>cassandra_server</link>
-								</links>
-							</run>
-						</image>						
-					</images>
-				</configuration>
-				<!-- <executions> <execution> <id>start</id> <goals> <goal>build</goal> 
-					<goal>start</goal> </goals> </execution> </executions> -->
-			</plugin>
-
 
 
 			<!-- For integration tests (matches on /IT.java, **/IT.java and */*ITCase.java -->
