@@ -918,4 +918,17 @@
 		</developer>
 	</developers>
 
+	<distributionManagement>
+		<repository>
+			<id>kenzan-nexus-2</id>
+			<name>Kenzan-Nexus-2-SNAPSHOTS</name>
+			<url>http://nexus2.kenzan-devops.com/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>kenzan-nexus-2</id>
+			<name>Kenzan-Nexus-2-RELEASES</name>
+			<url>http://nexus2.kenzan-devops.com/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
